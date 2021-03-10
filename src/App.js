@@ -21,7 +21,7 @@ function App() {
       <HashRouter>
         <ActivityProvider>
           <Main
-            assetsUrl="./aragon-ui/"
+            assetsUrl="./public/aragon-ui"
             layout={false}
             scrollView={false}
             theme={theme}
