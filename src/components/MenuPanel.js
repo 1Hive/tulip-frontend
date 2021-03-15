@@ -193,7 +193,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             padding: ${GU}px;
           `}
           href="https://forum.1hive.org/"
-          external
+          external={false}
         >
           Forum
         </Link>
@@ -205,7 +205,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             padding: ${GU}px;
           `}
           href="http://wiki.1hive.org/"
-          external
+          external={false}
         >
           1Hive Wiki
         </Link>
@@ -217,7 +217,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             padding: ${GU}px;
           `}
           href="https://github.com/1Hive"
-          external
+          external={false}
         >
           Github
         </Link>
@@ -237,7 +237,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             margin-left: ${GU}px;
           `}
           href="https://twitter.com/1hiveorg"
-          external
+          external={false}
         >
           <img src={twitter} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
@@ -248,7 +248,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             flex: 1;
           `}
           href="https://discord.com/invite/4fm7pgB"
-          external
+          external={false}
         >
           <img src={discord} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
@@ -259,7 +259,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             margin-right: ${GU * 2}px;
           `}
           href="https://t.me/honeyswapdex"
-          external
+          external={false}
         >
           <img src={telegram} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
