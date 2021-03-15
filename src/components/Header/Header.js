@@ -1,9 +1,6 @@
 import React from 'react'
 import { ButtonIcon, GU, IconMenu } from '@1hive/1hive-ui'
 import AccountModule from '../Account/AccountModule'
-import ClockModule from '../ClockModule'
-import ActivityButton from '../Activity/ActivityButton'
-import GlobalPreferencesButton from '../GlobalPreferences/GlobalPreferencesButton'
 import HeaderLogo from './HeaderLogo'
 
 const Header = React.memo(function Header({
@@ -18,7 +15,6 @@ const Header = React.memo(function Header({
         z-index: 3;
         height: ${8 * GU}px;
         background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.05) 0 2px 3px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -49,31 +45,14 @@ const Header = React.memo(function Header({
           height: 100%;
         `}
       >
-        {!compactMode && <ClockModule />}
         <div
           css={`
             display: flex;
             height: 100%;
+            margin-right: ${2 * GU}px;
           `}
         >
           <AccountModule />
-        </div>
-        <div
-          css={`
-            display: flex;
-            height: 100%;
-            margin-left: ${2 * GU}px;
-          `}
-        >
-          <GlobalPreferencesButton onOpen={onOpenPreferences} />
-        </div>
-        <div
-          css={`
-            display: flex;
-            height: 100%;
-          `}
-        >
-          <ActivityButton />
         </div>
       </div>
     </header>
