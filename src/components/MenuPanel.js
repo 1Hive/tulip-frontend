@@ -192,6 +192,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             font-weight: 300;
             padding: ${GU}px;
           `}
+          href="https://forum.1hive.org/"
+          external
         >
           Forum
         </Link>
@@ -202,6 +204,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             font-weight: 300;
             padding: ${GU}px;
           `}
+          href="http://wiki.1hive.org/"
+          external
         >
           1Hive Wiki
         </Link>
@@ -212,6 +216,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             font-weight: 300;
             padding: ${GU}px;
           `}
+          href="https://github.com/1Hive"
+          external
         >
           Github
         </Link>
@@ -230,8 +236,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             flex: 1;
             margin-left: ${GU}px;
           `}
-          href="#/mywallet"
-          external={false}
+          href="https://twitter.com/1hiveorg"
+          external
         >
           <img src={twitter} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
@@ -241,8 +247,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             -webkit-flex: 1;
             flex: 1;
           `}
-          href="#/mywallet"
-          external={false}
+          href="https://discord.com/invite/4fm7pgB"
+          external
         >
           <img src={discord} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
@@ -252,8 +258,8 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
             flex: 1;
             margin-right: ${GU * 2}px;
           `}
-          href="#/mywallet"
-          external={false}
+          href="https://t.me/honeyswapdex"
+          external
         >
           <img src={telegram} height={layoutSmall ? 20 : 30} alt="" />
         </Link>
