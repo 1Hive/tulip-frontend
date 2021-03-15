@@ -1,17 +1,36 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
-import { ButtonBase, GU, springs, textStyle, useTheme } from '@1hive/1hive-ui'
+import {
+  ButtonBase,
+  GU,
+  Link,
+  springs,
+  textStyle,
+  useTheme,
+  useViewport,
+} from '@1hive/1hive-ui'
 
 import { Spring, animated } from 'react-spring/renderprops'
 import HeaderLogo from './Header/HeaderLogo'
 
-import dashboardMenuIcon from '../assets/dashboardMenuIcon.svg'
-import tasksMenuIcon from '../assets/tasksMenuIcon.svg'
-import disputesMenuIcon from '../assets/disputesMenuIcon.svg'
+import discord from '../assets/tulip/discord.svg'
+import farmIcon from '../assets/tulip/farm.svg'
+import farmIconActive from '../assets/tulip/farm-active.svg'
+import lendBorrowIcon from '../assets/tulip/lend.svg'
+import lendBorrowIconActive from '../assets/tulip/lend-active.svg'
+import myWalletIcon from '../assets/tulip/my-wallet.svg'
+import myWalletIconActive from '../assets/tulip/wallet-active.svg'
+import poolIcon from '../assets/tulip/pool.svg'
+import poolIconActive from '../assets/tulip/pool-active.svg'
+import swapIcon from '../assets/tulip/swap.svg'
+import swapIconActive from '../assets/tulip/swap-active.svg'
+import twitter from '../assets/tulip/twitter.svg'
+import telegram from '../assets/tulip/telegram.svg'
+
 import { lerp } from '../lib/math-utils'
 
 export const MENU_PANEL_SHADOW_WIDTH = 3
-export const MENU_PANEL_WIDTH = 25 * GU
+export const MENU_PANEL_WIDTH = 31 * GU
 
 const { div: AnimDiv } = animated
 
@@ -26,8 +45,6 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
         width: 100%;
         height: 100%;
         background: ${theme.surface};
-        margin-top: 2px;
-        box-shadow: rgba(0, 0, 0, 0.05) 2px 0px 3px;
       `}
     >
       {showHeaderLogo && (
@@ -44,43 +61,52 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
           padding: ${2 * GU}px 0;
         `}
       >
-        <h2
-          css={`
-            color: ${theme.surfaceContentSecondary};
-            margin-bottom: ${1 * GU}px;
-            padding: 0 ${3 * GU}px;
-            ${textStyle('label2')};
-          `}
-        >
-          Menu
-        </h2>
         <MenuItem
-          to="/dashboard"
-          icon={dashboardMenuIcon}
-          label="Dashboard"
+          to="/wallet"
+          icon={myWalletIcon}
+          iconActive={myWalletIconActive}
+          label="My Wallet"
           onActivate={onOpenPage}
         />
         <MenuItem
-          to="/tasks"
-          icon={tasksMenuIcon}
-          label="Tasks"
+          to="/farm"
+          icon={farmIcon}
+          iconActive={farmIconActive}
+          label="Farm"
           onActivate={onOpenPage}
         />
         <MenuItem
-          to="/disputes"
-          icon={disputesMenuIcon}
-          label="Disputes"
+          to="/swap"
+          icon={swapIcon}
+          iconActive={swapIconActive}
+          label="Swap"
+          onActivate={onOpenPage}
+        />
+        <MenuItem
+          to="/pool"
+          icon={poolIcon}
+          iconActive={poolIconActive}
+          label="Pool"
+          onActivate={onOpenPage}
+        />
+        <MenuItem
+          to="/lend"
+          icon={lendBorrowIcon}
+          iconActive={lendBorrowIconActive}
+          label="Lend / Borrow"
           onActivate={onOpenPage}
         />
       </div>
+
+      <MenuFooter />
     </nav>
   )
 }
 
-function MenuItem({ to, icon, label, onActivate }) {
+function MenuItem({ to, icon, iconActive, label, onActivate }) {
   const history = useHistory()
-  const theme = useTheme()
   const active = useRouteMatch(to) !== null
+  const theme = useTheme()
 
   const handlePageRequest = useCallback(() => {
     onActivate()
@@ -93,15 +119,13 @@ function MenuItem({ to, icon, label, onActivate }) {
       css={`
         display: flex;
         align-items: center;
+        margin-top: ${GU * 2}px;
         width: 100%;
         height: ${5 * GU}px;
         padding: 0 ${2 * GU}px 0 ${3 * GU}px;
         border-radius: 0;
         text-align: left;
-        background: ${active ? theme.surfacePressed : 'transparent'};
-        &:active {
-          background: ${theme.surfacePressed};
-        }
+        background: 'transparent';
       `}
     >
       <div
@@ -110,7 +134,6 @@ function MenuItem({ to, icon, label, onActivate }) {
           left: 0;
           width: 3px;
           height: 100%;
-          background: ${theme.accent};
           opacity: ${Number(active)};
           transform: translate3d(${active ? '0%' : '-100%'}, 0, 0);
           transform-position: 0 0;
@@ -120,19 +143,122 @@ function MenuItem({ to, icon, label, onActivate }) {
         `}
       />
 
-      <img src={icon} alt="" />
+      <img src={active ? iconActive : icon} alt="" />
       <span
         css={`
-          margin-left: ${1 * GU}px;
+          margin-left: ${2 * GU}px;
           overflow: hidden;
           text-overflow: ellipsis;
           ${textStyle('body2')};
-          font-weight: ${active ? '600' : '400'};
+          color: ${active ? '#2C3437' : theme.contentSecondary};
+          font-weight: ${active ? '700' : '300'};
         `}
       >
         {label}
       </span>
     </ButtonBase>
+  )
+}
+
+function MenuFooter({ to, icon, iconActive, label, onActivate }) {
+  const { below } = useViewport()
+  const layoutSmall = below('medium')
+  const theme = useTheme()
+
+  return (
+    <div
+      css={`
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        bottom: ${GU}px;
+        width: 100%;
+      `}
+    >
+      <div
+        css={`
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          margin-left: ${GU * 3}px;
+          margin-bottom: ${GU * 2}px;
+        `}
+      >
+        <Link
+          css={`
+            ${textStyle('body2')};
+            color: ${theme.contentSecondary};
+            font-weight: 300;
+            padding: ${GU}px;
+          `}
+        >
+          Forum
+        </Link>
+        <Link
+          css={`
+            ${textStyle('body2')};
+            color: ${theme.contentSecondary};
+            font-weight: 300;
+            padding: ${GU}px;
+          `}
+        >
+          1Hive Wiki
+        </Link>
+        <Link
+          css={`
+            ${textStyle('body2')};
+            color: ${theme.contentSecondary};
+            font-weight: 300;
+            padding: ${GU}px;
+          `}
+        >
+          Github
+        </Link>
+      </div>
+      <div
+        css={`
+          display: -webkit-flex;
+          -webkit-justify-content: center;
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        <Link
+          css={`
+            -webkit-flex: 1;
+            flex: 1;
+            margin-left: ${GU}px;
+          `}
+          href="#/mywallet"
+          external={false}
+        >
+          <img src={twitter} height={layoutSmall ? 20 : 30} alt="" />
+        </Link>
+
+        <Link
+          css={`
+            -webkit-flex: 1;
+            flex: 1;
+          `}
+          href="#/mywallet"
+          external={false}
+        >
+          <img src={discord} height={layoutSmall ? 20 : 30} alt="" />
+        </Link>
+        <Link
+          css={`
+            -webkit-flex: 1;
+            flex: 1;
+            margin-right: ${GU * 2}px;
+          `}
+          href="#/mywallet"
+          external={false}
+        >
+          <img src={telegram} height={layoutSmall ? 20 : 30} alt="" />
+        </Link>
+      </div>
+    </div>
   )
 }
 
