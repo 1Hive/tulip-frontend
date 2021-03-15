@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import HNYForm from './HNYForm'
-import { formatUnits } from '../../../lib/math-utils'
-import { useCourtConfig } from '../../../providers/CourtConfig'
+import { formatUnits } from '../../../../lib/math-utils'
+import { useCourtConfig } from '../../../../providers/CourtConfig'
 
 const DeactivateHNY = React.memo(function DeactivateHNY({
   onDeactivateHNY,

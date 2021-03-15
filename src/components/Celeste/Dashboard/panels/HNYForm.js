@@ -10,8 +10,8 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 
-import { useCourtConfig } from '../../../providers/CourtConfig'
-import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
+import { useCourtConfig } from '../../../../providers/CourtConfig'
+import { parseUnits, formatUnits, bigNum } from '../../../../lib/math-utils'
 
 const HNYForm = React.memo(function HNYForm({
   actionLabel,

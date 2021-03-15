@@ -1,8 +1,8 @@
 import React from 'react'
 import { useWallet } from 'use-wallet'
 
-import MessageCard from '../MessageCard'
-import { useJurorRewardsEverClaimedQuery } from '../../hooks/query-hooks'
+import MessageCard from '../../MessageCard'
+import { useJurorRewardsEverClaimedQuery } from '../../../hooks/query-hooks'
 
 import iconNoRewardsSvg from '../../assets/IconNoRewards.svg'
 

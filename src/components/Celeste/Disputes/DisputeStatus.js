@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from '@1hive/1hive-ui'
 
-import { Status } from '../../types/dispute-status-types'
+import { Status } from '../../../types/dispute-status-types'
 
 const getStatusAttributes = (dispute, theme) => {
   if (dispute.status === Status.Open) {

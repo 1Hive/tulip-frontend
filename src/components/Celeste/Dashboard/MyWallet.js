@@ -2,8 +2,8 @@ import React from 'react'
 import { GU, SidePanel, Split, useLayout } from '@1hive/1hive-ui'
 
 import Tasks from '../Tasks/Tasks'
-import TitleHeader from '../TitleHeader'
-import ErrorLoading from '../Errors/ErrorLoading'
+import TitleHeader from '../../TitleHeader'
+import ErrorLoading from '../../Errors/ErrorLoading'
 import BalanceModule from './BalanceModule'
 import RewardsModule from './RewardsModule'
 import ActivateHNY from './panels/ActivateHNY'
@@ -12,17 +12,17 @@ import DeactivateHNY from './panels/DeactivateHNY'
 import AppealColateralModule from './AppealColateralModule'
 import CourtStats from './CourtStats'
 
-import { useWallet } from '../../providers/Wallet'
+import { useWallet } from '../../../providers/Wallet'
 import { DashboardStateProvider } from './DashboardStateProvider'
 import {
   getRequestModeString,
   useDashboardLogic,
   REQUEST_MODE,
-} from '../../hooks/dashboard-logic'
+} from '../../../hooks/dashboard-logic'
 import {
   getTotalUnlockedActiveBalance,
   getTotalEffectiveInactiveBalance,
-} from '../../utils/balance-utils'
+} from '../../../utils/balance-utils'
 
 function Dashboard() {
   const wallet = useWallet()
