@@ -4,14 +4,14 @@ import AccountBanner from './AccountBanner'
 import Balance from './Balance'
 import Profile from './Profile'
 
-import { useCourtConfig } from '../../providers/CourtConfig'
-import { useWallet } from '../../providers/Wallet'
+import { useCourtConfig } from '../../../providers/CourtConfig'
+import { useWallet } from '../../../providers/Wallet'
 import {
   getTotalUnlockedActiveBalance,
   getTotalLockedHNYDistribution,
   getTotalEffectiveInactiveBalance,
-} from '../../utils/balance-utils'
-import { getAccountStatus } from '../../utils/account-utils'
+} from '../../../utils/balance-utils'
+import { getAccountStatus } from '../../../utils/account-utils'
 
 import walletIcon from '../../assets/IconWallet.svg'
 import inactiveHNYIcon from '../../assets/IconHNYInactive.svg'

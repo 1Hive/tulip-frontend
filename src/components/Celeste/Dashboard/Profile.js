@@ -1,11 +1,11 @@
 import React from 'react'
 import { EthIdenticon, GU, useTheme, textStyle } from '@1hive/1hive-ui'
-import useProfileName from '../../hooks/useProfileName'
-import { shortenAddress } from '../../lib/web3-utils'
+import useProfileName from '../../../hooks/useProfileName'
+import { shortenAddress } from '../../../lib/web3-utils'
 import {
   ACCOUNT_STATUS_JUROR_ACTIVE,
   ACCOUNT_STATUS_JUROR_INACTIVE,
-} from '../../types/account-status-types'
+} from '../../../types/account-status-types'
 
 import inactiveJurorIcon from '../../assets/IconJurorInactive.svg'
 import activeJurorIcon from '../../assets/IconJurorActive.svg'

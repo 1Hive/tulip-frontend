@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { useWallet } from '../../providers/Wallet'
+import { useWallet } from '../../../providers/Wallet'
 import {
   useAppealsByUserSubscription,
   useJurorBalancesSubscription,
   useJurorDraftsRewardsSubscription,
-} from '../../hooks/subscription-hooks'
+} from '../../../hooks/subscription-hooks'
 
 const DashboardContext = React.createContext()
 

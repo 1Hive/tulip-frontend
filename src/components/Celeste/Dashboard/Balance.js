@@ -2,16 +2,16 @@ import React, { useMemo } from 'react'
 import { Button, GU, Help, textStyle, useTheme } from '@1hive/1hive-ui'
 import { animated, useSpring } from 'react-spring'
 
-import Loading from '../Loading'
+import Loading from '../../Loading'
 import HNYLockedDistribution from './HNYLockedDistribution'
-import SplitAmount from '../SplitAmount'
+import SplitAmount from '../../SplitAmount'
 
-import { useCourtConfig } from '../../providers/CourtConfig'
-import { useHNYAmountToUsd } from '../../hooks/useTokenAmountToUsd'
+import { useCourtConfig } from '../../../providers/CourtConfig'
+import { useHNYAmountToUsd } from '../../../hooks/useTokenAmountToUsd'
 
-import { PCT_BASE } from '../../utils/dispute-utils'
-import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
-import { movementDirection, convertToString } from '../../types/anj-types'
+import { PCT_BASE } from '../../../utils/dispute-utils'
+import { bigNum, formatTokenAmount, formatUnits } from '../../../lib/math-utils'
+import { movementDirection, convertToString } from '../../../types/anj-types'
 
 import HNYIcon from '../../assets/IconHNY.svg'
 import lockIcon from '../../assets/IconLock.svg'

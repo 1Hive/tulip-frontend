@@ -1,15 +1,15 @@
 import React from 'react'
 import { Box, GU, textStyle, useTheme } from '@1hive/1hive-ui'
-import Loading from '../Loading'
-import SplitAmount from '../SplitAmount'
+import Loading from '../../Loading'
+import SplitAmount from '../../SplitAmount'
 
-import { formatUnits } from '../../lib/math-utils'
+import { formatUnits } from '../../../lib/math-utils'
 import {
   useHNYAmountToUsd,
   useTokenAmountToUsd,
-} from '../../hooks/useTokenAmountToUsd'
-import { useCourtConfig } from '../../providers/CourtConfig'
-import useCourtStats from '../../hooks/useCourtStats'
+} from '../../../hooks/useTokenAmountToUsd'
+import { useCourtConfig } from '../../../providers/CourtConfig'
+import useCourtStats from '../../../hooks/useCourtStats'
 
 function CourtStats() {
   const theme = useTheme()

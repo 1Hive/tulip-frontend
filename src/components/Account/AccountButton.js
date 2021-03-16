@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@1hive/1hive-ui'
+import { EthIdenticon, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import HeaderModule from '../Header/HeaderModule'
 import useProfileName from '../../hooks/useProfileName'
@@ -11,6 +11,7 @@ function AccountButton({ label, onClick }) {
   const theme = useTheme()
   const wallet = useWallet()
   const profileName = useProfileName(wallet.account)
+  const RADIUS = 1.75 * GU
 
   return (
     <HeaderModule
@@ -45,6 +46,7 @@ function AccountButton({ label, onClick }) {
                 max-width: ${16 * GU}px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                color: ${theme.content};
               `}
             >
               {profileName || shortenAddress(wallet.account)}
@@ -53,10 +55,10 @@ function AccountButton({ label, onClick }) {
           <div
             css={`
               font-size: 11px; /* doesn’t exist in aragonUI */
-              color: ${theme.positive};
+              color: ${theme.content};
             `}
           >
-            Connected
+            Connected to {wallet.networkName}
           </div>
         </>
       }
