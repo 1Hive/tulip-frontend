@@ -13,7 +13,7 @@ import {
 import { Transition, animated } from 'react-spring/renderprops'
 import { useEsc } from '../../hooks/useKeyboardArrows'
 import Network from './Network/Network'
-import NotificationsManager from './Notifications/NotificationsManager'
+// import NotificationsManager from './Notifications/NotificationsManager'
 
 const SECTIONS = new Map([
   ['network', 'Network'],
@@ -55,9 +55,7 @@ function GlobalPreferences({ compact, onClose, onNavigation, sectionIndex }) {
           />
 
           {sectionIndex === NETWORK_INDEX && <Network />}
-          {sectionIndex === NOTIFICATIONS_INDEX && (
-            <NotificationsManager onReturnToDashboard={onClose} />
-          )}
+          {sectionIndex === NOTIFICATIONS_INDEX && <div />}
         </React.Fragment>
       </Layout>
     </div>
