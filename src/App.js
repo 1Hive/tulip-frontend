@@ -5,7 +5,6 @@ import theme from './theme-court'
 import AppLoader from './components/AppLoader'
 import GlobalErrorHandler from './GlobalErrorHandler'
 import MainView from './components/MainView'
-import RequestPanel from './components/RequestPanel/RequestPanel'
 import Routes from './Routes'
 import { ActivityProvider } from './providers/ActivityProvider'
 import { CourtClockProvider } from './providers/CourtClock'
@@ -33,7 +32,6 @@ function App() {
                         <AppLoader>
                           <Routes />
                         </AppLoader>
-                        <RequestPanel />
                       </MainView>
                     </RequestQueueProvider>
                   </CourtClockProvider>
