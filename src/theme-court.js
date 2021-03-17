@@ -2,14 +2,14 @@ export default {
   _name: 'court',
   _appearance: 'light',
 
-  accent: '#C4C4C4',
+  accent: '#7CE0D6',
   accentStart: '#6050B0',
   accentEnd: '#C4C4C4',
   accentContent: '#FFFFFF',
 
-  background: '#F9F8F9',
+  background: '#FFFFFF',
 
-  selected: 'C4C4C4',
+  selected: '#C4C4C4',
   selectedContent: '#FFFFFF',
   selectedDisabled: '#C4CDD5',
 

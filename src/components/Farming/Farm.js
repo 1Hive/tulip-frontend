@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GU } from '@1hive/1hive-ui'
+import { GU, textStyle } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import DropdownComponent from './Dropdown'
 import styled from 'styled-components'
@@ -8,34 +8,44 @@ import FarmTable from './FarmTable'
 
 const Farm = React.memo(({ onlyTable }) => {
   const [farmData, setFarmData] = useState([])
+  const [pairs, setPairs] = useState([])
+
   const dropdownItems = {
     networkItems: ['Network1', 'Network2', 'Network3'],
-    platformItems: ['platform1', 'platform2', 'platform3'],
+    platformItems: ['Platform1', 'Platform2', 'Platform3'],
   }
   const TabWrapper = styled.section`
-    max-width: 25%;
-    display: flex;
-    justify-content: space-between;
-    @media (max-width: 1440px) {
-      max-width: 40%;
-    }
-    @media (max-width: 768px) {
-      max-width: 50%;
+    > * {
+      margin-right: ${1 * GU}px;
     }
   `
   useEffect(() => {
     sushiData.masterchef.apys().then(data => {
       setFarmData(data)
+      const pairArray = data.map(pair => {
+        return pair.pair
+      })
+      sushiData.exchange.pairs(pairArray).then(res => {
+        const result = res.filter(r => {
+          return r.reserveETH > 1 && r.totalSupply > 1
+        })
+        setPairs(result)
+      })
     })
   }, [])
-  console.log(farmData)
+
   return (
     <div
       css={`
         padding-top: ${3 * GU}px;
+        font-family: 'Overpass', sans-serif;
       `}
     >
-      <TabComponent />
+      <TabComponent
+        css={`
+          border: none;
+        `}
+      />
       <TabWrapper>
         <DropdownComponent items={dropdownItems.networkItems} />
         <DropdownComponent items={dropdownItems.platformItems} />
@@ -43,9 +53,10 @@ const Farm = React.memo(({ onlyTable }) => {
       <div
         css={`
           padding-top: ${3 * GU}px;
+          ${textStyle('title1')};
         `}
       >
-        <FarmTable tableData={farmData} />
+        <FarmTable tableData={farmData} pairData={pairs} />
       </div>
     </div>
   )

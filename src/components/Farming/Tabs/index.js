@@ -7,6 +7,7 @@ const TabComponent = () => {
       items={['Opportunities', 'My Deposits']}
       selected={selected}
       onChange={setSelected}
+      placeholder="Select One" // Todo: Change this
     />
   )
 }
