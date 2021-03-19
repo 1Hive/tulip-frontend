@@ -5,10 +5,12 @@ import DropdownComponent from './Dropdown'
 import styled from 'styled-components'
 import sushiData from '@sushiswap/sushi-data'
 import FarmTable from './FarmTable'
+import SearchComponent from './Search'
 
 const Farm = React.memo(({ onlyTable }) => {
   const [farmData, setFarmData] = useState([])
   const [pairs, setPairs] = useState([])
+  const [search, setSearch] = useState('')
 
   const dropdownItems = {
     networkItems: ['Network1', 'Network2', 'Network3'],
@@ -33,7 +35,9 @@ const Farm = React.memo(({ onlyTable }) => {
       })
     })
   }, [])
-
+  const handleSearch = value => {
+    setSearch(value)
+  }
   return (
     <div
       css={`
@@ -46,17 +50,27 @@ const Farm = React.memo(({ onlyTable }) => {
           border: none;
         `}
       />
-      <TabWrapper>
-        <DropdownComponent items={dropdownItems.networkItems} />
-        <DropdownComponent items={dropdownItems.platformItems} />
-      </TabWrapper>
+      <div
+        css={`
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          flex-direction: row;
+        `}
+      >
+        <TabWrapper>
+          <DropdownComponent items={dropdownItems.networkItems} />
+          <DropdownComponent items={dropdownItems.platformItems} />
+        </TabWrapper>
+        <SearchComponent passSearch={handleSearch} />
+      </div>
       <div
         css={`
           padding-top: ${3 * GU}px;
           ${textStyle('title1')};
         `}
       >
-        <FarmTable tableData={farmData} pairData={pairs} />
+        <FarmTable tableData={farmData} pairData={pairs} searchValue={search} />
       </div>
     </div>
   )

@@ -5,3 +5,8 @@
 .dYPegE span{
     font-size: 24px;
 }
+@media (max-width: 1400px){
+    .cHNCBA{
+        width: 80%;
+    }
+}

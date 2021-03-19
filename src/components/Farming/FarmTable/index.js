@@ -4,6 +4,7 @@ import Loading from '../../Loading'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
+import Fuse from 'fuse.js'
 // import { getContract } from '../../../web3-contracts'
 
 const FarmTable = props => {
@@ -33,7 +34,12 @@ const FarmTable = props => {
       }
     }
   })
-  console.log(addAPY)
+  const fuse = new Fuse(addAPY, {
+    keys: ['token0.name', 'token0.symbol', 'token1.name', 'token1.symbol'],
+  })
+  console.log(fuse)
+  const results = fuse.search(props.searchValue)
+  console.log(results)
   if (props.tableData.length === 0) {
     return <Loading />
   } else {
@@ -79,7 +85,7 @@ const FarmTable = props => {
               clearLabel: null,
             },
           }}
-          entries={addAPY}
+          entries={props.searchValue ? results : addAPY}
           header
           renderEntry={({ id, token0, token1, apy }) => {
             const customLabel = `${token0.symbol}-${token1.symbol}`
