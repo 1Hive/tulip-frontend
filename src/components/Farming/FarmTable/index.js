@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DataView, textStyle, Button } from '@1hive/1hive-ui'
 import Loading from '../../Loading'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import Fuse from 'fuse.js'
-// import { getContract } from '../../../web3-contracts'
+import DepositModal from '../DepositModal'
 
 const FarmTable = props => {
-  console.log(props)
-
+  const [modalAction, setModalAction] = useState(false)
   const pairs = props.pairData.filter(id => {
     const temp = []
     for (const x of props.tableData) {
@@ -17,7 +16,6 @@ const FarmTable = props => {
     }
     return temp.includes(id.id)
   })
-  console.log(pairs)
   const addAPY = pairs.map(pair => {
     for (const x of props.tableData) {
       if (x.pair === pair.id) {
@@ -37,9 +35,14 @@ const FarmTable = props => {
   const fuse = new Fuse(addAPY, {
     keys: ['token0.name', 'token0.symbol', 'token1.name', 'token1.symbol'],
   })
-  console.log(fuse)
   const results = fuse.search(props.searchValue)
-  console.log(results)
+  const handleModalActions = () => {
+    setModalAction(true)
+  }
+  const handleModalClose = () => {
+    setModalAction(false)
+  }
+  console.log(modalAction)
   if (props.tableData.length === 0) {
     return <Loading />
   } else {
@@ -108,12 +111,20 @@ const FarmTable = props => {
               <p>{rewardYield}%</p>,
               <p>{totalYield}%</p>,
               <RewardComponent image={getKnownTokenImg('AG')} name="Agave" />,
-              <Button
-                css={`
-                  background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-                `}
-                label="Stake"
-              />,
+              <React.Fragment>
+                <Button
+                  css={`
+                    background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+                  `}
+                  id={customLabel}
+                  label="Stake"
+                  onClick={handleModalActions}
+                />
+                <DepositModal
+                  modalAction={modalAction}
+                  handleModalClose={handleModalClose}
+                />
+              </React.Fragment>,
             ]
           }}
         />
