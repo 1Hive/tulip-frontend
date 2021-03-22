@@ -1,7 +1,8 @@
 import React from 'react'
-import { Modal } from '@1hive/1hive-ui'
+import { Modal, GU, Button } from '@1hive/1hive-ui'
 import SliderComponent from '../SliderComponent'
 const DepositModal = props => {
+  console.log(props)
   return (
     <Modal
       visible={props.modalAction}
@@ -11,15 +12,22 @@ const DepositModal = props => {
         display: flex;
       `}
     >
-      <button
+      <span
         css={`
           background: none;
           border-style: none;
-          justify-self: flex-end;
+          position: absolute;
+          top: 10px;
+          right: 25px;
+          :hover {
+            cursor: pointer;
+            color: #d3d3d3;
+          }
         `}
+        onClick={props.handleModalClose}
       >
-        X
-      </button>
+        &times;
+      </span>
       <h2
         css={`
           font-weight: 700;
@@ -35,8 +43,34 @@ const DepositModal = props => {
         deposit.
       </span>
       <div>
-        <SliderComponent />
+        <SliderComponent imgObj={props.tokenImg} />
       </div>
+      <div
+        css={`
+          width: 489px;
+          height: 82.87px;
+          background: #ebfafd;
+          border: 1px solid #08bee5;
+          box-sizing: border-box;
+          border-radius: 12px;
+          padding: ${2 * GU}px;
+          margin: ${3 * GU}px auto;
+          font-size: 11px;
+          font-family: 'Overpass', sans-serif;
+        `}
+      >
+        Currently your deposit is projected to have a yield of 120% per year.
+        This yield is variable and depends on the price of the reward asset,
+        underlying asset yields, and the amount of capital participating in the
+        Farm. Find out more about how we calculate projected yields here.
+      </div>
+      <Button
+        css={`
+          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+        `}
+        label="Confirm Deposit"
+        wide
+      />
     </Modal>
   )
 }

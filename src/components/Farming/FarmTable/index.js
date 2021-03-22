@@ -36,6 +36,7 @@ const FarmTable = props => {
     keys: ['token0.name', 'token0.symbol', 'token1.name', 'token1.symbol'],
   })
   const results = fuse.search(props.searchValue)
+  console.log(addAPY)
   const handleModalActions = () => {
     setModalAction(true)
   }
@@ -123,6 +124,7 @@ const FarmTable = props => {
                 <DepositModal
                   modalAction={modalAction}
                   handleModalClose={handleModalClose}
+                  tokenImg={imgObj}
                 />
               </React.Fragment>,
             ]
