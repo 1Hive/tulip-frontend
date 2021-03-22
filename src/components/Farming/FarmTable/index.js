@@ -102,6 +102,7 @@ const FarmTable = props => {
               pair1: token0Img,
               pair2: token1Img,
             }
+            console.log(imgObj)
             return [
               <PairName
                 image={imgObj}
@@ -125,6 +126,7 @@ const FarmTable = props => {
                   modalAction={modalAction}
                   handleModalClose={handleModalClose}
                   tokenImg={imgObj}
+                  pairName={customLabel}
                 />
               </React.Fragment>,
             ]

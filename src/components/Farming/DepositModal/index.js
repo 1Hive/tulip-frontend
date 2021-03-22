@@ -1,8 +1,10 @@
 import React from 'react'
 import { Modal, GU, Button } from '@1hive/1hive-ui'
 import SliderComponent from '../SliderComponent'
+
 const DepositModal = props => {
   console.log(props)
+
   return (
     <Modal
       visible={props.modalAction}
@@ -43,7 +45,7 @@ const DepositModal = props => {
         deposit.
       </span>
       <div>
-        <SliderComponent imgObj={props.tokenImg} />
+        <SliderComponent imgObj={props.tokenImg} pairTitle={props.pairName} />
       </div>
       <div
         css={`
