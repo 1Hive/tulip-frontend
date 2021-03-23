@@ -32,6 +32,6 @@
     "react/jsx-handler-names": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": 0
   }
 }
