@@ -1,7 +1,7 @@
 import React from 'react'
 
 import noResults from '../../assets/noResults.svg'
-import MessageCard from '../MessageCard'
+import MessageCard from '../../MessageCard'
 
 function NoFilterResults({ onClearFilters }) {
   const title = 'No results found'

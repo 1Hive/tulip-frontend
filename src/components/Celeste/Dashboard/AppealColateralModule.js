@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, GU, Link, useTheme } from '@1hive/1hive-ui'
 
-import { formatUnits } from '../../lib/math-utils'
-import { useCourtConfig } from '../../providers/CourtConfig'
+import { formatUnits } from '../../../lib/math-utils'
+import { useCourtConfig } from '../../../providers/CourtConfig'
 import iconLock from '../../assets/IconLock.svg'
-import Loading from '../Loading'
+import Loading from '../../Loading'
 
 const AppealColateralModule = React.memo(function AppealColateralModule({
   appeals,

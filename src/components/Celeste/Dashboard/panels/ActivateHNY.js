@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react'
 import { Link } from '@1hive/1hive-ui'
-import { useCourtClock } from '../../../providers/CourtClock'
+import { useCourtClock } from '../../../../providers/CourtClock'
 import HNYForm from './HNYForm'
-import { useCourtConfig } from '../../../providers/CourtConfig'
-import { useBrightIdVerification } from '../../../hooks/useBrightIdVerification'
+import { useCourtConfig } from '../../../../providers/CourtConfig'
+import { useBrightIdVerification } from '../../../../hooks/useBrightIdVerification'
 import {
   useHNYTokenAllowance,
   useJurorUniqueUserId,
   useMaxActiveBalance,
-} from '../../../hooks/useCourtContracts'
-import { useWallet } from '../../../providers/Wallet'
-import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
-import { ZERO_ADDRESS } from '../../../lib/web3-utils'
+} from '../../../../hooks/useCourtContracts'
+import { useWallet } from '../../../../providers/Wallet'
+import { bigNum, formatUnits, max, min } from '../../../../lib/math-utils'
+import { ZERO_ADDRESS } from '../../../../lib/web3-utils'
 
 const ActivateHNY = React.memo(function ActivateHNY({
   onActivateHNY,

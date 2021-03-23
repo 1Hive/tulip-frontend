@@ -1,8 +1,8 @@
 import React from 'react'
 import { GU, ProgressBar, textStyle, useTheme } from '@1hive/1hive-ui'
-import useNow from '../../hooks/useNow'
-import { norm } from '../../lib/math-utils'
-import { getRelativeTime, MINUTE } from '../../utils/date-utils'
+import useNow from '../../../hooks/useNow'
+import { norm } from '../../../lib/math-utils'
+import { getRelativeTime, MINUTE } from '../../../utils/date-utils'
 
 const TX_DURATION_AVERAGE = 2 * MINUTE
 const TX_DURATION_THRESHOLD = TX_DURATION_AVERAGE - MINUTE / 2

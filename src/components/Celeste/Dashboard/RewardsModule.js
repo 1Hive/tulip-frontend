@@ -10,15 +10,15 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 
-import Loading from '../Loading'
+import Loading from '../../Loading'
 import NoRewards from './NoRewards'
 
-import { useWallet } from '../../providers/Wallet'
-import { useCourtConfig } from '../../providers/CourtConfig'
-import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
+import { useWallet } from '../../../providers/Wallet'
+import { useCourtConfig } from '../../../providers/CourtConfig'
+import useJurorSubscriptionFees from '../../../hooks/useJurorSubscriptionFees'
 
-import { addressesEqual } from '../../lib/web3-utils'
-import { bigNum, formatTokenAmount } from '../../lib/math-utils'
+import { addressesEqual } from '../../../lib/web3-utils'
+import { bigNum, formatTokenAmount } from '../../../lib/math-utils'
 
 // anjRewards => HNY => First settle with `onSettleReward()`, then withdraw
 // feeRewards => HNY =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
