@@ -74,8 +74,7 @@ const SignerRequest = React.memo(function SignerRequest({
     onSignSuccess(signHash, now)
   }, [onSignSuccess, wallet])
 
-  /**  We only need to execute it when the component is rendered but if we need to retry the action we
-   should call to the requestSignature callback */
+  /**  We only need to execute it when the component is rendered but if we need to retry the action we should call to the requestSignature callback */
   useEffect(() => {
     if (successMode) {
       return

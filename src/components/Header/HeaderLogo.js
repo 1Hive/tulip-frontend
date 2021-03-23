@@ -1,6 +1,6 @@
 import React from 'react'
 import { GU } from '@1hive/1hive-ui'
-import headerLogoSvg from '../../assets/HeaderLogo.svg'
+import headerLogoSvg from '../../assets/tulip/logo.svg'
 
 function HeaderLogo() {
   return (

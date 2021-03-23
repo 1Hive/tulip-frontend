@@ -30,5 +30,6 @@ export function useContractReadOnly(address, abi) {
 }
 
 export function getContract(address, abi, provider = DEFAULT_PROVIDER) {
+  console.log(abi, typeof abi)
   return new EthersContract(address, abi, provider)
 }

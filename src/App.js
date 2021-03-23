@@ -5,15 +5,13 @@ import theme from './theme-court'
 import AppLoader from './components/AppLoader'
 import GlobalErrorHandler from './GlobalErrorHandler'
 import MainView from './components/MainView'
-import OnboardingLoader from './components/OnboardingLoader'
-import EmailNotificationsLoader from './components/EmailNotificationsLoader'
-import RequestPanel from './components/RequestPanel/RequestPanel'
 import Routes from './Routes'
 import { ActivityProvider } from './providers/ActivityProvider'
 import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
 import { WalletProvider } from './providers/Wallet'
+import './assets/css/overrides.css'
 
 function App() {
   return (
@@ -32,13 +30,9 @@ function App() {
                   <CourtClockProvider>
                     <RequestQueueProvider>
                       <MainView>
-                        <OnboardingLoader>
-                          <EmailNotificationsLoader />
-                          <AppLoader>
-                            <Routes />
-                          </AppLoader>
-                        </OnboardingLoader>
-                        <RequestPanel />
+                        <AppLoader>
+                          <Routes />
+                        </AppLoader>
                       </MainView>
                     </RequestQueueProvider>
                   </CourtClockProvider>

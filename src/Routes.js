@@ -1,10 +1,11 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import Dashboard from './components/Dashboard/Dashboard'
-import Tasks from './components/Tasks/Tasks'
-import Disputes from './components/Disputes/Disputes'
-import DisputeDetail from './components/Disputes/DisputeDetail'
+import MyWallet from './components/MyWallet/MyWallet'
+import Farm from './components/Farming/Farm'
+import Swap from './components/Swap/Swap'
+import Pool from './components/Pool/Pool'
+import Lend from './components/Lend/Lend'
 
 // Preferences
 const GLOBAL_PREFERENCES_QUERY_PARAM = '?preferences=/'
@@ -12,12 +13,13 @@ const GLOBAL_PREFERENCES_QUERY_PARAM = '?preferences=/'
 export default function Routes() {
   return (
     <Switch>
-      <Redirect exact from="/" to="/dashboard" />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route exact path="/tasks" component={Tasks} />
-      <Route exact path="/disputes" component={Disputes} />
-      <Route exact path="/disputes/:id" component={DisputeDetail} />
-      <Redirect to="/dashboard" />
+      <Redirect exact from="/" to="/wallet" />
+      <Route path="/wallet" component={MyWallet} />
+      <Route exact path="/farm" component={Farm} />
+      <Route exact path="/swap" component={Swap} />
+      <Route exact path="/pool" component={Pool} />
+      <Route exact path="/lend" component={Lend} />
+      <Redirect to="/wallet" />
     </Switch>
   )
 }

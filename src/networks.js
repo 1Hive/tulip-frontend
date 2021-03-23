@@ -8,6 +8,13 @@ export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
 
 export const networkConfigs = {
+  main: {
+    court: '0x3b26bc496aebaed5b3E0E81cDE6B582CDe71396e',
+    nodes: {
+      defaultEth: 'https://mainnet.infura.io/v3/undefined',
+      subgraph: 'https://graph.backend.aragon.org/subgraphs/name/1hive/celeste',
+    },
+  },
   xdai: {
     court: '',
     nodes: {

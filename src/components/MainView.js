@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  GU,
-  Layout,
-  Link,
-  Root,
-  ScrollView,
-  textStyle,
-  useTheme,
-  useViewport,
-} from '@1hive/1hive-ui'
+import { Layout, Root, ScrollView, useViewport } from '@1hive/1hive-ui'
 import usePreferences from '../hooks/usePreferences'
 import MenuPanel, { MENU_PANEL_WIDTH } from './MenuPanel'
 import Header from './Header/Header'
@@ -16,7 +7,6 @@ import GlobalPreferences from './GlobalPreferences/GlobalPreferences'
 
 function MainView({ children }) {
   const { width: vw, below } = useViewport()
-  const theme = useTheme()
   const compactMode = below('medium')
   const [menuPanelOpen, setMenuPanelOpen] = useState(!compactMode)
 
@@ -116,24 +106,6 @@ function MainView({ children }) {
                   {children}
                 </Layout>
               </div>
-              <footer
-                css={`
-                  flex-shrink: 0;
-                  margin-bottom: ${5 * GU}px;
-                  width: 100%;
-                  text-align: center;
-                  ${textStyle('body2')};
-                  color: ${theme.surfaceContentSecondary};
-                `}
-              >
-                Supporting services provided by{' '}
-                <Link href="https://aragon.one">1Hive</Link>. Read 1Hive
-                Celeste's{' '}
-                <Link href="https://anj.aragon.org/legal/terms-general.pdf">
-                  Terms of Service
-                </Link>
-                .
-              </footer>
             </div>
           </ScrollView>
         </Root.Provider>

@@ -23,10 +23,13 @@ function HeaderModule({ icon, content, onClick }) {
     >
       <div
         css={`
+          height: 70%;
           display: flex;
           align-items: center;
           text-align: left;
           padding: 0 ${1 * GU}px;
+          background: linear-gradient(268.53deg, #aaf5d4, #7ce0d6);
+          border-radius: ${8.3 * GU}px;
         `}
       >
         <>
