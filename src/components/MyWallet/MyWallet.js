@@ -1,5 +1,6 @@
 import React from 'react'
 import { GU } from '@1hive/1hive-ui'
+import HomeChart from '../LineChart/HomeChart'
 
 const MyWallet = React.memo(({ onlyTable }) => {
   return (
@@ -9,6 +10,9 @@ const MyWallet = React.memo(({ onlyTable }) => {
       `}
     >
       MyWallet Page
+      <div>
+        <HomeChart />
+      </div>
     </div>
   )
 })

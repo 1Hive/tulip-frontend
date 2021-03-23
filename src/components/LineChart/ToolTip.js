@@ -3,15 +3,12 @@ import './ToolTip.css'
 
 class ToolTip extends Component {
   render() {
-    const { hoverLoc, activePoint } = this.props
-    const svgLocation = document
-      .getElementsByClassName('linechart')[0]
-      .getBoundingClientRect()
+    const { activePoint } = this.props
 
     const placementStyles = {}
     const width = 100
     placementStyles.width = width + 'px'
-    placementStyles.left = hoverLoc + svgLocation.left - width / 2
+    placementStyles.left = activePoint.svgX + width
     placementStyles.top = activePoint.svgY
 
     return (

@@ -29,15 +29,15 @@ class LineChart extends Component {
 
   // GET SVG COORDINATES
   getSvgX(x) {
-    const { svgWidth, yLabelSize } = this.props
-    return yLabelSize + (x / this.getX().max) * (svgWidth - yLabelSize)
+    const { width, yLabelSize } = this.props
+    return yLabelSize + (x / this.getX().max) * (width - yLabelSize)
   }
 
   getSvgY(y) {
-    const { svgHeight, xLabelSize } = this.props
+    const { height, xLabelSize } = this.props
     const gY = this.getY()
     return (
-      ((svgHeight - xLabelSize) * gY.max - (svgHeight - xLabelSize) * y) /
+      ((height - xLabelSize) * gY.max - (height - xLabelSize) * y) /
       (gY.max - gY.min)
     )
   }
@@ -45,6 +45,9 @@ class LineChart extends Component {
   // BUILD SVG PATH
   makePath() {
     const { data, color } = this.props
+    if (data === undefined || data.length === 0) {
+      return <div />
+    }
     let pathD =
       'M ' + this.getSvgX(data[0].x) + ' ' + this.getSvgY(data[0].y) + ' '
 
@@ -60,6 +63,10 @@ class LineChart extends Component {
   // BUILD SHADED AREA
   makeArea() {
     const { data } = this.props
+    if (data === undefined || data.length === 0) {
+      return <div />
+    }
+
     let pathD =
       'M ' + this.getSvgX(data[0].x) + ' ' + this.getSvgY(data[0].y) + ' '
 
@@ -121,7 +128,7 @@ class LineChart extends Component {
   }
 
   makeLabels() {
-    const { svgHeight, svgWidth, xLabelSize, yLabelSize } = this.props
+    const { height, width, xLabelSize, yLabelSize } = this.props
     const padding = 5
     return (
       <g className="linechart_label">
@@ -136,7 +143,7 @@ class LineChart extends Component {
           })}
         </text>
         <text
-          transform={`translate(${yLabelSize / 2}, ${svgHeight -
+          transform={`translate(${yLabelSize / 2}, ${height -
             xLabelSize -
             padding})`}
           textAnchor="middle"
@@ -148,15 +155,12 @@ class LineChart extends Component {
         </text>
         {/* X AXIS LABELS */}
         <text
-          transform={`translate(${yLabelSize}, ${svgHeight})`}
+          transform={`translate(${yLabelSize}, ${height})`}
           textAnchor="start"
         >
           {this.props.data[0].d}
         </text>
-        <text
-          transform={`translate(${svgWidth}, ${svgHeight})`}
-          textAnchor="end"
-        >
+        <text transform={`translate(${width}, ${height})`} textAnchor="end">
           {this.props.data[this.props.data.length - 1].d}
         </text>
       </g>
@@ -165,11 +169,11 @@ class LineChart extends Component {
 
   // FIND CLOSEST POINT TO MOUSE
   getCoords(e) {
-    const { svgWidth, data, yLabelSize } = this.props
+    const { width, data, yLabelSize } = this.props
     const svgLocation = document
       .getElementsByClassName('linechart')[0]
       .getBoundingClientRect()
-    const adjustment = (svgLocation.width - svgWidth) / 2 // takes padding into consideration
+    const adjustment = (svgLocation.width - width) / 2 // takes padding into consideration
     const relativeLoc = e.clientX - svgLocation.left - adjustment
 
     const svgData = []
@@ -223,25 +227,25 @@ class LineChart extends Component {
 
   // MAKE HOVER LINE
   createLine() {
-    const { svgHeight, xLabelSize } = this.props
+    const { height, xLabelSize } = this.props
     return (
       <line
         className="hoverLine"
         x1={this.state.hoverLoc}
         y1={-8}
         x2={this.state.hoverLoc}
-        y2={svgHeight - xLabelSize}
+        y2={height - xLabelSize}
       />
     )
   }
 
   render() {
-    const { svgHeight, svgWidth } = this.props
+    const { height, width } = this.props
     return (
       <svg
-        width={svgWidth}
-        height={svgHeight}
-        viewBox={`10 -10 ${svgWidth} ${svgHeight}`}
+        width={width}
+        height={height}
+        viewBox={`10 -10 ${width} ${height}`}
         className="linechart"
         onMouseLeave={() => this.stopHover()}
         onMouseMove={e => this.getCoords(e)}
@@ -260,13 +264,14 @@ class LineChart extends Component {
     )
   }
 }
+
 // DEFAULT PROPS
 LineChart.defaultProps = {
   data: [],
   color: '#7CE0D6',
   pointRadius: 6,
-  svgHeight: 300,
-  svgWidth: 900,
+  height: 300,
+  width: 900,
   xLabelSize: 20,
   yLabelSize: 80,
   showLabels: false,
