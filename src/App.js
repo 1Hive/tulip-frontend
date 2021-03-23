@@ -2,7 +2,7 @@ import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import { Main, ToastHub } from '@1hive/1hive-ui'
 import theme from './theme-court'
-import AppLoader from './components/AppLoader'
+// import AppLoader from './components/AppLoader'
 import GlobalErrorHandler from './GlobalErrorHandler'
 import MainView from './components/MainView'
 import Routes from './Routes'
@@ -30,9 +30,9 @@ function App() {
                   <CourtClockProvider>
                     <RequestQueueProvider>
                       <MainView>
-                        <AppLoader>
-                          <Routes />
-                        </AppLoader>
+                        {/* <AppLoader> */}
+                        <Routes />
+                        {/* </AppLoader> */}
                       </MainView>
                     </RequestQueueProvider>
                   </CourtClockProvider>
