@@ -28,6 +28,7 @@ const Swap = React.memo(({ onlyTable }) => {
       <Button
         css={`
           margin-top: ${GU * 3}px;
+          /* background colors doesn't exist on current theme */
           background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
           width: ${GU * 22}px;
           height: ${GU * 5}px;
