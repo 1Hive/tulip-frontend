@@ -12,7 +12,7 @@ const Lend = React.memo(({ onlyTable }) => {
         align-items: center;
       `}
     >
-      <img src={agve} height={160} width={160} alt="" />
+      <img src={agve} height={GU * 20} width={GU * 20} alt="" />
       <span
         css={`
           padding-top: ${GU * 3}px;
@@ -25,8 +25,8 @@ const Lend = React.memo(({ onlyTable }) => {
         css={`
           margin-top: ${GU * 3}px;
           background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-          width: 178px;
-          height: 40px;
+          width: ${GU * 22}px;
+          height: ${GU * 5}px;
         `}
         id="LearnMore"
         label="Learn More"
