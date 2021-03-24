@@ -6,7 +6,7 @@ const Lend = React.memo(({ onlyTable }) => {
   return (
     <div
       css={`
-        padding-top: ${13 * GU}px;
+        padding-top: ${GU * 13}px;
         display: flex;
         flex-direction: column;
         align-items: center;
