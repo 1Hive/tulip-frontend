@@ -32,7 +32,7 @@ const ENV_VARS = {
     return dsn.trim()
   },
   SKIP_VOIDING() {
-    return process.env.REACT_APP_SKIP_VOIDING === '1' 
+    return process.env.REACT_APP_SKIP_VOIDING === '1'
   },
   SUBGRAPH_HTTP_ENDPOINT() {
     return process.env.REACT_APP_SUBGRAPH_HTTP_ENDPOINT || ''
