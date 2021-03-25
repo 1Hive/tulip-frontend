@@ -33,6 +33,5 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "linebreak-style": "off"
-    // "linebreak-style": ["error", "windows"]
   }
 }
