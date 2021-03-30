@@ -1,5 +1,5 @@
 .linechart {
-  padding: 8px;
+  padding: 0px;
 }
 .linechart_path {
   stroke-width: 2;
@@ -19,15 +19,15 @@
   padding: 8px;
   fill: url(#MyGradient);
   stroke: none;
-  opacity: .4;
+  opacity: 0.4;
 }
 
 .linechart_label {
- fill: #64B5F6;
- font-weight: 700;
+  fill: #64b5f6;
+  font-weight: 700;
 }
 
 .hoverLine {
-  stroke: #7D95B6;
+  stroke: #7d95b6;
   stroke-width: 1;
 }
