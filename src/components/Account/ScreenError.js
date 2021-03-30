@@ -1,9 +1,9 @@
 import React, { useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { GU, Link, textStyle, useTheme } from '@1hive/1hive-ui'
+import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { ChainUnsupportedError } from 'use-wallet'
 import { getNetworkName } from '../../lib/web3-utils'
-import connectionError from './assets/connection-error.svg'
+import connectionError from '../../assets/tulip/connection-error.png'
 
 function AccountModuleErrorScreen({ error, onBack }) {
   const theme = useTheme()
@@ -47,8 +47,8 @@ function AccountModuleErrorScreen({ error, onBack }) {
         <div
           css={`
             position: relative;
-            width: 281px;
-            height: 188px;
+            width: 176px;
+            height: 136px;
             background: 50% 50% / 100% 100% no-repeat url(${connectionError});
           `}
         />
@@ -56,7 +56,8 @@ function AccountModuleErrorScreen({ error, onBack }) {
           css={`
             padding-top: ${2 * GU}px;
             ${textStyle('body1')};
-            font-weight: 600;
+            font-weight: 700;
+            color: ${theme.content};
           `}
         >
           {title}
@@ -75,7 +76,19 @@ function AccountModuleErrorScreen({ error, onBack }) {
           flex-grow: 0;
         `}
       >
-        <Link onClick={onBack}>OK, try again</Link>
+        <Button
+          onClick={onBack}
+          label="OK, let's try again"
+          display="label"
+          css={`
+            margin-top: ${3 * GU}px;
+            background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+            color: ${theme.content};
+            ${textStyle('body2')};
+            font-weight: 300;
+          `}
+          wide
+        />
       </div>
     </section>
   )
