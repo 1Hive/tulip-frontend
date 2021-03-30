@@ -4,6 +4,7 @@ import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
 import HomeChart from '../LineChart/HomeChart'
 import AssetList from './AssetList'
+import Farming from '../Farming/Farm'
 
 const MyWallet = React.memo(() => {
   const { width: vw, below } = useViewport()
@@ -61,10 +62,23 @@ const MyWallet = React.memo(() => {
       <div
         css={`
           display: flex;
+          flex-direction: ${small ? 'column' : 'row'};
           margin-bottom: ${2 * GU}px;
           max-height: ${82.5 * GU}px;
         `}
       >
+        <div
+          css={`
+            padding: ${2 * GU}px;
+            width: ${small ? '100%' : ''};
+            ${!small &&
+              `
+              flex-grow: 100;
+            `}
+          `}
+        >
+          <Farming />
+        </div>
         <HeroBanner />
       </div>
     </div>
