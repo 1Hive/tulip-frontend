@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "unix"] */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ButtonIcon,
