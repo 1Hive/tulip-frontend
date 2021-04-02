@@ -3,8 +3,8 @@ import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
 import HomeChart from '../LineChart/HomeChart'
+import AssetCardList from './AssetCardsList'
 import AssetList from './AssetList'
-import Farming from '../Farming/Farm'
 
 const MyWallet = React.memo(() => {
   const { width: vw, below } = useViewport()
@@ -58,7 +58,7 @@ const MyWallet = React.memo(() => {
           width={small ? vw - padding : vw * 0.65 - padding}
         />
       </div>
-      <AssetList />
+      <AssetCardList />
       <div
         css={`
           display: flex;
@@ -77,7 +77,7 @@ const MyWallet = React.memo(() => {
             `}
           `}
         >
-          <Farming />
+          <AssetList />
         </div>
         <HeroBanner />
       </div>
