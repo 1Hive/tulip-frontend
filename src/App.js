@@ -11,38 +11,45 @@ import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
 import { WalletProvider } from './providers/Wallet'
+import { PoolProvider } from './providers/Poolprovider'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import './assets/css/overrides.css'
 
+const queryClient = new QueryClient()
 function App() {
   return (
-    <WalletProvider>
-      <HashRouter>
-        <ActivityProvider>
-          <Main
-            assetsUrl="./public/aragon-ui"
-            layout={false}
-            scrollView={false}
-            theme={theme}
-          >
-            <GlobalErrorHandler>
-              <ToastHub threshold={1} timeout={1500}>
-                <CourtConfigProvider>
-                  <CourtClockProvider>
-                    <RequestQueueProvider>
-                      <MainView>
-                        {/* <AppLoader> */}
-                        <Routes />
-                        {/* </AppLoader> */}
-                      </MainView>
-                    </RequestQueueProvider>
-                  </CourtClockProvider>
-                </CourtConfigProvider>
-              </ToastHub>
-            </GlobalErrorHandler>
-          </Main>
-        </ActivityProvider>
-      </HashRouter>
-    </WalletProvider>
+    <QueryClientProvider client={queryClient}>
+      <WalletProvider>
+        <PoolProvider>
+          <HashRouter>
+            <ActivityProvider>
+              <Main
+                assetsUrl="./public/aragon-ui"
+                layout={false}
+                scrollView={false}
+                theme={theme}
+              >
+                <GlobalErrorHandler>
+                  <ToastHub threshold={1} timeout={1500}>
+                    <CourtConfigProvider>
+                      <CourtClockProvider>
+                        <RequestQueueProvider>
+                          <MainView>
+                            {/* <AppLoader> */}
+                            <Routes />
+                            {/* </AppLoader> */}
+                          </MainView>
+                        </RequestQueueProvider>
+                      </CourtClockProvider>
+                    </CourtConfigProvider>
+                  </ToastHub>
+                </GlobalErrorHandler>
+              </Main>
+            </ActivityProvider>
+          </HashRouter>
+        </PoolProvider>
+      </WalletProvider>
+    </QueryClientProvider>
   )
 }
 
