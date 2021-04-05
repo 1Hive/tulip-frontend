@@ -1,5 +1,5 @@
 export default {
-  _name: 'court',
+  _name: 'tulip',
   _appearance: 'light',
 
   accent: '#7CE0D6',
