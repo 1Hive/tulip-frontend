@@ -1,5 +1,5 @@
 import { getInternalNetworkName } from '../networks'
-import honeyImg from '../assets/coins/honey.svg'
+import honeyImg from '../assets/coins/honey.png'
 import daiImg from '../assets/coins/dai.svg'
 import agaveImg from '../assets/coins/agave.png'
 import wethImg from '../assets/coins/eth.svg'

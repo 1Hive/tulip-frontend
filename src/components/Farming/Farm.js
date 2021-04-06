@@ -3,13 +3,13 @@ import { GU, textStyle } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import DropdownComponent from './Dropdown'
 import styled from 'styled-components'
-import sushiData from '@sushiswap/sushi-data'
+// import sushiData from '@sushiswap/sushi-data'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
+import { usePoolProvider } from '../../providers/Poolprovider'
 
 const Farm = React.memo(({ onlyTable }) => {
-  const [farmData, setFarmData] = useState([])
-  const [pairs, setPairs] = useState([])
+  // const [pairs, setPairs] = useState([])
   const [search, setSearch] = useState('')
 
   const dropdownItems = {
@@ -21,20 +21,23 @@ const Farm = React.memo(({ onlyTable }) => {
       margin-right: ${1 * GU}px;
     }
   `
+  const pairs = usePoolProvider()
+  console.log(search)
   useEffect(() => {
-    sushiData.masterchef.apys().then(data => {
-      setFarmData(data)
-      const pairArray = data.map(pair => {
-        return pair.pair
-      })
-      sushiData.exchange.pairs(pairArray).then(res => {
-        const result = res.filter(r => {
-          return r.reserveETH > 1 && r.totalSupply > 1
-        })
-        setPairs(result)
-      })
-    })
+    // sushiData.masterchef.apys().then(data => {
+    //   setFarmData(data)
+    //   const pairArray = data.map(pair => {
+    //     return pair.pair
+    //   })
+    //   sushiData.exchange.pairs(pairArray).then(res => {
+    //     const result = res.filter(r => {
+    //       return r.reserveETH > 1 && r.totalSupply > 1
+    //     })
+    //     setPairs(result)
+    //   })
+    // })
   }, [])
+  console.log(pairs.data)
   const handleSearch = value => {
     setSearch(value)
   }
@@ -70,7 +73,7 @@ const Farm = React.memo(({ onlyTable }) => {
           ${textStyle('title1')};
         `}
       >
-        <FarmTable tableData={farmData} pairData={pairs} searchValue={search} />
+        <FarmTable pairData={pairs.data} searchValue={search} />
       </div>
     </div>
   )

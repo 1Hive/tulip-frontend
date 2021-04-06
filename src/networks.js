@@ -50,6 +50,7 @@ export function getInternalNetworkName() {
 }
 
 export function getNetworkConfig() {
+  console.log(networkConfigs[getInternalNetworkName()])
   return networkConfigs[getInternalNetworkName()]
 }
 

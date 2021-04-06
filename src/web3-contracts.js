@@ -1,9 +1,16 @@
 import { useMemo } from 'react'
 import { Contract as EthersContract, providers as Providers } from 'ethers'
 import { useWallet } from './providers/Wallet'
-import { defaultEthNode } from './endpoints'
-
-const DEFAULT_PROVIDER = new Providers.JsonRpcProvider(defaultEthNode)
+// import { defaultEthNode } from './endpoints'
+import { InvalidNetworkType } from './errors'
+// const DEFAULT_PROVIDER = new Providers.JsonRpcProvider(defaultEthNode)
+let DEFAULT_PROVIDER
+if (window.web3.currentProvider.networkVersion !== '4') {
+  const error = new InvalidNetworkType()
+  console.log(error)
+} else {
+  DEFAULT_PROVIDER = new Providers.Web3Provider(window.web3.currentProvider)
+}
 
 export function useContract(address, abi, signer = true) {
   const { account, ethers } = useWallet()

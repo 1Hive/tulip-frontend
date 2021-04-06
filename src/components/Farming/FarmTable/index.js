@@ -9,42 +9,22 @@ import DepositModal from '../DepositModal'
 
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
-  const pairs = props.pairData.filter(id => {
-    const temp = []
-    for (const x of props.tableData) {
-      temp.push(x.pair)
-    }
-    return temp.includes(id.id)
-  })
-  const addAPY = pairs.map(pair => {
-    for (const x of props.tableData) {
-      if (x.pair === pair.id) {
-        return {
-          ...pair,
-          apy: x.apy,
-          sushiHarvestedUSD: x.sushiHarvestedUSD,
-          sushiHarvested: x.sushiHarvested,
-          slpDeposited: x.slpDeposited,
-          allocPoint: x.allocPoint,
-          slpBalance: x.slpBalance,
-          slpWithdrawn: x.slpWithdrawn,
-        }
-      }
-    }
-  })
-  const fuse = new Fuse(addAPY, {
-    keys: ['token0.name', 'token0.symbol', 'token1.name', 'token1.symbol'],
+  const [modalData, setModalData] = useState('')
+  const pairs = props.pairData || []
+  console.log(pairs)
+  const fuse = new Fuse(pairs, {
+    keys: ['name', 'symbol'],
   })
   const results = fuse.search(props.searchValue)
-  console.log(addAPY)
+
   const handleModalActions = () => {
     setModalAction(true)
   }
   const handleModalClose = () => {
     setModalAction(false)
   }
-  console.log(modalAction)
-  if (props.tableData.length === 0) {
+
+  if (pairs.length === 0) {
     return <Loading />
   } else {
     return (
@@ -89,15 +69,23 @@ const FarmTable = props => {
               clearLabel: null,
             },
           }}
-          entries={props.searchValue ? results : addAPY}
+          entries={props.searchValue ? results : pairs}
           header
-          renderEntry={({ id, token0, token1, apy }) => {
-            const customLabel = `${token0.symbol}-${token1.symbol}`
-            const baseYield = parseInt(apy.toFixed(2))
-            const rewardYield = parseInt(apy.toFixed(2) * 2)
+          renderEntry={({
+            name,
+            symbol,
+            poolToken,
+            totalShares,
+            lastRewardTimestamp,
+            allocPoint,
+            accHsfPerShare,
+          }) => {
+            const customLabel = name
+            const baseYield = 23
+            const rewardYield = parseInt(baseYield * 2)
             const totalYield = parseInt(baseYield + rewardYield)
-            const token0Img = getKnownTokenImg(token0.symbol)
-            const token1Img = getKnownTokenImg(token1.symbol)
+            const token0Img = getKnownTokenImg(symbol)
+            const token1Img = getKnownTokenImg(null)
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
@@ -118,15 +106,19 @@ const FarmTable = props => {
                   css={`
                     background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
                   `}
-                  id={customLabel}
+                  id={symbol}
                   label="Stake"
-                  onClick={handleModalActions}
+                  onClick={e => {
+                    handleModalActions()
+                    console.log(e.target.id)
+                    setModalData(e.target.id)
+                  }}
                 />
                 <DepositModal
                   modalAction={modalAction}
                   handleModalClose={handleModalClose}
                   tokenImg={imgObj}
-                  pairName={customLabel}
+                  data={modalData}
                 />
               </React.Fragment>,
             ]
