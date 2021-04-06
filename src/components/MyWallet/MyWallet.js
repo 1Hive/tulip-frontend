@@ -1,4 +1,5 @@
 import React from 'react'
+import { useWallet } from 'use-wallet'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
@@ -8,6 +9,10 @@ import AssetList from './AssetList'
 
 const MyWallet = React.memo(() => {
   const { width: vw, below } = useViewport()
+  const wallet = useWallet()
+  const { status } = wallet
+
+  console.log('STATUS: ', status)
   const small = below('medium')
   const padding = 20
   return (
