@@ -1,9 +1,20 @@
 import React from 'react'
 import { Modal, GU, Button } from '@1hive/1hive-ui'
 import SliderComponent from '../SliderComponent'
+import { usePoolProvider } from '../../../providers/Poolprovider'
+import { getKnownTokenImg } from '../../../utils/known-tokens'
 
 const DepositModal = props => {
-  console.log(props)
+  const pairs = usePoolProvider()
+
+  const filterPair = pairs.data.filter(pair => {
+    return props.data === pair.symbol
+  })
+  console.log(filterPair)
+  const imgObj = {
+    pair1: getKnownTokenImg(props.data),
+    pair2: undefined,
+  }
 
   return (
     <Modal
@@ -45,7 +56,10 @@ const DepositModal = props => {
         deposit.
       </span>
       <div>
-        <SliderComponent imgObj={props.tokenImg} pairTitle={props.pairName} />
+        <SliderComponent
+          imgObj={imgObj}
+          pairTitle={filterPair.length > 0 ? filterPair[0].name : 'loading'}
+        />
       </div>
       <div
         css={`

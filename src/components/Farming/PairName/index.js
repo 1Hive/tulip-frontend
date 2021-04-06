@@ -15,16 +15,14 @@ const PairName = props => {
         <img
           css={`
             height: ${4 * GU}px;
-            transform: translateX(${!props.image.pair2 ? '50' : '0'}%);
+            transform: translateX(${props.image.pair2 ? '50' : '0'}%);
           `}
           src={props.image.pair1}
         />
         <img
           css={`
             height: ${4 * GU}px;
-            transform: translateX(
-              ${!props.image.pair1 ? 1 * GU : -0.75 * GU}px
-            );
+            transform: translateX(${props.image.pair1 ? 1 * GU : -0.75 * GU}px);
           `}
           src={props.image.pair2}
         />
