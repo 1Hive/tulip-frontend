@@ -54,7 +54,7 @@ function AccountPopover({
       placement="bottom-end"
       visible={visible}
       css={`
-        width: ${51 * GU}px;
+        width: ${41 * GU}px;
       `}
     >
       <section

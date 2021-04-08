@@ -6,7 +6,11 @@ const SearchComponent = prop => {
   prop.passSearch(value)
   return (
     <React.Fragment>
-      <SearchInput value={value} onChange={setValue} />
+      <SearchInput
+        value={value}
+        onChange={setValue}
+        placeholder={prop.placeholder}
+      />
     </React.Fragment>
   )
 }

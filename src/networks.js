@@ -12,14 +12,14 @@ export const networkConfigs = {
     court: '0x3b26bc496aebaed5b3E0E81cDE6B582CDe71396e',
     nodes: {
       defaultEth: 'https://mainnet.infura.io/v3/undefined',
-      subgraph: 'https://graph.backend.aragon.org/subgraphs/name/1hive/celeste',
+      subgraph: '',
     },
   },
   xdai: {
     court: '',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
-      subgraph: 'https://graph.backend.aragon.org/subgraphs/name/1hive/celeste',
+      subgraph: '',
     },
   },
   rinkeby: {
@@ -33,14 +33,14 @@ export const networkConfigs = {
     court: '0x3b26bc496aebaed5b3E0E81cDE6B582CDe71396e',
     nodes: {
       defaultEth: 'https://ropsten.eth.aragon.network/',
-      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste-ropsten',
+      subgraph: '',
     },
   },
   local: {
     court: '0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb',
     nodes: {
       defaultEth: 'http://localhost:8545',
-      subgraph: 'http://127.0.0.1:8000/subgraphs/name/1hive/celeste-rpc',
+      subgraph: '',
     },
   },
 }

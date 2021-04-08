@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
-import globalError from '../../assets/error.svg'
-import backgroundError from '../../assets/backgroundError.svg'
-import logo from '../../assets/logo.svg'
+import globalError from '../../assets/tulip/icon.svg'
+import logo from '../../assets/tulip/logo.svg'
 
 function GlobalErrorScreen({ children }) {
   return (
@@ -12,12 +11,11 @@ function GlobalErrorScreen({ children }) {
         height: 100vh;
         min-width: ${45 * GU}px;
         overflow: auto;
-        background: url(${backgroundError});
         background-repeat: repeat-x;
         background-size: cover;
         border-top-style: solid;
         border-top-width: 4px;
-        border-top-color: #6050b0;
+        border-top-color: #aaf5d4;
       `}
     >
       <img
@@ -27,7 +25,7 @@ function GlobalErrorScreen({ children }) {
           left: ${2 * GU}px;
         `}
         src={logo}
-        width="150"
+        width="100"
       />
       <div
         css={`
