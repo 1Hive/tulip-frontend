@@ -8,30 +8,37 @@ import MainView from './components/MainView'
 import Routes from './Routes'
 import { HCFarmConfigProvider } from './providers/HCFarmConfigProvider'
 import { WalletProvider } from './providers/Wallet'
+import { PoolProvider } from './providers/Poolprovider'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import './assets/css/overrides.css'
 
+const queryClient = new QueryClient()
 function App() {
   return (
-    <WalletProvider>
-      <HashRouter>
-        <Main
-          assetsUrl="./public/aragon-ui"
-          layout={false}
-          scrollView={false}
-          theme={theme}
-        >
-          <GlobalErrorHandler>
-            <HCFarmConfigProvider>
-              <MainView>
-                {/* <AppLoader> */}
-                <Routes />
-                {/* </AppLoader> */}
-              </MainView>
-            </HCFarmConfigProvider>
-          </GlobalErrorHandler>
-        </Main>
-      </HashRouter>
-    </WalletProvider>
+    <QueryClientProvider client={queryClient}>
+      <WalletProvider>
+        <PoolProvider>
+          <HashRouter>
+            <Main
+              assetsUrl="./public/aragon-ui"
+              layout={false}
+              scrollView={false}
+              theme={theme}
+            >
+              <GlobalErrorHandler>
+                <HCFarmConfigProvider>
+                  <MainView>
+                    {/* <AppLoader> */}
+                    <Routes />
+                    {/* </AppLoader> */}
+                  </MainView>
+                </HCFarmConfigProvider>
+              </GlobalErrorHandler>
+            </Main>
+          </HashRouter>
+        </PoolProvider>
+      </WalletProvider>
+    </QueryClientProvider>
   )
 }
 

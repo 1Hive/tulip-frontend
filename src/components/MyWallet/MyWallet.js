@@ -1,18 +1,14 @@
 import React from 'react'
-import { useWallet } from 'use-wallet'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
 import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
-import AssetList from './AssetList'
+// import AssetList from './AssetList'
 
-const MyWallet = React.memo(() => {
+const MyWallet = React.memo(({ netBalance }) => {
   const { width: vw, below } = useViewport()
-  const wallet = useWallet()
-  const { status } = wallet
 
-  console.log('STATUS: ', status)
   const small = below('medium')
   const padding = 20
   return (
@@ -55,7 +51,7 @@ const MyWallet = React.memo(() => {
               color: #30DB9E;'
             `}
           >
-            $10,000.07
+            $ {netBalance}
           </span>
         </div>
         <HomeChart
@@ -63,7 +59,7 @@ const MyWallet = React.memo(() => {
           width={small ? vw - padding : vw * 0.65 - padding}
         />
       </div>
-      <AssetCardList />
+      <AssetCardList wallet={netBalance} />
       <div
         css={`
           display: flex;
@@ -82,7 +78,7 @@ const MyWallet = React.memo(() => {
             `}
           `}
         >
-          <AssetList />
+          {/* <AssetList /> */}
         </div>
         <HeroBanner />
       </div>

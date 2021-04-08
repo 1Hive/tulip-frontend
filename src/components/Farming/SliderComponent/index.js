@@ -24,14 +24,14 @@ const SliderComponent = props => {
           <img
             src={props.imgObj.pair1}
             css={`
-              max-height: ${3 * GU}px;
+              height: ${3 * GU}px;
               transform: translateX(${!props.imgObj.pair2 ? '50' : '0'}%);
             `}
           />
           <img
             src={props.imgObj.pair2}
             css={`
-              max-height: ${3 * GU}px;
+              height: ${3 * GU}px;
               transform: translateX(
                 ${!props.imgObj.pair1 ? 1 * GU : -0.75 * GU}px
               );
@@ -43,9 +43,12 @@ const SliderComponent = props => {
           css={`
             width: 85%;
           `}
-          onUpdate={value => setProgress(value.toFixed(2))}
+          onUpdate={value => {
+            console.log(value)
+            setProgress(value.toFixed(2))
+          }}
         />
-        <span>{progress}</span>
+        <span>{(progress * 100).toFixed(0)}</span>
       </div>
     </React.Fragment>
   )
