@@ -4,13 +4,13 @@ import Loader from '../Loader'
 import { useNetBalance } from '../../hooks/useWalletData'
 
 function WalletLoader() {
-  const [walletData, isFetching] = useNetBalance()
-
-  if (isFetching) {
+  const walletData = useNetBalance()
+  console.log('>>>>>>', walletData.isFetching)
+  if (walletData.isFetching) {
     return <Loader />
   }
 
-  return <MyWallet useNetBalance={walletData} />
+  return <MyWallet walletData={walletData} />
 }
 
 export default WalletLoader

@@ -6,7 +6,7 @@ import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
 // import AssetList from './AssetList'
 
-const MyWallet = React.memo(({ netBalance }) => {
+const MyWallet = React.memo(({ walletData }) => {
   const { width: vw, below } = useViewport()
 
   const small = below('medium')
@@ -51,7 +51,7 @@ const MyWallet = React.memo(({ netBalance }) => {
               color: #30DB9E;'
             `}
           >
-            $ {netBalance}
+            $ {walletData.netBalance}
           </span>
         </div>
         <HomeChart
@@ -59,7 +59,7 @@ const MyWallet = React.memo(({ netBalance }) => {
           width={small ? vw - padding : vw * 0.65 - padding}
         />
       </div>
-      <AssetCardList wallet={netBalance} />
+      <AssetCardList wallet={walletData.netBalance} />
       <div
         css={`
           display: flex;
