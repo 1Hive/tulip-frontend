@@ -2,14 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { wallet } from 'tulip-data'
 import { useWallet } from 'use-wallet'
 
-// const WALLET_DATA_DEFAULT = {
-//   netBalance: 0,
-//   poolBalance: 0,
-//   walletBalance: 0,
-//   assetsList: [],
-//   isFetching: false,
-// }
-
 const ASSET_DEFAULT = {
   symbol: '',
   name: '',
@@ -40,7 +32,6 @@ export function useWalletData() {
           user_address: account,
         })
 
-        // console.log(balances)
         if (!cancelled) {
           setWalletInfo(balances)
           return setIsFetchingWallet(false)
@@ -58,7 +49,6 @@ export function useWalletData() {
           user_address: account,
         })
 
-        // console.log(balances)
         if (!cancelled) {
           setPoolingInfo(poolingData)
           return setIsFetchingPool(false)
@@ -75,25 +65,21 @@ export function useWalletData() {
     }
   }, [account])
 
-  console.log('ifpool ', isFetchingPool)
-  console.log('ifwallet ', isFetchingWallet)
   return [walletInfo, poolingInfo, isFetchingWallet || isFetchingPool]
 }
 
 export function useNetBalance() {
   const [walletInfo, poolingInfo, isFetching] = useWalletData()
 
-  console.log('isFetching: ', isFetching)
   return useMemo(() => {
-    console.log('isFetchingMEMO: ', isFetching)
-    if (!walletInfo || walletInfo.length === 0 || !poolingInfo) {
-      return { isFetching: false }
-    }
-
     let netBalance = 0
     let walletBalance = 0
     let poolBalance = 0
     const assetsList = []
+    if (!walletInfo || walletInfo.length === 0 || !poolingInfo) {
+      return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
+    }
+
     walletInfo.map(value => {
       if (value && parseFloat(value.valueUSD)) {
         walletBalance = walletBalance + parseFloat(value.valueUSD)
@@ -101,20 +87,23 @@ export function useNetBalance() {
           symbol: value.symbol,
           name: value.name,
           balance: value.balance.toFixed(4),
-          price: value.priceUSD,
-          value: value.valueUSD,
+          price: value.priceUSD.toFixed(2),
+          value: value.valueUSD.toFixed(2),
           image1: value.logoURI,
+          image2: '',
         })
       }
     })
 
     poolingInfo.map(value => {
       if (value && parseFloat(value.valueUSD)) {
-        poolBalance = poolBalance + parseFloat(value.valueUSD)
+        poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
         const asset = ASSET_DEFAULT
         if (value.tokens && value.tokens.length > 1) {
           value.tokens.map((token, i) => {
-            asset.symbol = i === 0 ? token.name + ' - ' : token.name
+            console.log(token)
+            asset.symbol =
+              i === 0 ? token.symbol + '-' : asset.symbol + token.symbol
             if (i === 0) {
               asset.image1 = token.logoURI
             } else {
@@ -122,17 +111,20 @@ export function useNetBalance() {
             }
           })
         }
-        asset.balance = value.balance
-        asset.value = value.valueUSD
+        asset.balance = Number(value.balance).toFixed(4)
+        asset.value = Number(value.valueUSD).toFixed(2)
+        asset.price = Number(value.valueUSD / value.balance).toFixed(2)
+        asset.name = 'HoneySwap'
         assetsList.push(asset)
       }
     })
+
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
-    netBalance = walletBalance + poolBalance + netBalance.toFixed(2)
-
-    console.log('Is Fetching before set', isFetching)
+    netBalance = parseFloat(
+      Number(walletBalance) + Number(poolBalance) + netBalance
+    ).toFixed(2)
 
     return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
-  }, [walletInfo, poolingInfo, isFetching])
+  }, [isFetching])
 }
