@@ -63,7 +63,7 @@ export function useWalletData() {
     return () => {
       cancelled = true
     }
-  }, [account])
+  }, [account, status])
 
   return [walletInfo, poolingInfo, isFetchingWallet || isFetchingPool]
 }
@@ -126,5 +126,5 @@ export function useNetBalance() {
     ).toFixed(2)
 
     return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
-  }, [walletInfo, isFetching])
+  }, [walletInfo, poolingInfo, isFetching])
 }
