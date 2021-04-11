@@ -17,11 +17,11 @@ export function useWalletData() {
   const [poolingInfo, setPoolingInfo] = useState([])
   const [isFetchingWallet, setIsFetchingWallet] = useState(false)
   const [isFetchingPool, setIsFetchingPool] = useState(false)
-  const { account } = useWallet()
+  const { account, status } = useWallet()
 
   useEffect(() => {
     let cancelled = false
-    if (!account) {
+    if (!account || status === 'disconnected') {
       return setWalletInfo([])
     }
 
@@ -126,5 +126,5 @@ export function useNetBalance() {
     ).toFixed(2)
 
     return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
-  }, [isFetching])
+  }, [walletInfo, isFetching])
 }
