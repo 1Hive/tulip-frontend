@@ -1,5 +1,5 @@
 {
-  "name": "celeste-dashboard",
+  "name": "honey-comb",
   "version": "1.0.0",
   "private": true,
   "license": "AGPL-3.0-or-later",
@@ -61,7 +61,7 @@
     "optimize:svg": "find ./src -name *.svg -exec svgo --config '{ \"plugins\": [ { \"removeDesc\": {\"removeAny\": true} }, { \"removeTitle\": true }, { \"removeViewBox\": false } ] }' {} \\;",
     "sync-assets": "copy-aragon-ui-assets ./public"
   },
-  "homepage": "./",
+  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },
