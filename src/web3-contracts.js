@@ -5,7 +5,7 @@ import { useWallet } from './providers/Wallet'
 import { InvalidNetworkType } from './errors'
 // const DEFAULT_PROVIDER = new Providers.JsonRpcProvider(defaultEthNode)
 let DEFAULT_PROVIDER
-if (window.web3.currentProvider.networkVersion !== '4') {
+if (!window.web3 || window.web3.currentProvider.networkVersion !== '4') {
   const error = new InvalidNetworkType()
   console.log(error)
 } else {

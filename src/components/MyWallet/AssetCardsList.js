@@ -9,7 +9,7 @@ import Pools from '../../assets/tulip/pools.svg'
 import Staked from '../../assets/tulip/staked.svg'
 import Wallet from '../../assets/tulip/wallet.svg'
 
-function AssetList() {
+function AssetCardList({ walletData }) {
   return (
     <div
       css={`
@@ -21,14 +21,22 @@ function AssetList() {
         flex-flow: row wrap;
       `}
     >
-      <WalletCard icon={Wallet} title="Wallet" value="$ 1,391.04" />
-      <WalletCard icon={Staked} title="Staked" value="$ 943.12" />
-      <WalletCard icon={Lent} title="Lent" value="$ 916.87" />
-      <WalletCard icon={Pools} title="Pools" value="$ 916.87" />
-      <WalletCard icon={Farming} title="Farming" value="$ 916.87" />
-      <WalletCard icon={Borrowed} title="Borrowed" value="$ 916.87" isBorrow />
+      <WalletCard
+        icon={Wallet}
+        title="Wallet"
+        value={'$ ' + walletData.walletBalance}
+      />
+      <WalletCard icon={Staked} title="Staked" value="$ 0" />
+      <WalletCard icon={Lent} title="Lent" value="$ 0" />
+      <WalletCard
+        icon={Pools}
+        title="Pools"
+        value={'$ ' + walletData.poolBalance}
+      />
+      <WalletCard icon={Farming} title="Farming" value="$ 0" />
+      <WalletCard icon={Borrowed} title="Borrowed" value="$ 0" isBorrow />
     </div>
   )
 }
 
-export default AssetList
+export default AssetCardList

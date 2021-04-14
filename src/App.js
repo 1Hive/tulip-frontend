@@ -6,7 +6,6 @@ import theme from './theme-tulip'
 import GlobalErrorHandler from './GlobalErrorHandler'
 import MainView from './components/MainView'
 import Routes from './Routes'
-import { HCFarmConfigProvider } from './providers/HCFarmConfigProvider'
 import { WalletProvider } from './providers/Wallet'
 import { PoolProvider } from './providers/Poolprovider'
 import { QueryClientProvider, QueryClient } from 'react-query'
@@ -26,13 +25,11 @@ function App() {
               theme={theme}
             >
               <GlobalErrorHandler>
-                <HCFarmConfigProvider>
-                  <MainView>
-                    {/* <AppLoader> */}
-                    <Routes />
-                    {/* </AppLoader> */}
-                  </MainView>
-                </HCFarmConfigProvider>
+                <MainView>
+                  {/* <AppLoader> */}
+                  <Routes />
+                  {/* </AppLoader> */}
+                </MainView>
               </GlobalErrorHandler>
             </Main>
           </HashRouter>

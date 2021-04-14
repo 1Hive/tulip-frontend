@@ -1,37 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { DropDown, GU, textStyle, useLayout } from '@1hive/1hive-ui'
-import sushiData from '@sushiswap/sushi-data'
-import FarmTable from '../Farming/FarmTable'
+import AssetsTable from './AssetsTable'
 import SearchComponent from '../Farming/Search'
 
-const AssetList = React.memo(() => {
-  const [farmData, setFarmData] = useState([])
-  const [pairs, setPairs] = useState([])
-  const [search, setSearch] = useState('')
+const AssetList = React.memo(({ assets, handleSearch, searchValue }) => {
   const { layoutName } = useLayout()
   const compactMode = layoutName === 'small' || layoutName === 'medium'
 
   const dropdownItems = {
     networkItems: ['xDai'],
-    platformItems: ['Platform1'],
+    platformItems: ['Platform'],
   }
-  useEffect(() => {
-    sushiData.masterchef.apys().then(data => {
-      setFarmData(data)
-      const pairArray = data.map(pair => {
-        return pair.pair
-      })
-      sushiData.exchange.pairs(pairArray).then(res => {
-        const result = res.filter(r => {
-          return r.reserveETH > 1 && r.totalSupply > 1
-        })
-        setPairs(result)
-      })
-    })
-  }, [])
-  const handleSearch = value => {
-    setSearch(value)
-  }
+
   return (
     <div
       css={`
@@ -75,8 +55,8 @@ const AssetList = React.memo(() => {
           />
         </div>
         <SearchComponent
-          passSearch={handleSearch}
           placeholder="Search by asset"
+          passSearch={handleSearch}
         />
       </div>
       <div
@@ -85,7 +65,7 @@ const AssetList = React.memo(() => {
           ${textStyle('title1')};
         `}
       >
-        <FarmTable tableData={farmData} pairData={pairs} searchValue={search} />
+        <AssetsTable assets={assets} searchValue={searchValue} />
       </div>
     </div>
   )

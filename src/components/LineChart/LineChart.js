@@ -14,16 +14,23 @@ class LineChart extends Component {
   getX() {
     const { data } = this.props
     return {
-      min: data[0].x,
-      max: data[data.length - 1].x,
+      min: data[0] ? data[0].x : 0,
+      max: data[data.length - 1] ? data[data.length - 1].x : 0,
     }
   }
 
   getY() {
     const { data } = this.props
-    return {
-      min: data.reduce((min, p) => (p.y < min ? p.y : min), data[0].y),
-      max: data.reduce((max, p) => (p.y > max ? p.y : max), data[0].y),
+    if (data.length > 0) {
+      return {
+        min: data.reduce((min, p) => (p.y < min ? p.y : min), data[0].y),
+        max: data.reduce((max, p) => (p.y > max ? p.y : max), data[0].y),
+      }
+    } else {
+      return {
+        min: 0,
+        max: 0,
+      }
     }
   }
 
@@ -36,10 +43,8 @@ class LineChart extends Component {
   getSvgY(y) {
     const { height, xLabelSize } = this.props
     const gY = this.getY()
-    return (
-      ((height - xLabelSize) * gY.max - (height - xLabelSize) * y) /
-      (gY.max - gY.min)
-    )
+    const gYdiff = gY.max - gY.min > 1 ? gY.max - gY.min : 1
+    return ((height - xLabelSize) * gY.max - (height - xLabelSize) * y) / gYdiff
   }
 
   // BUILD SVG PATH
@@ -49,11 +54,19 @@ class LineChart extends Component {
       return <div />
     }
     let pathD =
-      'M ' + this.getSvgX(data[0].x) + ' ' + this.getSvgY(data[0].y) + ' '
+      'M ' + this.getSvgX(data[0].x) + ' ' + this.getSvgY(data[0].y) + '10 '
 
-    pathD += data.map((point, i) => {
-      return 'L ' + this.getSvgX(point.x) + ' ' + this.getSvgY(point.y) + ' '
-    })
+    if (data.every((val, i, arr) => val.y === arr[0].y)) {
+      // If all the values are equal we check if they are 0 or not because 0 is not recognized by the svg path.
+      const value = data[0].y > 0 ? 50 : 100
+      pathD += data.map((point, i) => {
+        return 'L ' + this.getSvgX(point.x) + ' ' + value + ' '
+      })
+    } else {
+      pathD += data.map((point, i) => {
+        return 'L ' + this.getSvgX(point.x) + ' ' + this.getSvgY(point.y) + ' '
+      })
+    }
 
     return (
       <path className="linechart_path" d={pathD} style={{ stroke: color }} />
@@ -176,17 +189,24 @@ class LineChart extends Component {
     const adjustment = (svgLocation.width - width) / 2 // takes padding into consideration
     const relativeLoc = e.clientX - svgLocation.left - adjustment
 
+    let valueY = 0
+    if (data.every((val, i, arr) => val.y === arr[0].y)) {
+      // If all the values are equal we check if they are 0 or not because 0 is not recognized by the svg path.
+      valueY = data[0].y > 0 ? 50 : 100
+    }
+
     const svgData = []
     data.map((point, i) => {
       svgData.push({
         svgX: this.getSvgX(point.x),
-        svgY: this.getSvgY(point.y),
+        svgY: valueY > 0 ? valueY : this.getSvgY(point.y),
         d: point.d,
         p: point.p,
       })
     })
 
     let closestPoint = {}
+
     for (let i = 0, c = 500; i < svgData.length; i++) {
       if (Math.abs(svgData[i].svgX - this.state.hoverLoc) <= c) {
         c = Math.abs(svgData[i].svgX - this.state.hoverLoc)
@@ -251,7 +271,7 @@ class LineChart extends Component {
         onMouseMove={e => this.getCoords(e)}
       >
         <g>
-          {this.props.showAxis && this.makeAxis()}
+          {this.props.makeAxis && this.makeAxis()}
           {this.makePath()}
           {this.makeArea()}
           {this.props.showLabels && this.makeLabels()}

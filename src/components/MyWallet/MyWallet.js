@@ -1,5 +1,4 @@
-import React from 'react'
-import { useWallet } from 'use-wallet'
+import React, { useState } from 'react'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
@@ -7,14 +6,16 @@ import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
 import AssetList from './AssetList'
 
-const MyWallet = React.memo(() => {
+const MyWallet = React.memo(({ walletData }) => {
   const { width: vw, below } = useViewport()
-  const wallet = useWallet()
-  const { status } = wallet
+  const [search, setSearch] = useState('')
 
-  console.log('STATUS: ', status)
   const small = below('medium')
   const padding = 20
+
+  const handleSearch = value => {
+    setSearch(value)
+  }
   return (
     <div
       css={`
@@ -55,7 +56,7 @@ const MyWallet = React.memo(() => {
               color: #30DB9E;'
             `}
           >
-            $10,000.07
+            $ {walletData.netBalance}
           </span>
         </div>
         <HomeChart
@@ -63,7 +64,7 @@ const MyWallet = React.memo(() => {
           width={small ? vw - padding : vw * 0.65 - padding}
         />
       </div>
-      <AssetCardList />
+      <AssetCardList walletData={walletData} />
       <div
         css={`
           display: flex;
@@ -82,7 +83,11 @@ const MyWallet = React.memo(() => {
             `}
           `}
         >
-          <AssetList />
+          <AssetList
+            assets={walletData.assetsList}
+            handleSearch={handleSearch}
+            searchValue={search}
+          />
         </div>
         <HeroBanner />
       </div>

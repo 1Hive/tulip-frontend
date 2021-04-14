@@ -5,6 +5,7 @@ import data from './ExampleData.json'
 import LineChart from './LineChart'
 import ToolTip from './ToolTip'
 import './HomeChart.css'
+import { DEFAULT_CHART_DATA } from '../../constants/constants'
 
 class HomeChart extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class HomeChart extends Component {
       }
 
       this.setState({
-        data: sortedData,
+        data: DEFAULT_CHART_DATA,
       })
     }
 
