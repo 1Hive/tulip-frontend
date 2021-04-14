@@ -9,7 +9,6 @@
     "@1hive/1hive-ui": "^1.0.2",
     "@aragon/connect": "^0.6.0",
     "@sentry/browser": "^5.12.1",
-    "@sushiswap/sushi-data": "^1.0.7",
     "@web3-react/core": "^6.0.2",
     "@web3-react/injected-connector": "^6.0.3",
     "clipboard-polyfill": "^2.8.6",
@@ -37,7 +36,6 @@
     "resolve-pathname": "^3.0.0",
     "semver": "^7.3.2",
     "styled-components": "^4.4.1",
-    "tulip-data": "https://github.com/pxbee/tulip-data.git",
     "urql": "^1.6.3",
     "use-wallet": "^0.8.0"
   },
