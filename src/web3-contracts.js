@@ -7,7 +7,7 @@ import { InvalidNetworkType } from './errors'
 let DEFAULT_PROVIDER
 if (!window.web3 || window.web3.currentProvider.networkVersion !== '4') {
   const error = new InvalidNetworkType()
-  console.log(error)
+  DEFAULT_PROVIDER = error.name
 } else {
   DEFAULT_PROVIDER = new Providers.Web3Provider(window.web3.currentProvider)
 }
@@ -37,6 +37,5 @@ export function useContractReadOnly(address, abi) {
 }
 
 export function getContract(address, abi, provider = DEFAULT_PROVIDER) {
-  console.log(abi, typeof abi)
   return new EthersContract(address, abi, provider)
 }

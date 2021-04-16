@@ -2,11 +2,21 @@ import React, { useState } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
 
 const SliderComponent = props => {
-  console.log(props)
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(1)
   return (
     <React.Fragment>
-      <span>How many {props.pairTitle} tokens do you want to deposit?</span>
+      {props.pairTitle ? (
+        <div
+          css={`
+            margin: 0 auto;
+          `}
+        >
+          {props.pairTitle}
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div
         css={`
           display: flex;
@@ -21,34 +31,45 @@ const SliderComponent = props => {
             display: flex;
           `}
         >
-          <img
-            src={props.imgObj.pair1}
-            css={`
-              height: ${3 * GU}px;
-              transform: translateX(${!props.imgObj.pair2 ? '50' : '0'}%);
-            `}
-          />
-          <img
-            src={props.imgObj.pair2}
-            css={`
-              height: ${3 * GU}px;
-              transform: translateX(
-                ${!props.imgObj.pair1 ? 1 * GU : -0.75 * GU}px
-              );
-            `}
-          />
+          {props.imgObj ? (
+            <>
+              <img
+                src={props.imgObj.pair1}
+                css={`
+                  height: ${3 * GU}px;
+                  width: ${props.type === 'timeLock' ? '75%' : 'unset'};
+                  transform: translateX(${!props.imgObj.pair2 ? '50' : '0'}%);
+                `}
+              />
+              <img
+                src={props.imgObj.pair2}
+                css={`
+                  height: ${3 * GU}px;
+                  transform: translateX(
+                    ${!props.imgObj.pair1 ? 1 * GU : -0.75 * GU}px
+                  );
+                `}
+              />{' '}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         <Slider
           value={progress}
           css={`
             width: 85%;
+            margin-left: ${!props.imgObj ? 3 * GU : 0}px;
           `}
           onUpdate={value => {
-            console.log(value)
-            setProgress(value.toFixed(2))
+            props.onUpdate({
+              type: props.type,
+              amount: (value * props.tokenAmount).toFixed(10),
+            })
+            setProgress(value.toFixed(10))
           }}
         />
-        <span>{(progress * 100).toFixed(0)}</span>
+        <span>{parseInt(progress * props.tokenAmount)}</span>
       </div>
     </React.Fragment>
   )

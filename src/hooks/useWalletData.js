@@ -101,7 +101,6 @@ export function useNetBalance() {
         const asset = ASSET_DEFAULT
         if (value.tokens && value.tokens.length > 1) {
           value.tokens.map((token, i) => {
-            console.log(token)
             asset.symbol =
               i === 0 ? token.symbol + '-' : asset.symbol + token.symbol
             if (i === 0) {

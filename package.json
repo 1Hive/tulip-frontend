@@ -11,6 +11,7 @@
     "@sentry/browser": "^5.12.1",
     "@web3-react/core": "^6.0.2",
     "@web3-react/injected-connector": "^6.0.3",
+    "bn.js": "^5.2.0",
     "clipboard-polyfill": "^2.8.6",
     "dayjs": "^1.8.14",
     "dotenv": "^8.2.0",
@@ -36,7 +37,7 @@
     "resolve-pathname": "^3.0.0",
     "semver": "^7.3.2",
     "styled-components": "^4.4.1",
-    "tulip-data": "https://github.com/pxbee/tulip-data.git",
+    "tulip-data": "git+https://github.com/pxbee/tulip-data.git#20c0756",
     "urql": "^1.6.3",
     "use-wallet": "^0.8.0"
   },
