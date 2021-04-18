@@ -36,7 +36,7 @@
     "resolve-pathname": "^3.0.0",
     "semver": "^7.3.2",
     "styled-components": "^4.4.1",
-    "tulip-data": "https://github.com/pxbee/tulip-data.git",
+    "tulip-data": "https://github.com/pxbee/tulip-data.git#20c0756",
     "urql": "^1.6.3",
     "use-wallet": "^0.8.0"
   },

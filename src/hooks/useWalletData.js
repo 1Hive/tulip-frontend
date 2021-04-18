@@ -32,6 +32,7 @@ export function useWalletData() {
           user_address: account,
         })
 
+        console.log('Wallet: ', balances)
         if (!cancelled) {
           setWalletInfo(balances)
           return setIsFetchingWallet(false)
@@ -48,7 +49,7 @@ export function useWalletData() {
         const poolingData = await wallet.poolBalances({
           user_address: account,
         })
-
+        console.log(poolingData)
         if (!cancelled) {
           setPoolingInfo(poolingData)
           return setIsFetchingPool(false)
