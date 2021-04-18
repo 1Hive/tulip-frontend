@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { GU, textStyle } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import DropdownComponent from './Dropdown'
@@ -21,23 +21,8 @@ const Farm = React.memo(({ onlyTable }) => {
       margin-right: ${1 * GU}px;
     }
   `
-  const pairs = usePoolProvider()
-  console.log(search)
-  useEffect(() => {
-    // sushiData.masterchef.apys().then(data => {
-    //   setFarmData(data)
-    //   const pairArray = data.map(pair => {
-    //     return pair.pair
-    //   })
-    //   sushiData.exchange.pairs(pairArray).then(res => {
-    //     const result = res.filter(r => {
-    //       return r.reserveETH > 1 && r.totalSupply > 1
-    //     })
-    //     setPairs(result)
-    //   })
-    // })
-  }, [])
-  console.log(pairs.data)
+  const poolInfo = usePoolProvider()
+
   const handleSearch = value => {
     setSearch(value)
   }
@@ -73,7 +58,7 @@ const Farm = React.memo(({ onlyTable }) => {
           ${textStyle('title1')};
         `}
       >
-        <FarmTable pairData={pairs.data} searchValue={search} />
+        <FarmTable pairData={poolInfo} searchValue={search} />
       </div>
     </div>
   )

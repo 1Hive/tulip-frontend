@@ -1,21 +1,41 @@
-import React from 'react'
-import { Modal, GU, Button } from '@1hive/1hive-ui'
+import React, { useState } from 'react'
+import { Modal, GU } from '@1hive/1hive-ui'
+import { ethers } from 'ethers'
 import SliderComponent from '../SliderComponent'
-import { usePoolProvider } from '../../../providers/Poolprovider'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
+import { useCheckApprovedToken } from '../../../providers/Poolprovider'
+import Approved from '../Approve'
+import Deposit from '../Deposit'
+import multiplier from '../../../assets/multiplier.svg'
 
 const DepositModal = props => {
-  const pairs = usePoolProvider()
-
-  const filterPair = pairs.data.filter(pair => {
-    return props.data === pair.symbol
+  const [approved, setApproved] = useState('')
+  const [sliderInfo, setSliderInfo] = useState({
+    tokenAmount: '',
+    timeLock: '',
   })
-  console.log(filterPair)
+  // const [balance, setBalance] = useState('')
   const imgObj = {
-    pair1: getKnownTokenImg(props.data),
+    pair1: getKnownTokenImg(props.data.symbol),
     pair2: undefined,
   }
-
+  const multiplierObj = {
+    pair1: multiplier,
+    pair2: undefined,
+  }
+  useCheckApprovedToken(
+    props.data.poolToken,
+    props.data.account,
+    props.data.balance
+  ).then(x => {
+    setApproved(x)
+  })
+  const handleSliderUpdate = sliderObj => {
+    setSliderInfo({
+      ...sliderInfo,
+      [sliderObj.type]: sliderObj.amount,
+    })
+  }
   return (
     <Modal
       visible={props.modalAction}
@@ -55,10 +75,36 @@ const DepositModal = props => {
         for up to 1 year to increase the reward yield multiplier on your
         deposit.
       </span>
-      <div>
+      <div
+        css={`
+          display: flex;
+          flex-direction: column;
+          padding-top: 10px;
+        `}
+      >
         <SliderComponent
           imgObj={imgObj}
-          pairTitle={filterPair.length > 0 ? filterPair[0].name : 'loading'}
+          tokenAmount={
+            props.data.balance
+              ? parseInt(
+                  ethers.utils.formatEther(props.data.balance.toString())
+                )
+              : 0
+          }
+          pairTitle={
+            props.data
+              ? `How many ${props.data.name} tokens do you want to deposit?`
+              : 'loading'
+          }
+          type="tokenAmount"
+          onUpdate={handleSliderUpdate}
+        />
+        <SliderComponent
+          imgObj={multiplierObj}
+          tokenAmount={180}
+          pairTitle="How long do you want to lock your deposit?"
+          type="timeLock"
+          onUpdate={handleSliderUpdate}
         />
       </div>
       <div
@@ -80,13 +126,16 @@ const DepositModal = props => {
         underlying asset yields, and the amount of capital participating in the
         Farm. Find out more about how we calculate projected yields here.
       </div>
-      <Button
-        css={`
-          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-        `}
-        label="Confirm Deposit"
-        wide
-      />
+      {approved ? (
+        <Deposit token={props.data.poolToken} depositInfo={sliderInfo} />
+      ) : (
+        <Approved
+          token={props.data.poolToken}
+          amount={{
+            balance: props.data.balance,
+          }}
+        />
+      )}
     </Modal>
   )
 }

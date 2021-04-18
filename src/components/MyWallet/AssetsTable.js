@@ -6,7 +6,6 @@ import Icon from '../../assets/tulip/icon.svg'
 
 const AssetsTable = props => {
   const assets = props.assets || []
-  console.log(assets)
   const fuse = new Fuse(assets, {
     keys: ['name', 'symbol'],
   })
@@ -31,7 +30,7 @@ const AssetsTable = props => {
           default: {
             displayLoader: false,
             title:
-              'Connect your account for getting more information about your assets',
+              'Connect your account to get more information about your assets',
             subtitle: null,
             illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
             clearLabel: null,

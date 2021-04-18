@@ -1,31 +1,42 @@
 import React, { useState } from 'react'
-import { DataView, textStyle, Button } from '@1hive/1hive-ui'
-import Loading from '../../Loading'
+import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import Fuse from 'fuse.js'
 import DepositModal from '../DepositModal'
+import Loader from '../../Loader'
+import Icon from '../../../assets/tulip/icon.svg'
+import { useWallet } from '../../../providers/Wallet'
 
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
-  const [modalData, setModalData] = useState('')
-  const pairs = props.pairData || []
-  console.log(pairs)
+  const [modalData, setModalData] = useState({})
+  const pairs = props.pairData.data || []
   const fuse = new Fuse(pairs, {
     keys: ['name', 'symbol'],
   })
-  const results = fuse.search(props.searchValue)
+  const { account } = useWallet()
 
-  const handleModalActions = () => {
+  const results = fuse.search(props.searchValue)
+  const handleModalActions = e => {
     setModalAction(true)
+    const d = props.searchValue ? results : pairs
+    const filtered = d.filter(data => {
+      return data.symbol === e.target.id
+    })
+    setModalData({
+      ...filtered[0],
+      account,
+      balance: props.pairData.balance[filtered[0].poolToken],
+    })
   }
+
   const handleModalClose = () => {
     setModalAction(false)
   }
-
   if (pairs.length === 0) {
-    return <Loading />
+    return <Loader />
   } else {
     return (
       <div
@@ -51,25 +62,20 @@ const FarmTable = props => {
           emptyState={{
             default: {
               displayLoader: false,
-              title: 'Getting Pools',
+              title: 'Connect your account to see farm',
               subtitle: null,
-              illustration: <Loading />,
+              illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
               clearLabel: null,
             },
             loading: {
               displayLoader: true,
               title: 'No data available.',
               subtitle: null,
-              illustration: (
-                <img
-                  src="https://i1.wp.com/www.cssscript.com/wp-content/uploads/2014/10/iOS-OS-X-Style-Pure-CSS-Loading-Spinner.jpg?fit=400%2C300&ssl=1"
-                  alt=""
-                />
-              ),
+              illustration: <Loader />,
               clearLabel: null,
             },
           }}
-          entries={props.searchValue ? results : pairs}
+          entries={account ? (props.searchValue ? results : pairs) : []}
           header
           renderEntry={({
             name,
@@ -90,7 +96,7 @@ const FarmTable = props => {
               pair1: token0Img,
               pair2: token1Img,
             }
-            console.log(imgObj)
+
             return [
               <PairName
                 image={imgObj}
@@ -109,9 +115,7 @@ const FarmTable = props => {
                   id={symbol}
                   label="Stake"
                   onClick={e => {
-                    handleModalActions()
-                    console.log(e.target.id)
-                    setModalData(e.target.id)
+                    handleModalActions(e)
                   }}
                 />
                 <DepositModal
