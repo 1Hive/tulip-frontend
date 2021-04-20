@@ -76,8 +76,7 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
           onActivate={onOpenPage}
         />
         <MenuItem
-          to="https://app.honeyswap.org"
-          externalLink
+          to="/swap"
           icon={swapIcon}
           iconActive={swapIconActive}
           label="Swap"

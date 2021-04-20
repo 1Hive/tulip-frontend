@@ -125,12 +125,22 @@ export function useNetBalance() {
       }
     })
 
+    let assetsSortedList = assetsList
+    assetsSortedList = assetsSortedList.sort(
+      (a, b) => Number(b.value) - Number(a.value)
+    )
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
     netBalance = parseFloat(
       Number(walletBalance) + Number(poolBalance) + netBalance
     ).toFixed(2)
 
-    return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
+    return {
+      walletBalance,
+      poolBalance,
+      netBalance,
+      assetsList: assetsSortedList,
+      isFetching,
+    }
   }, [walletInfo, poolingInfo, isFetching])
 }
