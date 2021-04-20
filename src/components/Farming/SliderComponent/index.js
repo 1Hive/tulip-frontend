@@ -69,7 +69,7 @@ const SliderComponent = props => {
             setProgress(value.toFixed(10))
           }}
         />
-        <span>{parseInt(progress * props.tokenAmount)}</span>
+        <span>{(progress * props.tokenAmount).toFixed(2)}</span>
       </div>
     </React.Fragment>
   )
