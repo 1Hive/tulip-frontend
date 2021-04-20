@@ -7,31 +7,25 @@ import styled from 'styled-components'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
 import { usePoolProvider } from '../../providers/Poolprovider'
-import DepositTable from './DepositTable'
 
 const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState(0)
 
   const dropdownItems = {
     networkItems: ['Network1', 'Network2', 'Network3'],
     platformItems: ['Platform1', 'Platform2', 'Platform3'],
-  }
-
-  const handleSelected = selected => {
-    setSelected(selected)
   }
   const TabWrapper = styled.section`
     > * {
       margin-right: ${1 * GU}px;
     }
   `
-  const { data, balance, deposits } = usePoolProvider()
+  const poolInfo = usePoolProvider()
+
   const handleSearch = value => {
     setSearch(value)
   }
-  console.log(selected)
   return (
     <div
       css={`
@@ -40,8 +34,6 @@ const Farm = React.memo(({ onlyTable }) => {
       `}
     >
       <TabComponent
-        onSelect={handleSelected}
-        selected={selected}
         css={`
           border: none;
         `}
@@ -66,11 +58,7 @@ const Farm = React.memo(({ onlyTable }) => {
           ${textStyle('title1')};
         `}
       >
-        {selected === 0 ? (
-          <FarmTable pairData={data} balance={balance} searchValue={search} />
-        ) : (
-          <DepositTable depositData={deposits} />
-        )}
+        <FarmTable pairData={poolInfo} searchValue={search} />
       </div>
     </div>
   )

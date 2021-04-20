@@ -5,16 +5,14 @@ import { getContract, useContract } from '../web3-contracts'
 import { addresses } from '../constants/addresses'
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
-import erc721 from '../abi/ERC721.json'
-
+// import { ethers } from 'ethers'
 import { useWallet } from './Wallet'
-import { providers as Providers, ethers } from 'ethers'
+import { providers as Providers } from 'ethers'
 
 const PoolContext = React.createContext()
-const contract = getContract(addresses.honeyfarm, honeyFarm)
-const contractAsNFT = getContract(addresses.honeyfarm, erc721)
 
 const loadPoolData = async () => {
+  const contract = getContract(addresses.honeyfarm, honeyFarm)
   const scale = await contract.functions.SCALE()
 
   const poolLength = await contract.functions.poolLength()
@@ -48,11 +46,9 @@ export async function useCheckApprovedToken(tokenAddress, account, balance) {
 export function useApprove(tokenAddress, amount) {
   const contract = useContract(tokenAddress, erc20)
   return () => {
-    return contract
+    contract
       .approve(addresses.honeyfarm, amount)
-      .then(x => {
-        return x
-      })
+      .then(x => console.log(x))
       .catch(err => console.log(err))
   }
 }
@@ -63,15 +59,12 @@ export function useCreateDeposit(
   unlockTime = 0,
   referrer = '0x0000000000000000000000000000000000000000'
 ) {
-  amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
-  console.log(amount, amount.toString())
+  amount = parseInt(amount)
   const contract = useContract(addresses.honeyfarm, honeyFarm)
   return () => {
-    return contract
+    contract
       .createDeposit(tokenAddress, amount, unlockTime, referrer)
-      .then(x => {
-        return x
-      })
+      .then(x => console.log(x))
       .catch(err => console.log(err))
   }
 }
@@ -79,7 +72,6 @@ export function useCreateDeposit(
 export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState('')
-  const [deposits, setDeposits] = useState('')
   const { account } = useWallet()
   const { data, status } = useQuery('loadPoolData', loadPoolData)
   if (status === 'success') {
@@ -103,42 +95,12 @@ export function PoolProvider({ children }) {
         setBalance(tulipD)
       }
     }
-    const loadDepositData = async () => {
-      const balance = await contract.functions.balanceOf(account)
-      console.log(balance.toString())
-      const depositIndexes = []
-      const deposits = []
-      const depositsWithSymbol = []
-      for (let i = 0; i < parseInt(balance); i++) {
-        depositIndexes.push(
-          await contractAsNFT.functions.tokenOfOwnerByIndex(account, i)
-        )
-      }
-      for (const [x] of depositIndexes) {
-        deposits.push(
-          await contract.functions.depositInfo(parseInt(x.toString()))
-        )
-      }
-      console.log(deposits)
-      for (const x of deposits) {
-        const contract = getContract(x.pool, erc20)
-        depositsWithSymbol.push({
-          ...x,
-          symbol: await contract.functions.symbol(),
-        })
-        console.log(contract, x)
-      }
-      console.log(depositsWithSymbol)
-      setDeposits(depositsWithSymbol)
-    }
     loadBalanceData()
-    loadDepositData()
   }, [account])
   const r = {
     data,
     status,
     balance,
-    deposits,
   }
   return <PoolContext.Provider value={r}>{children}</PoolContext.Provider>
 }

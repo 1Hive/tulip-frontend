@@ -12,7 +12,7 @@ import { useWallet } from '../../../providers/Wallet'
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
-  const pairs = props.pairData || []
+  const pairs = props.pairData.data || []
   const fuse = new Fuse(pairs, {
     keys: ['name', 'symbol'],
   })
@@ -28,14 +28,13 @@ const FarmTable = props => {
     setModalData({
       ...filtered[0],
       account,
-      balance: props.balance[filtered[0].poolToken],
+      balance: props.pairData.balance[filtered[0].poolToken],
     })
   }
 
   const handleModalClose = () => {
     setModalAction(false)
   }
-  console.log(pairs, results)
   if (pairs.length === 0) {
     return <Loader />
   } else {
