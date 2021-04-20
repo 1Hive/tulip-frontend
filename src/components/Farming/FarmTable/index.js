@@ -1,10 +1,13 @@
-import React from 'react'
-import { DataView, textStyle, Button } from '@1hive/1hive-ui'
-import Loading from '../../Loading'
+import React, { useState } from 'react'
+import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
-// import { getContract } from '../../../web3-contracts'
+import Fuse from 'fuse.js'
+import DepositModal from '../DepositModal'
+import Loader from '../../Loader'
+import Icon from '../../../assets/tulip/icon.svg'
+import { useWallet } from '../../../providers/Wallet'
 
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
@@ -60,37 +63,41 @@ const FarmTable = props => {
           emptyState={{
             default: {
               displayLoader: false,
-              title: 'Getting Pools',
+              title: 'Connect your account to see farm',
               subtitle: null,
-              illustration: <Loading />,
+              illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
               clearLabel: null,
             },
             loading: {
               displayLoader: true,
               title: 'No data available.',
               subtitle: null,
-              illustration: (
-                <img
-                  src="https://i1.wp.com/www.cssscript.com/wp-content/uploads/2014/10/iOS-OS-X-Style-Pure-CSS-Loading-Spinner.jpg?fit=400%2C300&ssl=1"
-                  alt=""
-                />
-              ),
+              illustration: <Loader />,
               clearLabel: null,
             },
           }}
-          entries={addAPY}
+          entries={account ? (props.searchValue ? results : pairs) : []}
           header
-          renderEntry={({ id, token0, token1, apy }) => {
-            const customLabel = `${token0.symbol}-${token1.symbol}`
-            const baseYield = parseInt(apy.toFixed(2))
-            const rewardYield = parseInt(apy.toFixed(2) * 2)
+          renderEntry={({
+            name,
+            symbol,
+            poolToken,
+            totalShares,
+            lastRewardTimestamp,
+            allocPoint,
+            accHsfPerShare,
+          }) => {
+            const customLabel = name
+            const baseYield = 23
+            const rewardYield = parseInt(baseYield * 2)
             const totalYield = parseInt(baseYield + rewardYield)
-            const token0Img = getKnownTokenImg(token0.symbol)
-            const token1Img = getKnownTokenImg(token1.symbol)
+            const token0Img = getKnownTokenImg(symbol)
+            const token1Img = getKnownTokenImg(null)
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
             }
+
             return [
               <PairName
                 image={imgObj}
@@ -101,12 +108,24 @@ const FarmTable = props => {
               <p>{rewardYield}%</p>,
               <p>{totalYield}%</p>,
               <RewardComponent image={getKnownTokenImg('AG')} name="Agave" />,
-              <Button
-                css={`
-                  background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-                `}
-                label="Stake"
-              />,
+              <React.Fragment>
+                <Button
+                  css={`
+                    background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+                  `}
+                  id={symbol}
+                  label="Stake"
+                  onClick={e => {
+                    handleModalActions(e)
+                  }}
+                />
+                <DepositModal
+                  modalAction={modalAction}
+                  handleModalClose={handleModalClose}
+                  tokenImg={imgObj}
+                  data={modalData}
+                />
+              </React.Fragment>,
             ]
           }}
         />

@@ -11,7 +11,7 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 
-const SUPPORT_URL = 'https://github.com/1hive/celeste-dashboard/issues/new'
+const SUPPORT_URL = 'https://github.com/1hive/tulip-frontend/issues/new'
 
 const GenericError = React.memo(function GenericError({
   detailsTitle,
@@ -116,11 +116,11 @@ const GenericError = React.memo(function GenericError({
           <Button onClick={reportCallback}>Send Report</Button>
         )}
         <Button
-          mode="strong"
           onClick={() => window.location.reload(true)}
           wide={!reportCallback}
           css={`
             margin-left: ${reportCallback ? 1.5 * GU : 0}px;
+            background: linear-gradient(268.53deg, #aaf5d4, #7ce0d6);
           `}
         >
           Reload

@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "unix"] */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ButtonIcon,
@@ -53,10 +54,6 @@ function GlobalPreferences({ compact, onClose, onNavigation, sectionIndex }) {
           />
 
           {sectionIndex === NETWORK_INDEX && <Network />}
-<<<<<<< HEAD
-=======
-          {sectionIndex === NOTIFICATIONS_INDEX && <div />}
->>>>>>> 50543ca17a49fd4a2bdb21c7db440fd9ef9b4cf2
         </React.Fragment>
       </Layout>
     </div>

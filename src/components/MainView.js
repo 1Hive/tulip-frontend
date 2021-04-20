@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Layout, Root, ScrollView, useViewport } from '@1hive/1hive-ui'
 import usePreferences from '../hooks/usePreferences'
-import MenuPanel, { MENU_PANEL_WIDTH } from './MenuPanel'
+import MenuPanel from './MenuPanel'
 import Header from './Header/Header'
 import GlobalPreferences from './GlobalPreferences/GlobalPreferences'
 
@@ -99,10 +99,7 @@ function MainView({ children }) {
                   flex: 1 0 auto;
                 `}
               >
-                <Layout
-                  parentWidth={vw - (compactMode ? 0 : MENU_PANEL_WIDTH)}
-                  paddingBottom={0}
-                >
+                <Layout parentWidth={vw} paddingBottom={0}>
                   {children}
                 </Layout>
               </div>

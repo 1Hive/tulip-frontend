@@ -2,7 +2,6 @@ import React from 'react'
 import { GU } from '@1hive/1hive-ui'
 
 const PairName = props => {
-  console.log(props)
   return (
     <React.Fragment>
       <div
@@ -13,18 +12,16 @@ const PairName = props => {
         `}
       >
         <img
+          height={4 * GU}
           css={`
-            height: ${4 * GU}px;
-            transform: translateX(${!props.image.pair2 ? '50' : '0'}%);
+            transform: translateX(${props.image.pair2 ? '-25' : '0'}%);
           `}
           src={props.image.pair1}
         />
         <img
+          height={4 * GU}
           css={`
-            height: ${4 * GU}px;
-            transform: translateX(
-              ${!props.image.pair1 ? 1 * GU : -0.75 * GU}px
-            );
+            transform: translateX(${props.image.pair1 ? '-70' : '0'}%);
           `}
           src={props.image.pair2}
         />
