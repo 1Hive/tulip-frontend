@@ -1,5 +1,4 @@
-# Contributing to Celeste Dashboard
-
+# Contributing to HoneyComb
 :tada: Thank you for being interested in contributing to Aragon! :tada:
 
 Feel welcome and read the following sections in order to know how to ask questions and how to work on something.
@@ -10,9 +9,9 @@ All members of our community are expected to follow our [Code of Conduct](https:
 
 ## Your first contribution
 
-Unsure where to begin contributing to the Celeste Dashboard?
+Unsure where to begin contributing to the Honey Comb?
 
-You can start with a [Good First Issue](https://github.com/1hive/celeste-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+You can start with a [Good First Issue](https://github.com/1Hive/tulip-frontend/issues).
 
 > Good first issues are usually for small features, additional tests, spelling / grammar fixes, formatting changes, or other clean up.
 
@@ -23,7 +22,7 @@ If you're not already familiar with git or Github, here are a couple of friendly
 
 ## How to file an issue or report a bug
 
-If you see a problem, you can report it in our [issue tracker](https://github.com/1hive/celeste-dashboard/issues).
+If you see a problem, you can report it in our [issue tracker](https://github.com/1Hive/tulip-frontend/issues).
 
 Please take a quick look to see if the issue doesn't already exist before filing yours.
 
@@ -42,7 +41,7 @@ If the answer to either of those two questions are "yes", then you're probably d
 
 ## Fixing issues
 
-1. [Find an issue](https://github.com/1hive/celeste-dashboard/issues) that you are interested in.
+1. [Find an issue](https://github.com/1Hive/tulip-frontend/issues) that you are interested in.
 1. Fork and clone a local copy of the repository.
 1. Make the appropriate changes for the issue you are trying to address or the feature that you want to add.
 1. Push the changes to the remote repository.
