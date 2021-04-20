@@ -7,35 +7,34 @@ import RewardComponent from '../RewardComponent'
 // import { getContract } from '../../../web3-contracts'
 
 const FarmTable = props => {
-  console.log(props)
+  const [modalAction, setModalAction] = useState(false)
+  const [modalData, setModalData] = useState({})
+  const pairs = props.pairData || []
+  const fuse = new Fuse(pairs, {
+    keys: ['name', 'symbol'],
+  })
+  const { account } = useWallet()
 
-  const pairs = props.pairData.filter(id => {
-    const temp = []
-    for (const x of props.tableData) {
-      temp.push(x.pair)
-    }
-    return temp.includes(id.id)
-  })
-  console.log(pairs)
-  const addAPY = pairs.map(pair => {
-    for (const x of props.tableData) {
-      if (x.pair === pair.id) {
-        return {
-          ...pair,
-          apy: x.apy,
-          sushiHarvestedUSD: x.sushiHarvestedUSD,
-          sushiHarvested: x.sushiHarvested,
-          slpDeposited: x.slpDeposited,
-          allocPoint: x.allocPoint,
-          slpBalance: x.slpBalance,
-          slpWithdrawn: x.slpWithdrawn,
-        }
-      }
-    }
-  })
-  console.log(addAPY)
-  if (props.tableData.length === 0) {
-    return <Loading />
+  const results = fuse.search(props.searchValue)
+  const handleModalActions = e => {
+    setModalAction(true)
+    const d = props.searchValue ? results : pairs
+    const filtered = d.filter(data => {
+      return data.symbol === e.target.id
+    })
+    setModalData({
+      ...filtered[0],
+      account,
+      balance: props.balance[filtered[0].poolToken],
+    })
+  }
+
+  const handleModalClose = () => {
+    setModalAction(false)
+  }
+  console.log(pairs, results)
+  if (pairs.length === 0) {
+    return <Loader />
   } else {
     return (
       <div
