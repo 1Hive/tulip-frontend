@@ -2,16 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { wallet } from 'tulip-data'
 import { useWallet } from 'use-wallet'
 
-const ASSET_DEFAULT = {
-  symbol: '',
-  name: '',
-  balance: '',
-  price: '',
-  value: '',
-  image1: '',
-  image2: '',
-}
-
 export function useWalletData() {
   const [walletInfo, setWalletInfo] = useState([])
   const [poolingInfo, setPoolingInfo] = useState([])
@@ -21,8 +11,11 @@ export function useWalletData() {
 
   useEffect(() => {
     let cancelled = false
+
     if (!account || status === 'disconnected') {
-      return setWalletInfo([])
+      setWalletInfo([])
+      setPoolingInfo([])
+      return
     }
 
     const fetchWalletData = async () => {
@@ -32,7 +25,6 @@ export function useWalletData() {
           user_address: account,
         })
 
-        console.log('Wallet: ', balances)
         if (!cancelled) {
           setWalletInfo(balances)
           return setIsFetchingWallet(false)
@@ -49,7 +41,7 @@ export function useWalletData() {
         const poolingData = await wallet.poolBalances({
           user_address: account,
         })
-        console.log(poolingData)
+
         if (!cancelled) {
           setPoolingInfo(poolingData)
           return setIsFetchingPool(false)
@@ -71,12 +63,13 @@ export function useWalletData() {
 
 export function useNetBalance() {
   const [walletInfo, poolingInfo, isFetching] = useWalletData()
+  const [assetsList, setAssetsList] = useState([])
 
   return useMemo(() => {
     let netBalance = 0
     let walletBalance = 0
     let poolBalance = 0
-    const assetsList = []
+    setAssetsList([])
     if (!walletInfo || walletInfo.length === 0 || !poolingInfo) {
       return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
     }
@@ -84,38 +77,51 @@ export function useNetBalance() {
     walletInfo.map(value => {
       if (value && parseFloat(value.valueUSD)) {
         walletBalance = walletBalance + parseFloat(value.valueUSD)
-        assetsList.push({
-          symbol: value.symbol,
-          name: value.name,
-          balance: value.balance.toFixed(4),
-          price: value.priceUSD.toFixed(2),
-          value: value.valueUSD.toFixed(2),
-          image1: value.logoURI,
-          image2: '',
-        })
+        setAssetsList(data => [
+          ...data,
+          {
+            symbol: value.symbol,
+            name: value.name,
+            balance: value.balance.toFixed(4),
+            price: value.priceUSD.toFixed(2),
+            value: value.valueUSD.toFixed(2),
+            image1: value.logoURI,
+            image2: '',
+          },
+        ])
       }
     })
 
     poolingInfo.map(value => {
       if (value && parseFloat(value.valueUSD)) {
         poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
-        const asset = ASSET_DEFAULT
+        let symbol = ''
+        let image1 = ''
+        let image2 = ''
+
         if (value.tokens && value.tokens.length > 1) {
           value.tokens.map((token, i) => {
-            asset.symbol =
-              i === 0 ? token.symbol + '-' : asset.symbol + token.symbol
+            symbol = i === 0 ? token.symbol + '-' : symbol + token.symbol
             if (i === 0) {
-              asset.image1 = token.logoURI
+              image1 = token.logoURI
             } else {
-              asset.image2 = token.logoURI
+              image2 = token.logoURI
             }
           })
         }
-        asset.balance = Number(value.balance).toFixed(4)
-        asset.value = Number(value.valueUSD).toFixed(2)
-        asset.price = Number(value.valueUSD / value.balance).toFixed(2)
-        asset.name = 'HoneySwap'
-        assetsList.push(asset)
+
+        setAssetsList(data => [
+          ...data,
+          {
+            symbol,
+            image1,
+            image2,
+            balance: Number(value.balance).toFixed(4),
+            value: Number(value.valueUSD).toFixed(2),
+            price: Number(value.valueUSD / value.balance).toFixed(2),
+            name: 'HoneySwap',
+          },
+        ])
       }
     })
 

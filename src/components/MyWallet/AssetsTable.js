@@ -10,7 +10,6 @@ const AssetsTable = props => {
     keys: ['name', 'symbol'],
   })
   const results = fuse.search(props.searchValue)
-
   return (
     <div
       css={`
