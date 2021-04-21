@@ -2,12 +2,11 @@ import React from 'react'
 import { GU } from '@1hive/1hive-ui'
 import WalletCard from './WalletCard'
 
-import Borrowed from '../../assets/tulip/borrowed.svg'
-import Farming from '../../assets/tulip/farming.svg'
-import Lent from '../../assets/tulip/lent.svg'
-import Pools from '../../assets/tulip/pools.svg'
-import Staked from '../../assets/tulip/staked.svg'
-import Wallet from '../../assets/tulip/wallet.svg'
+import Farming from '../../assets/tulip/farm_card.svg'
+import Lent from '../../assets/tulip/lent_card.svg'
+import Pools from '../../assets/tulip/pool_card.svg'
+import Staked from '../../assets/tulip/staked_card.svg'
+import Wallet from '../../assets/tulip/wallet_card.svg'
 
 function AssetCardList({ walletData }) {
   return (
@@ -34,7 +33,7 @@ function AssetCardList({ walletData }) {
         value={'$ ' + walletData.poolBalance}
       />
       <WalletCard icon={Farming} title="Farming" value="$ 0" />
-      <WalletCard icon={Borrowed} title="Borrowed" value="$ 0" isBorrow />
+      <WalletCard icon={Lent} title="Borrowed" value="$ 0" isBorrow />
     </div>
   )
 }
