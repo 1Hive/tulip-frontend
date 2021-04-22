@@ -5,6 +5,7 @@ import { useNetBalance } from '../../hooks/useWalletData'
 
 function WalletLoader() {
   const walletData = useNetBalance()
+  console.log(walletData)
   if (walletData.isFetching) {
     return <Loader />
   }
