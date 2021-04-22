@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nvar toString = Object.prototype.toString;\n\nmodule.exports = function (x) {\n  return toString.call(x) === '[object Function]';\n};","map":null,"metadata":{},"sourceType":"script"}

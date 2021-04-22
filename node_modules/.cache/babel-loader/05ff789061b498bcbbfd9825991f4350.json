@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nmodule.exports = typeof setImmediate === 'function' ? setImmediate : function setImmediate() {\n  var args = [].slice.apply(arguments);\n  args.splice(1, 0, 0);\n  setTimeout.apply(null, args);\n};","map":null,"metadata":{},"sourceType":"script"}

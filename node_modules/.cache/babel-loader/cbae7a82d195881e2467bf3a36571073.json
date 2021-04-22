@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nvar ReactNativeFile = require('./ReactNativeFile');\n\nmodule.exports = function isExtractableFile(value) {\n  return typeof File !== 'undefined' && value instanceof File || typeof Blob !== 'undefined' && value instanceof Blob || value instanceof ReactNativeFile;\n};","map":null,"metadata":{},"sourceType":"script"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nmodule.exports = function ReactNativeFile(_ref) {\n  var uri = _ref.uri,\n      name = _ref.name,\n      type = _ref.type;\n  this.uri = uri;\n  this.name = name;\n  this.type = type;\n};","map":null,"metadata":{},"sourceType":"script"}
