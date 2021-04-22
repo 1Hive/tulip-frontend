@@ -44,7 +44,6 @@ const DepositTable = props => {
       return parseInt(a.id) - parseInt(b.id)
     })
   }
-  console.log(depositArray)
   const fuse = new Fuse(depositArray, {
     keys: ['symbol'],
   })
