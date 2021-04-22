@@ -8,17 +8,20 @@ import DepositModal from '../DepositModal'
 import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
 import { useWallet } from '../../../providers/Wallet'
+import xComb from '../../../assets/coins/xcomb.svg'
 
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
   const pairs = props.pairData || []
+
   const fuse = new Fuse(pairs, {
     keys: ['name', 'symbol'],
   })
+  const results = fuse.search(props.searchValue)
+
   const { account } = useWallet()
 
-  const results = fuse.search(props.searchValue)
   const handleModalActions = e => {
     setModalAction(true)
     const d = props.searchValue ? results : pairs
@@ -31,11 +34,13 @@ const FarmTable = props => {
       balance: props.balance[filtered[0].poolToken],
     })
   }
+  if (Object.keys(modalData).length > 0) {
+    console.log(modalData.balance.toString())
+  }
 
   const handleModalClose = () => {
     setModalAction(false)
   }
-  console.log(pairs, results)
   if (pairs.length === 0) {
     return <Loader />
   } else {
@@ -78,19 +83,8 @@ const FarmTable = props => {
           }}
           entries={account ? (props.searchValue ? results : pairs) : []}
           header
-          renderEntry={({
-            name,
-            symbol,
-            poolToken,
-            totalShares,
-            lastRewardTimestamp,
-            allocPoint,
-            accHsfPerShare,
-          }) => {
+          renderEntry={({ name, symbol, baseApy, rewardApy, totalApy }) => {
             const customLabel = name
-            const baseYield = 23
-            const rewardYield = parseInt(baseYield * 2)
-            const totalYield = parseInt(baseYield + rewardYield)
             const token0Img = getKnownTokenImg(symbol)
             const token1Img = getKnownTokenImg(null)
             const imgObj = {
@@ -104,10 +98,10 @@ const FarmTable = props => {
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
-              <p>{baseYield}%</p>,
-              <p>{rewardYield}%</p>,
-              <p>{totalYield}%</p>,
-              <RewardComponent image={getKnownTokenImg('AG')} name="Agave" />,
+              <p>{baseApy}%</p>,
+              <p>{rewardApy}%</p>,
+              <p>{totalApy}%</p>,
+              <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
                 <Button
                   css={`

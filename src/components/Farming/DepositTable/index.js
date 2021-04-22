@@ -3,37 +3,47 @@ import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
 import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
-import { ethers } from 'ethers'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
+import { KNOWN_FORMATS, dateFormat } from '../../../utils/date-utils'
+import Withdraw from '../Withdraw'
+import Harvest from '../Harvest'
+import xComb from '../../../assets/coins/xcomb.svg'
 
 const DepositTable = props => {
   const depositArray = []
   const { account } = useWallet()
-
-  for (const {
-    amount,
-    pool,
-    referrer,
-    rewardDebt,
-    unlockTime,
-    rewardShare,
-    setRewards,
-    symbol,
-  } of props.depositData) {
-    const depositInfoObj = {
-      amount: amount.toString(),
+  if (typeof props.depositData !== 'string') {
+    for (const {
+      id,
+      amount,
       pool,
       referrer,
-      rewardDebt,
-      unlockTime: unlockTime.toString(),
-      rewardShare: rewardShare.toString(),
-      setRewards: setRewards.toString(),
-      symbol: symbol[0],
+      rewardDept,
+      unlockTime,
+      rewardShare,
+      setRewards,
+      symbol,
+    } of props.depositData) {
+      const depositInfoObj = {
+        id,
+        amount: amount.toFixed(3),
+        pool,
+        referrer,
+        rewardDept: rewardDept.toFixed(3),
+        unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.onlyDate),
+        rewardShare: rewardShare,
+        setRewards: setRewards,
+        symbol: symbol[0],
+      }
+      depositArray.push(depositInfoObj)
     }
-    depositArray.push(depositInfoObj)
+    depositArray.sort((a, b) => {
+      return parseInt(a.id) - parseInt(b.id)
+    })
   }
+
   return (
     <div
       css={`
@@ -71,41 +81,33 @@ const DepositTable = props => {
         }}
         entries={account ? depositArray : []}
         renderEntry={({
+          id,
           amount,
           pool,
           referrer,
-          rewardDebt,
+          rewardDept,
           unlockTime,
           rewardShare,
           setRewards,
           symbol,
         }) => {
-          console.log(
-            amount,
-            pool,
-            referrer,
-            rewardDebt,
-            unlockTime,
-            rewardShare,
-            setRewards,
-            symbol
-          )
           const imgObj = {
             pair1: getKnownTokenImg(symbol),
             pair2: null,
           }
           const customLabel = symbol
-          console.log(rewardDebt)
           return [
             <PairName
               image={imgObj}
               name={customLabel}
               subheadline="Honeyswap"
             />,
-            <p>{ethers.utils.formatEther(amount)}</p>,
+            <p>{amount}</p>,
             <p>{unlockTime}</p>,
-            <RewardComponent image={getKnownTokenImg('AG')} name="Agave" />,
-            <p>{ethers.utils.formatEther(rewardDebt)}</p>,
+            <RewardComponent image={xComb} name="xComb" />,
+            <p>{rewardDept}</p>,
+            <Withdraw id={id} />,
+            <Harvest id={id} />,
           ]
         }}
       />

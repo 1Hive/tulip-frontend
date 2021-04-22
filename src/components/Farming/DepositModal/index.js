@@ -10,10 +10,8 @@ import multiplier from '../../../assets/multiplier.svg'
 
 const DepositModal = props => {
   const [approved, setApproved] = useState('')
-  const [sliderInfo, setSliderInfo] = useState({
-    tokenAmount: '',
-    timeLock: '',
-  })
+  const [amount, setAmount] = useState('')
+  const [timeLock, setTimeLock] = useState('')
   // const [balance, setBalance] = useState('')
   const imgObj = {
     pair1: getKnownTokenImg(props.data.symbol),
@@ -31,11 +29,13 @@ const DepositModal = props => {
     setApproved(x)
   })
   const handleSliderUpdate = sliderObj => {
-    setSliderInfo({
-      ...sliderInfo,
-      [sliderObj.type]: sliderObj.amount,
-    })
+    if (sliderObj.type === 'tokenAmount') {
+      setAmount(sliderObj.amount)
+    } else {
+      setTimeLock(sliderObj.amount)
+    }
   }
+
   return (
     <Modal
       visible={props.modalAction}
@@ -86,9 +86,7 @@ const DepositModal = props => {
           imgObj={imgObj}
           tokenAmount={
             props.data.balance
-              ? parseInt(
-                  ethers.utils.formatEther(props.data.balance.toString())
-                )
+              ? ethers.utils.formatEther(props.data.balance.toString())
               : 0
           }
           pairTitle={
@@ -127,7 +125,11 @@ const DepositModal = props => {
         Farm. Find out more about how we calculate projected yields here.
       </div>
       {approved ? (
-        <Deposit token={props.data.poolToken} depositInfo={sliderInfo} />
+        <Deposit
+          token={props.data.poolToken}
+          amount={amount}
+          timeLock={timeLock}
+        />
       ) : (
         <Approved
           token={props.data.poolToken}
