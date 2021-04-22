@@ -46,7 +46,7 @@ To disable flagging of voided questions.
 
 ### MOCK_DATA
 
-To start Celeste dashboard with mocked data.
+To start HoneyComb with mocked data.
 
 ### Assumed localhost ports
 
