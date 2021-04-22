@@ -11,8 +11,12 @@ const Deposit = props => {
   const date = new Date()
   if (tl > 0) {
     date.setDate(date.getDate() + tl)
+    tl = Math.round(date.getTime() / 1000)
+  } else {
+    date.setDate(date.getDate() + 59)
+    tl = Math.round(date.getTime() / 1000)
   }
-  tl = Math.round(date.getTime() / 1000)
+
   const deposit = useCreateDeposit(token, amount.toString(), tl)
   const handleDeposit = () => {
     deposit()
@@ -24,7 +28,6 @@ const Deposit = props => {
       })
       .catch(err => console.log(err))
   }
-  console.log(txHash)
   return (
     <>
       <Button

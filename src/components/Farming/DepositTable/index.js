@@ -1,6 +1,7 @@
 import React from 'react'
 import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
+import Fuse from 'fuse.js'
 import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
 import { getKnownTokenImg } from '../../../utils/known-tokens'
@@ -43,7 +44,11 @@ const DepositTable = props => {
       return parseInt(a.id) - parseInt(b.id)
     })
   }
-
+  console.log(depositArray)
+  const fuse = new Fuse(depositArray, {
+    keys: ['symbol'],
+  })
+  const results = fuse.search(props.searchValue)
   return (
     <div
       css={`
@@ -66,7 +71,11 @@ const DepositTable = props => {
         emptyState={{
           default: {
             displayLoader: false,
-            title: 'Connect your account to see farm',
+            title: `${
+              props.searchValue
+                ? 'No Pairs Found'
+                : 'Connect your account to see farm'
+            }`,
             subtitle: null,
             illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
             clearLabel: null,
@@ -79,7 +88,7 @@ const DepositTable = props => {
             clearLabel: null,
           },
         }}
-        entries={account ? depositArray : []}
+        entries={account ? (props.searchValue ? results : depositArray) : []}
         renderEntry={({
           id,
           amount,

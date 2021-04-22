@@ -12,7 +12,6 @@ const DepositModal = props => {
   const [approved, setApproved] = useState('')
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
-  // const [balance, setBalance] = useState('')
   const imgObj = {
     pair1: getKnownTokenImg(props.data.symbol),
     pair2: undefined,
@@ -99,7 +98,7 @@ const DepositModal = props => {
         />
         <SliderComponent
           imgObj={multiplierObj}
-          tokenAmount={180}
+          tokenAmount={59}
           pairTitle="How long do you want to lock your deposit?"
           type="timeLock"
           onUpdate={handleSliderUpdate}

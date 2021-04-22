@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
 
 const SliderComponent = props => {
   const [progress, setProgress] = useState(1)
-  console.log(progress, props.tokenAmount)
+  useEffect(() => {
+    if (props.type === 'tokenAmount')
+      props.onUpdate({
+        type: props.type,
+        amount: props.tokenAmount,
+      })
+  }, [])
   return (
     <React.Fragment>
       {props.pairTitle ? (

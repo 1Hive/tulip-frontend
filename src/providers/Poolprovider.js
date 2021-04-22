@@ -128,7 +128,6 @@ export function PoolProvider({ children }) {
       setBalance(tulipD)
     }
     const loadDepositData = async () => {
-      console.log(tulipData.farm)
       const deposits = []
       const tulipF = await tulipData.farm.deposits({
         user_address: account,

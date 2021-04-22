@@ -34,9 +34,6 @@ const FarmTable = props => {
       balance: props.balance[filtered[0].poolToken],
     })
   }
-  if (Object.keys(modalData).length > 0) {
-    console.log(modalData.balance.toString())
-  }
 
   const handleModalClose = () => {
     setModalAction(false)
@@ -68,7 +65,11 @@ const FarmTable = props => {
           emptyState={{
             default: {
               displayLoader: false,
-              title: 'Connect your account to see farm',
+              title: `${
+                props.searchValue
+                  ? 'No Pairs Found'
+                  : 'Connect your account to see farm'
+              }`,
               subtitle: null,
               illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
               clearLabel: null,

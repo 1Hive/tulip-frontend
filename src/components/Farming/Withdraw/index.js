@@ -10,8 +10,10 @@ const Withdraw = props => {
   const handleWithdraw = () => {
     withdraw()
       .then(x => {
-        setTxHash(x)
-        setVisible(true)
+        if (x) {
+          setTxHash(x.hash)
+          setVisible(true)
+        }
       })
       .catch(err => console.log(err))
   }
@@ -26,7 +28,7 @@ const Withdraw = props => {
         wide
       />
       <TransactionProgress
-        transactionHashUrl={`https://etherscan.io/tx/${txHash}`}
+        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}
