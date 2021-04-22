@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
+import { moment } from 'moment'
 import { wallet } from 'tulip-data'
 import { useWallet } from 'use-wallet'
+import { useLocalStorage } from './useLocalStorage'
 
 export function useWalletData() {
   const [walletInfo, setWalletInfo] = useState([])
@@ -143,4 +145,12 @@ export function useNetBalance() {
       isFetching,
     }
   }, [walletInfo, poolingInfo, isFetching])
+}
+
+export function chartData() {
+  // const CHART_DATA_KEY = 'chart_data'
+  // const [ storedValue, setStoredValue ] = useLocalStorage(CHART_DATA_KEY)
+
+  const currentDate = moment()
+  console.log(currentDate)
 }

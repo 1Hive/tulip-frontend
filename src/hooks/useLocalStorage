@@ -13,7 +13,7 @@ localStorage.removeItem = function() {
   originalRemoveItem.apply(this, arguments)
 }
 
-function useLocalStorage(key) {
+export function useLocalStorage(key) {
   const storageItem = localStorage.getItem(key)
 
   const [storedValue, setValue] = useState(
@@ -44,5 +44,3 @@ function useLocalStorage(key) {
 
   return { storedValue, setStoredValue }
 }
-
-export default useLocalStorage
