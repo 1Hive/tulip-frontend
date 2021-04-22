@@ -12,7 +12,6 @@ import { providers as Providers, ethers } from 'ethers'
 
 const PoolContext = React.createContext()
 const contract = getContract(addresses.honeyfarm, honeyFarm)
-// const contractAsNFT = getContract(addresses.honeyfarm, erc721)
 
 const loadPoolData = async () => {
   const scale = await contract.functions.SCALE()
@@ -147,7 +146,7 @@ export function PoolProvider({ children }) {
       loadDepositData()
     }
   }, [account])
-
+  console.log(data)
   const r = {
     data,
     status,

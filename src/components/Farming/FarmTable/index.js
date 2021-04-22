@@ -14,7 +14,7 @@ const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
   const pairs = props.pairData || []
-
+  console.log(pairs)
   const fuse = new Fuse(pairs, {
     keys: ['name', 'symbol'],
   })
