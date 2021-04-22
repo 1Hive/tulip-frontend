@@ -32,7 +32,7 @@ function ScreenProviders({ onActivate }) {
           display: grid;
           grid-gap: ${1.5 * GU}px;
           grid-auto-flow: row;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(1, 1fr);
         `}
       >
         {PROVIDERS_INFO.map(([id, provider]) => (

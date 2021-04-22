@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { captureException, showReportDialog } from '@sentry/browser'
 import GenericError from './components/Errors/GenericError'
 import GlobalErrorScreen from './components/Errors/GlobalErrorScreen'
-import DisputeNotFoundError from './components/Disputes/DisputeNotFoundError'
-
-import { DisputeNotFound } from './errors'
 import { sentryEnabled } from './sentry'
 
 class GlobalErrorHandler extends React.Component {
@@ -52,15 +49,11 @@ class GlobalErrorHandler extends React.Component {
 
     return error ? (
       <GlobalErrorScreen>
-        {error instanceof DisputeNotFound ? (
-          <DisputeNotFoundError disputeId={error.disputeId} />
-        ) : (
-          <GenericError
-            detailsTitle={error.message}
-            detailsContent={errorStack}
-            reportCallback={this.handleReportClick}
-          />
-        )}
+        <GenericError
+          detailsTitle={error.message}
+          detailsContent={errorStack}
+          reportCallback={this.handleReportClick}
+        />
       </GlobalErrorScreen>
     ) : (
       children

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, GU, textStyle, useTheme, useViewport } from '@1hive/1hive-ui'
-import emailIllustration from '../../../../src/assets/emailIllustration.svg'
+import emailIllustration from '../../../../assets/emailIllustration.svg'
 
 const VerifyEmailAddressPreferences = React.memo(
   function VerifyEmailAddressPreferences({ email, onResend }) {

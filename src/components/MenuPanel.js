@@ -103,15 +103,22 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
   )
 }
 
-function MenuItem({ to, icon, iconActive, label, onActivate }) {
+function MenuItem({
+  to,
+  externalLink = false,
+  icon,
+  iconActive,
+  label,
+  onActivate,
+}) {
   const history = useHistory()
   const active = useRouteMatch(to) !== null
   const theme = useTheme()
 
   const handlePageRequest = useCallback(() => {
     onActivate()
-    history.push(to)
-  }, [history, onActivate, to])
+    !externalLink ? history.push(to) : window.location.assign(to)
+  }, [history, onActivate, to, externalLink])
 
   return (
     <ButtonBase

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Tabs } from '@1hive/1hive-ui'
-const TabComponent = () => {
-  const [selected, setSelected] = useState(0)
+const TabComponent = props => {
   return (
     <Tabs
       items={['Opportunities', 'My Deposits']}
-      selected={selected}
-      onChange={setSelected}
+      selected={props.selected}
+      onChange={props.onSelect}
+      placeholder="Select One" // Todo: Change this
     />
   )
 }
