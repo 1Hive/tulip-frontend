@@ -12,7 +12,7 @@ const Pool = React.memo(({ onlyTable }) => {
         align-items: center;
       `}
     >
-      <img src={bee} height={GU * 20} width={GU * 20} alt="" />
+      <img src={bee} alt="" />
       <span
         css={`
           padding-top: ${GU * 3}px;
