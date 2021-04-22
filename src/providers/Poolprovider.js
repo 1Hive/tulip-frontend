@@ -146,7 +146,6 @@ export function PoolProvider({ children }) {
       loadDepositData()
     }
   }, [account])
-  console.log(data)
   const r = {
     data,
     status,
