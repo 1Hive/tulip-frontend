@@ -8,7 +8,6 @@ import Routes from './Routes'
 import { WalletProvider } from './providers/Wallet'
 import { PoolProvider } from './providers/Poolprovider'
 import { QueryClientProvider, QueryClient } from 'react-query'
-import './assets/css/overrides.css'
 
 const queryClient = new QueryClient()
 function App() {
