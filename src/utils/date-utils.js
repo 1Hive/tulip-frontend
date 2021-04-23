@@ -10,7 +10,7 @@ export const DAY = 24 * HOUR
 
 export const toMs = seconds => seconds * 1000
 
-const KNOWN_FORMATS = {
+export const KNOWN_FORMATS = {
   iso: 'YYYY-MM-DDTHH:mm:ssZ',
   onlyDate: 'YYYY-MM-DD',
   standard: 'YYYY-MM-DD h:mm A',

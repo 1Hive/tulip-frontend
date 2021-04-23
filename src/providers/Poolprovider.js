@@ -5,20 +5,21 @@ import { getContract, useContract } from '../web3-contracts'
 import { addresses } from '../constants/addresses'
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
-// import { ethers } from 'ethers'
+// import erc721 from '../abi/ERC721.json'
+
 import { useWallet } from './Wallet'
-import { providers as Providers } from 'ethers'
+import { providers as Providers, ethers } from 'ethers'
 
 const PoolContext = React.createContext()
+const contract = getContract(addresses.honeyfarm, honeyFarm)
 
 const loadPoolData = async () => {
-  const contract = getContract(addresses.honeyfarm, honeyFarm)
   const scale = await contract.functions.SCALE()
-
   const poolLength = await contract.functions.poolLength()
   const poolLengthToNumber = poolLength[0].toNumber()
   const poolData = []
   const tokenList = []
+  const tulipApy = await tulipData.farm.apys()
   for (let i = 0; i < poolLengthToNumber; i++) {
     const data = await contract.functions.getPoolByIndex(i)
     const c = getContract(data.poolToken, erc20)
@@ -30,8 +31,19 @@ const loadPoolData = async () => {
     })
     tokenList.push(data.poolToken)
   }
-  return poolData
+  const poolPlusApy = poolData.map(p => {
+    for (const x of tulipApy) {
+      if (x.pair.toLowerCase() === p.poolToken.toLowerCase()) {
+        return {
+          ...p,
+          ...x,
+        }
+      }
+    }
+  })
+  return poolPlusApy
 }
+
 export async function useCheckApprovedToken(tokenAddress, account, balance) {
   if (tokenAddress !== undefined && account !== undefined) {
     const contract = getContract(tokenAddress, erc20)
@@ -46,9 +58,11 @@ export async function useCheckApprovedToken(tokenAddress, account, balance) {
 export function useApprove(tokenAddress, amount) {
   const contract = useContract(tokenAddress, erc20)
   return () => {
-    contract
+    return contract
       .approve(addresses.honeyfarm, amount)
-      .then(x => console.log(x))
+      .then(x => {
+        return x
+      })
       .catch(err => console.log(err))
   }
 }
@@ -59,19 +73,40 @@ export function useCreateDeposit(
   unlockTime = 0,
   referrer = '0x0000000000000000000000000000000000000000'
 ) {
-  amount = parseInt(amount)
+  amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
   const contract = useContract(addresses.honeyfarm, honeyFarm)
   return () => {
-    contract
+    return contract
       .createDeposit(tokenAddress, amount, unlockTime, referrer)
-      .then(x => console.log(x))
+      .then(x => {
+        return x
+      })
       .catch(err => console.log(err))
+  }
+}
+
+export function useWithdraw(id) {
+  const contract = useContract(addresses.honeyfarm, honeyFarm)
+  return () => {
+    return contract
+      .closeDeposit(id)
+      .then(x => {
+        return x
+      })
+      .catch(err => console.log(err))
+  }
+}
+export function useHarvest(id) {
+  return () => {
+    // TODO: Add harvest function here
   }
 }
 
 export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState('')
+  const [deposits, setDeposits] = useState('')
+
   const { account } = useWallet()
   const { data, status } = useQuery('loadPoolData', loadPoolData)
   if (status === 'success') {
@@ -81,26 +116,42 @@ export function PoolProvider({ children }) {
   }
   useEffect(() => {
     const loadBalanceData = async () => {
-      if (account === null) {
-        setBalance('Please connect your ethereum wallet to view your balances.')
-      } else {
-        const tulipD = await tulipData.wallet.simplyTokenBalances({
-          user_address: account,
-          network: 'rinkeby',
-          tokens,
-          web3: {
-            eth: new Providers.Web3Provider(window.ethereum),
-          },
-        })
-        setBalance(tulipD)
-      }
+      const tulipD = await tulipData.wallet.simplyTokenBalances({
+        user_address: account,
+        network: 'rinkeby',
+        tokens,
+        web3: {
+          eth: new Providers.Web3Provider(window.ethereum),
+        },
+      })
+      setBalance(tulipD)
     }
-    loadBalanceData()
+    const loadDepositData = async () => {
+      const deposits = []
+      const tulipF = await tulipData.farm.deposits({
+        user_address: account,
+      })
+      for (const d of tulipF) {
+        const contract = getContract(d.pool, erc20)
+        const symbol = await contract.functions.symbol()
+        deposits.push({
+          ...d,
+          symbol,
+        })
+      }
+      setDeposits(deposits)
+    }
+    if (account) {
+      loadBalanceData()
+      loadDepositData()
+    }
   }, [account])
+  console.log(data)
   const r = {
     data,
     status,
     balance,
+    deposits,
   }
   return <PoolContext.Provider value={r}>{children}</PoolContext.Provider>
 }

@@ -1,33 +1,32 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useApprove } from '../../../providers/Poolprovider'
-const Approve = props => {
+import { useHarvest } from '../../../providers/Poolprovider'
+
+const Harvest = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
-  const balanceToEth = props.amount.balance
-  const approve = useApprove(props.token, balanceToEth)
-
-  const handleApprove = () => {
-    approve()
-      .then(x => {
-        if (x) {
-          setTxHash(x.hash)
-          setVisible(true)
-        }
-      })
-      .catch(err => console.log(err))
+  const harvest = useHarvest(props.id)
+  const handleHarvest = () => {
+    harvest()
+    setTxHash('')
+    // harvest()
+    //   .then(x => {
+    //     setTxHash(x)
+    //     setVisible(true)
+    //   })
+    //   .catch(err => console.log(err))
   }
 
   return (
     <>
       <Button
         css={`
-          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+          background: linear-gradient(90deg, #f1f3f7, #f1f3f3);
         `}
-        label="Approve"
+        onClick={handleHarvest}
+        label="Harvest"
         wide
-        onClick={handleApprove}
       />
       <TransactionProgress
         transactionHashUrl={`https://etherscan.io/tx/${txHash}`}
@@ -42,4 +41,4 @@ const Approve = props => {
   )
 }
 
-export default Approve
+export default Harvest

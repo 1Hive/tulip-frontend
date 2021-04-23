@@ -1,15 +1,14 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useApprove } from '../../../providers/Poolprovider'
-const Approve = props => {
+import { useWithdraw } from '../../../providers/Poolprovider'
+
+const Withdraw = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
-  const balanceToEth = props.amount.balance
-  const approve = useApprove(props.token, balanceToEth)
-
-  const handleApprove = () => {
-    approve()
+  const withdraw = useWithdraw(props.id)
+  const handleWithdraw = () => {
+    withdraw()
       .then(x => {
         if (x) {
           setTxHash(x.hash)
@@ -18,19 +17,18 @@ const Approve = props => {
       })
       .catch(err => console.log(err))
   }
-
   return (
     <>
       <Button
         css={`
           background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
         `}
-        label="Approve"
+        onClick={handleWithdraw}
+        label="Withdraw"
         wide
-        onClick={handleApprove}
       />
       <TransactionProgress
-        transactionHashUrl={`https://etherscan.io/tx/${txHash}`}
+        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}
@@ -42,4 +40,4 @@ const Approve = props => {
   )
 }
 
-export default Approve
+export default Withdraw

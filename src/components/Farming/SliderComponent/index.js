@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
 
 const SliderComponent = props => {
   const [progress, setProgress] = useState(1)
+  useEffect(() => {
+    if (props.type === 'tokenAmount')
+      props.onUpdate({
+        type: props.type,
+        amount: props.tokenAmount,
+      })
+  }, [])
   return (
     <React.Fragment>
       {props.pairTitle ? (
@@ -29,6 +36,7 @@ const SliderComponent = props => {
         <div
           css={`
             display: flex;
+            max-width: 15%;
           `}
         >
           {props.imgObj ? (
@@ -58,18 +66,30 @@ const SliderComponent = props => {
         <Slider
           value={progress}
           css={`
-            width: 85%;
+            width: 70%;
             margin-left: ${!props.imgObj ? 3 * GU : 0}px;
+            padding-left: ${props.type === 'tokenAmount' ? '5px' : '0px'};
           `}
           onUpdate={value => {
             props.onUpdate({
               type: props.type,
-              amount: (value * props.tokenAmount).toFixed(10),
+              amount:
+                props.type === 'tokenAmount'
+                  ? (value * props.tokenAmount).toFixed(10)
+                  : Math.floor((progress * props.tokenAmount).toFixed(0)),
             })
             setProgress(value.toFixed(10))
           }}
         />
-        <span>{parseInt(progress * props.tokenAmount)}</span>
+        <span
+          css={`
+            min-width: 15%;
+          `}
+        >
+          {props.type === 'timeLock'
+            ? `${Math.floor((progress * props.tokenAmount).toFixed(0))} days`
+            : (progress * props.tokenAmount).toFixed(3)}
+        </span>
       </div>
     </React.Fragment>
   )
