@@ -114,38 +114,44 @@ export function PoolProvider({ children }) {
       tokens.push(x.poolToken)
     }
   }
+  const loadBalanceData = async () => {
+    const tulipD = await tulipData.wallet.simplyTokenBalances({
+      user_address: account,
+      network: 'rinkeby',
+      tokens,
+      web3: {
+        eth: new Providers.Web3Provider(window.ethereum),
+      },
+    })
+    setBalance(tulipD)
+  }
+  const loadDepositData = async () => {
+    const deposits = []
+    const tulipF = await tulipData.farm.deposits({
+      user_address: account,
+    })
+    for (const d of tulipF) {
+      const contract = getContract(d.pool, erc20)
+      const symbol = await contract.functions.symbol()
+      deposits.push({
+        ...d,
+        symbol,
+      })
+    }
+    setDeposits(deposits)
+  }
   useEffect(() => {
-    const loadBalanceData = async () => {
-      const tulipD = await tulipData.wallet.simplyTokenBalances({
-        user_address: account,
-        network: 'rinkeby',
-        tokens,
-        web3: {
-          eth: new Providers.Web3Provider(window.ethereum),
-        },
-      })
-      setBalance(tulipD)
-    }
-    const loadDepositData = async () => {
-      const deposits = []
-      const tulipF = await tulipData.farm.deposits({
-        user_address: account,
-      })
-      for (const d of tulipF) {
-        const contract = getContract(d.pool, erc20)
-        const symbol = await contract.functions.symbol()
-        deposits.push({
-          ...d,
-          symbol,
-        })
-      }
-      setDeposits(deposits)
-    }
     if (account) {
       loadBalanceData()
-      loadDepositData()
+      loadDepositData(account)
     }
   }, [account])
+  contract.on('Transfer', (to, amount, from) => {
+    if (account) {
+      loadDepositData()
+    }
+  })
+  console.log(deposits)
   const r = {
     data,
     status,

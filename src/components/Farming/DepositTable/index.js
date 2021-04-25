@@ -72,7 +72,9 @@ const DepositTable = props => {
             displayLoader: false,
             title: `${
               props.searchValue
-                ? 'No Pairs Found'
+                ? 'No pairs Found'
+                : account
+                ? 'No deposits found'
                 : 'Connect your account to see farm'
             }`,
             subtitle: null,

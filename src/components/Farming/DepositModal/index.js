@@ -34,6 +34,7 @@ const DepositModal = props => {
       setTimeLock(sliderObj.amount)
     }
   }
+  console.log(timeLock, amount)
 
   return (
     <Modal
