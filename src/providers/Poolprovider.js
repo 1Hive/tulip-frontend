@@ -151,7 +151,6 @@ export function PoolProvider({ children }) {
       loadDepositData()
     }
   })
-  console.log(deposits)
   const r = {
     data,
     status,
