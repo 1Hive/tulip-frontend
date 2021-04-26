@@ -106,8 +106,8 @@ export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState('')
   const [deposits, setDeposits] = useState('')
-
-  const { account } = useWallet()
+  const { account, networkName } = useWallet()
+  const network = networkName.toLowerCase()
   const { data, status } = useQuery('loadPoolData', loadPoolData)
   if (status === 'success') {
     for (const x of data) {
@@ -117,7 +117,7 @@ export function PoolProvider({ children }) {
   const loadBalanceData = async () => {
     const tulipD = await tulipData.wallet.simplyTokenBalances({
       user_address: account,
-      network: 'rinkeby',
+      network: network,
       tokens,
       web3: {
         eth: new Providers.Web3Provider(window.ethereum),
