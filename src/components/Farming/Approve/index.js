@@ -30,7 +30,7 @@ const Approve = props => {
         onClick={handleApprove}
       />
       <TransactionProgress
-        transactionHashUrl={`https://etherscan.io/tx/${txHash}`}
+        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}

@@ -9,9 +9,11 @@ const Deposit = props => {
   const opener = useRef()
   let tl = timeLock || 0
   const date = new Date()
-  if (tl > 0) {
+  if (typeof tl !== 'string' && tl > 0) {
     date.setDate(date.getDate() + tl)
     tl = Math.round(date.getTime() / 1000)
+  } else if (tl === 0) {
+    tl = 0
   } else {
     date.setDate(date.getDate() + 59)
     tl = Math.round(date.getTime() / 1000)
