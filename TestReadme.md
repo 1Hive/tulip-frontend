@@ -32,4 +32,5 @@ To view a deposit:
  -- The harvest function is not yet hooked up, as this function is not included in the current deployed version of the smart contract. This will be updated once the test-net contract has been updated to the current version. 
  -- The USD equivalents on the smart contract will be added once that data is included in the tulip-data module.
  -- If you are not connected to the rinkeby network when you land on the farm page, you will see the loading bee indefinitely. You will need to change your metamask RPC to rinkeby and reload the page if you encounter this.  
+ -- There is also currently an issue where if you land on the page connected to the wrong network and switch to rinkeby without reloading an error is thrown. If you switch networks please reload before connecting your account.
 

@@ -4,11 +4,17 @@ import { GU, Slider } from '@1hive/1hive-ui'
 const SliderComponent = props => {
   const [progress, setProgress] = useState(1)
   useEffect(() => {
-    if (props.type === 'tokenAmount')
+    if (props.type === 'tokenAmount') {
       props.onUpdate({
         type: props.type,
         amount: props.tokenAmount,
       })
+    } else {
+      props.onUpdate({
+        type: props.type,
+        amount: 'Not Set',
+      })
+    }
   }, [])
   return (
     <React.Fragment>
