@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { moment } from 'moment'
+import moment from 'moment'
 import { wallet } from 'tulip-data'
 import { useWallet } from 'use-wallet'
 import { useLocalStorage } from './useLocalStorage'
@@ -65,9 +65,17 @@ export function useWalletData() {
 
 export function useNetBalance() {
   const [walletInfo, poolingInfo, isFetching] = useWalletData()
+  const { account } = useWallet()
   const [assetsList, setAssetsList] = useState([])
+  const CHART_DATA_KEY = 'chart_data'
+  const { storedValue, setStoredValue } = useLocalStorage(CHART_DATA_KEY)
 
-  return useMemo(() => {
+  const {
+    walletBalance,
+    poolBalance,
+    netBalance,
+    assetsSortedList,
+  } = useMemo(() => {
     let netBalance = 0
     let walletBalance = 0
     let poolBalance = 0
@@ -141,16 +149,138 @@ export function useNetBalance() {
       walletBalance,
       poolBalance,
       netBalance,
-      assetsList: assetsSortedList,
+      assetsSortedList,
       isFetching,
     }
   }, [walletInfo, poolingInfo, isFetching])
+
+  useMemo(() => {
+    if (account && !isFetching) {
+      updateLocalBalance(account, netBalance, storedValue, setStoredValue)
+    }
+  }, [netBalance, isFetching])
+
+  return {
+    walletBalance,
+    poolBalance,
+    netBalance,
+    assetsList: assetsSortedList,
+    isFetching,
+  }
 }
 
-export function chartData() {
-  // const CHART_DATA_KEY = 'chart_data'
-  // const [ storedValue, setStoredValue ] = useLocalStorage(CHART_DATA_KEY)
+export function useChartData(duration) {
+  const { account } = useWallet()
+  const CHART_DATA_KEY = 'chart_data'
+  const { storedValue } = useLocalStorage(CHART_DATA_KEY)
 
-  const currentDate = moment()
-  console.log(currentDate)
+  const getData = useMemo(() => {
+    if (!storedValue) {
+      return null
+    }
+
+    let durationInDays = 7
+    switch (duration) {
+      case 'M':
+        durationInDays = 30
+        break
+      case 'Y':
+        durationInDays = 365
+        break
+    }
+
+    const chartValues = []
+    for (const i in storedValue) {
+      if (account === storedValue[i].wallet && storedValue[i].chartData) {
+        for (const j in storedValue[i].chartData) {
+          if (j >= durationInDays) {
+            break
+          }
+
+          const data = storedValue[i].chartData[j]
+          const date = moment.unix(data.timeStamp).format('MMM D')
+          chartValues.push({
+            d: date,
+            p: '$ ' + data.value,
+            x: parseInt(j),
+            y: parseInt(data.value),
+          })
+        }
+      }
+    }
+
+    return chartValues
+  }, [account, duration, storedValue])
+
+  return getData
+}
+
+function updateLocalBalance(account, netBalance, storedValue, setStoredValue) {
+  const timeStamp = moment()
+  const previousDay = moment()
+    .subtract(1, 'days')
+    .unix()
+
+  if (!storedValue) {
+    setStoredValue([
+      {
+        wallet: account,
+        chartData: [
+          {
+            timeStamp: previousDay,
+            value: 0,
+          },
+          {
+            timeStamp: timeStamp.unix(),
+            value: netBalance,
+          },
+        ],
+      },
+    ])
+  } else {
+    let found = false
+    for (const i in storedValue) {
+      if (storedValue[i] && storedValue[i].wallet === account) {
+        found = true
+        const svindex = storedValue[i].chartData.length - 1
+        if (
+          storedValue[i].chartData[svindex] &&
+          storedValue[i].chartData[svindex].timeStamp
+        ) {
+          const svDate = moment.unix(
+            storedValue[i].chartData[svindex].timeStamp
+          )
+          const diff = moment.duration(timeStamp.diff(svDate)).asDays()
+          if (diff > 1) {
+            storedValue[i].chartData.push({
+              timeStamp: timeStamp.unix(),
+              value: netBalance,
+            })
+            console.log(storedValue)
+            setStoredValue(storedValue)
+          } else {
+            storedValue[i].chartData[svindex].value = netBalance
+            setStoredValue(storedValue)
+          }
+        }
+      }
+    }
+    if (account && !found) {
+      const previousDay = timeStamp
+      storedValue.push({
+        wallet: account,
+        chartData: [
+          {
+            timeStamp: previousDay,
+            value: 0,
+          },
+          {
+            timeStamp: timeStamp.unix(),
+            value: netBalance,
+          },
+        ],
+      })
+      setStoredValue(storedValue)
+    }
+  }
 }
