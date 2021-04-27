@@ -192,19 +192,27 @@ export function useChartData(duration) {
     const chartValues = []
     for (const i in storedValue) {
       if (account === storedValue[i].wallet && storedValue[i].chartData) {
-        for (const j in storedValue[i].chartData) {
-          if (j >= durationInDays) {
-            break
-          }
+        let dataIndex = storedValue[i].chartData.length - 1
+        console.log('dataIndex:', dataIndex)
+        if (dataIndex > durationInDays) {
+          dataIndex = dataIndex - durationInDays
+        } else {
+          dataIndex = 0
+        }
+        console.log('dataIndex2:', dataIndex)
 
+        let x = 0
+        for (let j = dataIndex; j < storedValue[i].chartData.length; j++) {
+          console.log(storedValue[i].chartData[j])
           const data = storedValue[i].chartData[j]
           const date = moment.unix(data.timeStamp).format('MMM D')
           chartValues.push({
             d: date,
             p: '$ ' + data.value,
-            x: parseInt(j),
+            x: parseInt(x),
             y: parseInt(data.value),
           })
+          x++
         }
       }
     }
