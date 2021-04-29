@@ -2,14 +2,12 @@ import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import { Main } from '@1hive/1hive-ui'
 import theme from './theme-tulip'
-// import AppLoader from './components/AppLoader'
 import GlobalErrorHandler from './GlobalErrorHandler'
 import MainView from './components/MainView'
 import Routes from './Routes'
 import { WalletProvider } from './providers/Wallet'
 import { PoolProvider } from './providers/Poolprovider'
 import { QueryClientProvider, QueryClient } from 'react-query'
-import './assets/css/overrides.css'
 
 const queryClient = new QueryClient()
 function App() {
