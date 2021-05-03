@@ -13,7 +13,7 @@ class HomeChart extends Component {
     this.state = {
       hoverLoc: null,
       activePoint: null,
-      selectedRange: '1W',
+      selectedRange: 'W',
     }
   }
 
@@ -24,9 +24,19 @@ class HomeChart extends Component {
     })
   }
 
+  componentWillReceiveProps(props) {
+    if (props.data) {
+      console.log(props)
+      if (props.data !== null && props.data.length > 1) {
+        this.setState({ data: props.data })
+      }
+    }
+  }
+
   componentDidMount() {
     const loadExampleData = () => {
-      if (this.data !== undefined && this.data.count > 0) {
+      if (this.props.data !== null && this.props.data.length > 1) {
+        this.setState({ data: this.props.data })
         return
       }
 
@@ -57,9 +67,8 @@ class HomeChart extends Component {
     this.setState(
       {
         selectedRange: range,
-      }
-      // },
-      // this.props.handleSelectDateRange(range)
+      },
+      this.props.onSelectRange(range)
     )
   }
 
@@ -81,14 +90,14 @@ class HomeChart extends Component {
             <Link
               external={false}
               css={`
-                ${this.state.selectedRange === '1W'
+                ${this.state.selectedRange === 'W'
                   ? 'color: #2C3437;'
                   : 'color: #818181; font-weight: 300;'}
               `}
             >
               <span
                 onClick={() => {
-                  this.handleSelectDateRange('1W')
+                  this.handleSelectDateRange('W')
                 }}
               >
                 1W
@@ -97,14 +106,14 @@ class HomeChart extends Component {
             <Link
               external={false}
               css={`
-                ${this.state.selectedRange === '1M'
+                ${this.state.selectedRange === 'M'
                   ? 'color: #2C3437;'
                   : 'color: #818181; font-weight: 300;'}
               `}
             >
               <span
                 onClick={() => {
-                  this.handleSelectDateRange('1M')
+                  this.handleSelectDateRange('M')
                 }}
               >
                 1M
@@ -113,14 +122,14 @@ class HomeChart extends Component {
             <Link
               external={false}
               css={`
-                ${this.state.selectedRange === '1Y'
+                ${this.state.selectedRange === 'Y'
                   ? 'color: #2C3437;'
                   : 'color: #818181; font-weight: 300;'}
               `}
             >
               <span
                 onClick={() => {
-                  this.handleSelectDateRange('1Y')
+                  this.handleSelectDateRange('Y')
                 }}
               >
                 1Y
