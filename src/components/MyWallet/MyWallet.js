@@ -6,7 +6,7 @@ import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
 import AssetList from './AssetList'
 
-const MyWallet = React.memo(({ walletData }) => {
+const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
   const { width: vw, below } = useViewport()
   const [search, setSearch] = useState('')
 
@@ -16,6 +16,7 @@ const MyWallet = React.memo(({ walletData }) => {
   const handleSearch = value => {
     setSearch(value)
   }
+
   return (
     <div
       css={`
@@ -62,6 +63,8 @@ const MyWallet = React.memo(({ walletData }) => {
         <HomeChart
           height={GU * 15.75}
           width={small ? vw - padding : vw * 0.65 - padding}
+          data={chartData}
+          onSelectRange={onSelectRange}
         />
       </div>
       <AssetCardList walletData={walletData} />
