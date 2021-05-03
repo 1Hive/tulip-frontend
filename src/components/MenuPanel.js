@@ -32,7 +32,7 @@ import telegram from '../assets/tulip/telegram.svg'
 import { lerp } from '../lib/math-utils'
 
 export const MENU_PANEL_SHADOW_WIDTH = 3
-export const MENU_PANEL_WIDTH = 31 * GU
+export const MENU_PANEL_WIDTH = 28 * GU
 
 const { div: AnimDiv } = animated
 
