@@ -3,11 +3,7 @@ import { ButtonIcon, GU, IconMenu } from '@1hive/1hive-ui'
 import AccountModule from '../Account/AccountModule'
 import HeaderLogo from './HeaderLogo'
 
-const Header = React.memo(function Header({
-  compactMode,
-  toggleMenuPanel,
-  onOpenPreferences,
-}) {
+const Header = React.memo(function Header({ compactMode, toggleMenuPanel }) {
   return (
     <header
       css={`

@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import WalletLoader from './components/MyWallet/WalletLoader'
+import Airdrop from './components/Airdrop/Airdrop'
 import Farm from './components/Farming/Farm'
 import Swap from './components/Swap/Swap'
 import Pool from './components/Pool/Pool'
@@ -15,6 +16,7 @@ export default function Routes() {
     <Switch>
       <Redirect exact from="/" to="/wallet" />
       <Route path="/wallet" component={WalletLoader} />
+      <Route exact path="/airdrop" component={Airdrop} />
       <Route exact path="/farm" component={Farm} />
       <Route exact path="/swap" component={Swap} />
       <Route exact path="/pool" component={Pool} />

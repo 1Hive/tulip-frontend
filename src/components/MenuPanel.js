@@ -13,6 +13,8 @@ import {
 import { Spring, animated } from 'react-spring/renderprops'
 import HeaderLogo from './Header/HeaderLogo'
 
+import airdrop from '../assets/tulip/airdrop.svg'
+import airdropActive from '../assets/tulip/airdrop-active.svg'
 import discord from '../assets/tulip/discord.svg'
 import farmIcon from '../assets/tulip/farm.svg'
 import farmIconActive from '../assets/tulip/farm-active.svg'
@@ -30,7 +32,7 @@ import telegram from '../assets/tulip/telegram.svg'
 import { lerp } from '../lib/math-utils'
 
 export const MENU_PANEL_SHADOW_WIDTH = 3
-export const MENU_PANEL_WIDTH = 31 * GU
+export const MENU_PANEL_WIDTH = 28 * GU
 
 const { div: AnimDiv } = animated
 
@@ -94,6 +96,13 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
           icon={lendBorrowIcon}
           iconActive={lendBorrowIconActive}
           label="Lend / Borrow"
+          onActivate={onOpenPage}
+        />
+        <MenuItem
+          to="/airdrop"
+          icon={airdrop}
+          iconActive={airdropActive}
+          label="Airdrop"
           onActivate={onOpenPage}
         />
       </div>
