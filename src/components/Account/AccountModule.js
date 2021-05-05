@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useWallet } from 'use-wallet'
+import { useAppState } from '../../providers/AppState'
 import { Button, GU, IconConnect, useViewport } from '@1hive/1hive-ui'
 import AccountButton from './AccountButton'
 import AccountPopover from './AccountPopover'
@@ -16,16 +17,19 @@ const SCREENS = [
 ]
 
 function AccountModule() {
-  const [opened, setOpened] = useState(false)
   const [activatingDelayed, setActivatingDelayed] = useState(null)
   const buttonRef = useRef()
   const { below } = useViewport()
+  const { connectionBoxOpened, setConnectionBoxOpened } = useAppState()
   const compactMode = below('medium')
   const wallet = useWallet()
   const { account, connector, error, status } = wallet
 
-  const open = useCallback(() => setOpened(true), [])
-  const toggle = useCallback(() => setOpened(opened => !opened), [])
+  const open = useCallback(() => setConnectionBoxOpened(true), [])
+  const toggle = useCallback(
+    () => setConnectionBoxOpened(opened => !opened),
+    []
+  )
 
   useEffect(() => {
     let timer
@@ -73,7 +77,7 @@ function AccountModule() {
       // reject closing the popover
       return false
     }
-    setOpened(false)
+    setConnectionBoxOpened(false)
   }, [screenId])
 
   return (
@@ -119,7 +123,7 @@ function AccountModule() {
           activating +
           screenId
         }
-        visible={opened}
+        visible={connectionBoxOpened}
       >
         {({ activating, activationError, screenId }) => {
           if (screenId === 'connecting') {
