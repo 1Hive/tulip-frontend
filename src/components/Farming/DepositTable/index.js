@@ -15,13 +15,14 @@ import xComb from '../../../assets/coins/xcomb.svg'
 const DepositTable = props => {
   const depositArray = []
   const { account } = useWallet()
+  console.log(props.depositData)
   if (typeof props.depositData !== 'string') {
     for (const {
       id,
       amount,
       pool,
       referrer,
-      rewardDebt,
+      rewardDept,
       unlockTime,
       rewardShare,
       setRewards,
@@ -32,7 +33,7 @@ const DepositTable = props => {
         amount: amount.toFixed(3),
         pool,
         referrer,
-        rewardDept: rewardDebt.toFixed(3),
+        rewardDebt: rewardDept.toFixed(3),
         unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.onlyDate),
         rewardShare: rewardShare,
         setRewards: setRewards,
@@ -95,7 +96,7 @@ const DepositTable = props => {
           amount,
           pool,
           referrer,
-          rewardDept,
+          rewardDebt,
           unlockTime,
           rewardShare,
           setRewards,
@@ -115,7 +116,7 @@ const DepositTable = props => {
             <p>{amount}</p>,
             <p>{unlockTime}</p>,
             <RewardComponent image={xComb} name="xComb" />,
-            <p>{rewardDept}</p>,
+            <p>{rewardDebt}</p>,
             <Withdraw id={id} />,
             <Harvest id={id} />,
           ]

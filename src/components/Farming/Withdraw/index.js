@@ -13,6 +13,11 @@ const Withdraw = props => {
         if (x) {
           setTxHash(x.hash)
           setVisible(true)
+          x.wait()
+            .then(() => {
+              setVisible(false)
+            })
+            .catch(err => console.log(err))
         }
       })
       .catch(err => console.log(err))

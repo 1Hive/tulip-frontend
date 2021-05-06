@@ -19,7 +19,8 @@ const FarmTable = props => {
   })
   const results = fuse.search(props.searchValue)
 
-  const { account } = useWallet()
+  const { account, status } = useWallet()
+  console.log(account)
 
   const handleModalActions = e => {
     setModalAction(true)
@@ -37,7 +38,7 @@ const FarmTable = props => {
   const handleModalClose = () => {
     setModalAction(false)
   }
-  if (pairs.length === 0) {
+  if (pairs.length === 0 && status !== 'disconnected') {
     return <Loader />
   } else {
     return (
