@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components'
 import App from './App'
 import initializeSentry from './sentry'
 import { checkMigrations } from './migrations'
-import { SubGraphProvider } from './providers/Subgraph'
 
 initializeSentry()
 checkMigrations()
@@ -16,9 +15,9 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(
-  <SubGraphProvider>
+  <div>
     <GlobalStyle />
     <App />
-  </SubGraphProvider>,
+  </div>,
   document.getElementById('root')
 )

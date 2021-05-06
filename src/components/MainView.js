@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Layout, Root, ScrollView, useViewport } from '@1hive/1hive-ui'
-import usePreferences from '../hooks/usePreferences'
 import MenuPanel from './MenuPanel'
 import Header from './Header/Header'
-import GlobalPreferences from './GlobalPreferences/GlobalPreferences'
 
 function MainView({ children }) {
   const { width: vw, below } = useViewport()
   const compactMode = below('medium')
   const [menuPanelOpen, setMenuPanelOpen] = useState(!compactMode)
 
-  const [openPreferences, closePreferences, preferenceOption] = usePreferences()
+  // const [openPreferences, closePreferences, preferenceOption] = usePreferences()
 
   const toggleMenuPanel = useCallback(
     () => setMenuPanelOpen(opened => !opened),
@@ -29,15 +27,6 @@ function MainView({ children }) {
     setMenuPanelOpen(!compactMode)
   }, [compactMode])
 
-  if (preferenceOption) {
-    return (
-      <GlobalPreferences
-        path={preferenceOption}
-        onScreenChange={openPreferences}
-        onClose={closePreferences}
-      />
-    )
-  }
   return (
     <div
       css={`

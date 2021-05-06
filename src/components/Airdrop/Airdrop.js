@@ -8,6 +8,7 @@ import {
   useViewport,
 } from '@1hive/1hive-ui'
 import PlaceHolder from './PlaceHolder'
+import { getNetworkConfig } from '../../networks'
 import { useClaim } from '../../hooks/useAirdrop'
 import { useWallet } from 'use-wallet'
 import xCombImage from '../../assets/tulip/xComb.svg'
@@ -19,15 +20,16 @@ const Airdrop = React.memo(() => {
   const small = below('medium')
   const opener = useRef()
   const [claim, claimed, tokens, txHash, working] = useClaim()
+  const networks = getNetworkConfig()
 
   if (working !== visible) {
     setVisible(working)
   }
-
+  console.log(txHash)
   return status === 'connected' ? (
     <>
       <TransactionProgress
-        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
+        transactionHashUrl={`${networks.txUrl + txHash.hash}`}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}

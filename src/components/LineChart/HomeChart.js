@@ -26,7 +26,6 @@ class HomeChart extends Component {
 
   componentWillReceiveProps(props) {
     if (props.data) {
-      console.log(props)
       if (props.data !== null && props.data.length > 1) {
         this.setState({ data: props.data })
       }
