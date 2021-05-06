@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MyWallet from './MyWallet'
 import Loader from '../Loader'
-import { useNetBalance } from '../../hooks/useWalletData'
+import { useChartData, useNetBalance } from '../../hooks/useWalletData'
 
 function WalletLoader() {
+  const [selectedRange, setSelectedRange] = useState('W')
   const walletData = useNetBalance()
+  const chartData = useChartData(selectedRange)
+
+  const handeSelectRange = value => {
+    setSelectedRange(value)
+  }
+
   if (walletData.isFetching) {
     return <Loader />
   }
 
-  return <MyWallet walletData={walletData} />
+  return (
+    <MyWallet
+      walletData={walletData}
+      chartData={chartData}
+      onSelectRange={handeSelectRange}
+    />
+  )
 }
 
 export default WalletLoader

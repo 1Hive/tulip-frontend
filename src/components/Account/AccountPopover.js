@@ -159,7 +159,7 @@ AccountPopover.propTypes = {
   screenData: PropTypes.object.isRequired,
   screenId: PropTypes.string.isRequired,
   screenKey: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
+  visible: PropTypes.bool,
 }
 
 export default AccountPopover

@@ -31,3 +31,15 @@ export function useContractReadOnly(address, abi) {
 export function getContract(address, abi, provider = DEFAULT_PROVIDER) {
   return new EthersContract(address, abi, provider)
 }
+
+export function useGetTokenBalance(address, abi, provider = DEFAULT_PROVIDER) {
+  const { account } = useWallet()
+  return useMemo(() => {
+    if (!address || !abi) {
+      return null
+    }
+
+    const contract = new EthersContract(address, abi, provider)
+    return contract.balanceOf(account)
+  }, [abi, account, address, provider])
+}

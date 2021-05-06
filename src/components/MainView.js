@@ -51,11 +51,7 @@ function MainView({ children }) {
           flex-shrink: 0;
         `}
       >
-        <Header
-          compactMode={compactMode}
-          toggleMenuPanel={toggleMenuPanel}
-          onOpenPreferences={openPreferences}
-        />
+        <Header compactMode={compactMode} toggleMenuPanel={toggleMenuPanel} />
       </div>
       <div
         css={`
