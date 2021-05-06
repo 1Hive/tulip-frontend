@@ -3,7 +3,7 @@ import { useWallet } from 'use-wallet'
 import { utils } from 'ethers'
 import StreamedAirdropper from '../abi/StreamedAirdropper.json'
 import { useContract } from '../web3-contracts'
-import { addresses } from '../constants/addresses'
+import { getNetworkConfig } from '../networks'
 
 // export function usePendingTokens() {
 //   const [tokens, setTokens] = useState(0)
@@ -79,7 +79,8 @@ export function useClaim() {
   const { account, status } = useWallet()
   const [tokens, setTokens] = useState(0)
   const [claimed, setClaimed] = useState(0)
-  const contract = useContract(addresses.StreamedAirdropper, StreamedAirdropper)
+  const networks = getNetworkConfig()
+  const contract = useContract(networks.StreamedAirdropper, StreamedAirdropper)
 
   const claim = useMemo(() => {
     if (!account || status === 'disconnected') {

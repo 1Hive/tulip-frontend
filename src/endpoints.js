@@ -2,11 +2,6 @@ import environment from './environment'
 
 import { isLocalOrUnknownNetwork, getNetworkType } from './lib/web3-utils'
 import { getNetworkConfig } from './networks'
-import {
-  getDefaultEthNode,
-  getIpfsGateway,
-  getSubgraphHttpEndpoint,
-} from './local-settings'
 
 const CHAIN_ID = environment('CHAIN_ID')
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
@@ -39,9 +34,9 @@ export function graphEndpoint() {
   return nodes.subgraph
 }
 
-export const defaultEthNode =
-  getDefaultEthNode() || getNetworkConfig().nodes.defaultEth
+// export const defaultEthNode =
+//   getDefaultEthNode() || getNetworkConfig().nodes.defaultEth
 
-export const defaultIpfsGateway = getIpfsGateway()
+// export const defaultIpfsGateway = getIpfsGateway()
 
-export const defaultSubgraphHttpEndpoint = getSubgraphHttpEndpoint()
+// export const defaultSubgraphHttpEndpoint = getSubgraphHttpEndpoint()
