@@ -28,6 +28,7 @@ const Withdraw = props => {
         wide
       />
       <TransactionProgress
+        transactionHash={txHash}
         transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
         progress={0.3}
         visible={visible}

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useCreateDeposit } from '../../../providers/Poolprovider'
+import Styled from './deposit.style'
 
 const Deposit = props => {
   const [visible, setVisible] = useState(false)
@@ -40,15 +41,18 @@ const Deposit = props => {
         onClick={handleDeposit}
         wide
       />
-      <TransactionProgress
-        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
-        progress={0.3}
-        visible={visible}
-        endTime={new Date(Date.now() + 100000)}
-        onClose={() => setVisible(false)}
-        opener={opener}
-        slow
-      />
+      <Styled.TransactionProgress>
+        <TransactionProgress
+          transactionHash={txHash}
+          transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
+          progress={0.3}
+          visible={visible}
+          endTime={new Date(Date.now() + 100000)}
+          onClose={() => setVisible(false)}
+          opener={opener}
+          slow
+        />
+      </Styled.TransactionProgress>
     </>
   )
 }
