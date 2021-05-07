@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useCreateDeposit } from '../../../providers/Poolprovider'
+import { getNetworkConfig } from '../../../networks'
 import Styled from './deposit.style'
 
 const Deposit = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const { token, amount, timeLock } = props
+  const network = getNetworkConfig()
   const opener = useRef()
   let tl = timeLock || 0
   const date = new Date()
@@ -49,7 +51,7 @@ const Deposit = props => {
       <Styled.TransactionProgress>
         <TransactionProgress
           transactionHash={txHash}
-          transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
+          transactionHashUrl={network.txUrl + txHash}
           progress={0.3}
           visible={visible}
           endTime={new Date(Date.now() + 100000)}
