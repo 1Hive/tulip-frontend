@@ -1,5 +1,5 @@
 import React from 'react'
-import { DropDown, GU, textStyle, useLayout } from '@1hive/1hive-ui'
+import { GU, textStyle, useLayout } from '@1hive/1hive-ui'
 import AssetsTable from './AssetsTable'
 import SearchComponent from '../Farming/Search'
 
@@ -7,10 +7,10 @@ const AssetList = React.memo(({ assets, handleSearch, searchValue }) => {
   const { layoutName } = useLayout()
   const compactMode = layoutName === 'small' || layoutName === 'medium'
 
-  const dropdownItems = {
-    networkItems: ['xDai'],
-    platformItems: ['Platform'],
-  }
+  // const dropdownItems = {
+  //   networkItems: ['xDai'],
+  //   platformItems: ['Platform'],
+  // }
 
   return (
     <div
@@ -19,15 +19,6 @@ const AssetList = React.memo(({ assets, handleSearch, searchValue }) => {
         font-family: 'Overpass', sans-serif;
       `}
     >
-      <h1
-        css={`
-          font-weight: 300;
-          padding-left: ${GU}px;
-          ${textStyle('title3')};
-        `}
-      >
-        Assets
-      </h1>
       <div
         css={`
           display: flex;
@@ -45,6 +36,17 @@ const AssetList = React.memo(({ assets, handleSearch, searchValue }) => {
             justify-content: space-between;
           `}
         >
+          <h1
+            css={`
+              font-weight: 300;
+              padding-left: ${GU}px;
+              ${textStyle('title3')};
+            `}
+          >
+            Assets
+          </h1>
+          {/* 
+          // THIS WILL BE SHOWN WHEN MULTIPLATFORM IS WORKING
           <DropDown items={dropdownItems.networkItems} placeholder="Network" />
           <DropDown
             items={dropdownItems.platformItems}
@@ -52,7 +54,7 @@ const AssetList = React.memo(({ assets, handleSearch, searchValue }) => {
             css={`
               margin-top: ${compactMode ? GU : 0}px;
             `}
-          />
+          /> */}
         </div>
         <SearchComponent
           placeholder="Search by asset"
