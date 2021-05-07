@@ -15,7 +15,6 @@ import xComb from '../../../assets/coins/xcomb.svg'
 const DepositTable = props => {
   const depositArray = []
   const { account } = useWallet()
-  console.log(props.depositData)
   if (typeof props.depositData !== 'string') {
     for (const {
       id,

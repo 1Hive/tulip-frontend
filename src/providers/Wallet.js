@@ -16,7 +16,6 @@ function WalletAugmented({ children }) {
   const { ethereum } = wallet
   const ethers = useMemo(() => {
     if (ethereum) {
-      console.log(ethereum)
       return new EthersProviders.Web3Provider(ethereum)
     } else {
       return null
