@@ -60,8 +60,8 @@ export function useApprove(tokenAddress, amount) {
   return () => {
     return contract
       .approve(addresses.honeyfarm, amount)
-      .then(x => {
-        return x
+      .then(async x => {
+        return await x.wait()
       })
       .catch(err => console.log(err))
   }

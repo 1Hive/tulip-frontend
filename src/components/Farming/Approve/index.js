@@ -12,8 +12,13 @@ const Approve = props => {
     approve()
       .then(x => {
         if (x) {
-          setTxHash(x.hash)
           setVisible(true)
+          setTxHash(x.hash)
+          x.wait()
+            .then(() => {
+              setVisible(false)
+            })
+            .catch(err => console.log(err))
         }
       })
       .catch(err => console.log(err))

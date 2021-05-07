@@ -14,12 +14,14 @@ function useWalletAugmented() {
 function WalletAugmented({ children }) {
   const wallet = useWallet()
   const { ethereum } = wallet
-  const ethers = useMemo(
-    () => (ethereum ? new EthersProviders.Web3Provider(ethereum) : null),
-    [ethereum]
-  )
+  const ethers = useMemo(() => {
+    if (ethereum) {
+      return new EthersProviders.Web3Provider(ethereum)
+    } else {
+      return null
+    }
+  }, [ethereum])
   const contextValue = useMemo(() => ({ ...wallet, ethers }), [wallet, ethers])
-
   return (
     <WalletAugmentedContext.Provider value={contextValue}>
       {children}
