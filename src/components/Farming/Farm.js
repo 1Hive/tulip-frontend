@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { GU, textStyle } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
-import DropdownComponent from './Dropdown'
-import styled from 'styled-components'
-// import sushiData from '@sushiswap/sushi-data'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
 import { usePoolProvider } from '../../providers/Poolprovider'
@@ -14,19 +11,10 @@ const Farm = React.memo(({ onlyTable }) => {
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(0)
 
-  const dropdownItems = {
-    networkItems: ['Network1', 'Network2', 'Network3'],
-    platformItems: ['Platform1', 'Platform2', 'Platform3'],
-  }
-
   const handleSelected = selected => {
     setSelected(selected)
   }
-  const TabWrapper = styled.section`
-    > * {
-      margin-right: ${1 * GU}px;
-    }
-  `
+
   const { data, balance, deposits } = usePoolProvider()
 
   const handleSearch = value => {
@@ -50,14 +38,10 @@ const Farm = React.memo(({ onlyTable }) => {
         css={`
           display: flex;
           width: 100%;
-          justify-content: space-between;
+          justify-content: flex-end;
           flex-direction: row;
         `}
       >
-        <TabWrapper>
-          <DropdownComponent items={dropdownItems.networkItems} />
-          <DropdownComponent items={dropdownItems.platformItems} />
-        </TabWrapper>
         <SearchComponent passSearch={handleSearch} />
       </div>
       <div
