@@ -19,13 +19,12 @@ const Airdrop = React.memo(() => {
   const { width: vw, below } = useViewport()
   const small = below('medium')
   const opener = useRef()
-  const [claim, claimed, tokens, txHash, working] = useClaim()
+  const [balance, claim, claimed, tokens, txHash, working] = useClaim()
   const networks = getNetworkConfig()
 
   if (working !== visible) {
     setVisible(working)
   }
-  console.log(txHash)
   return status === 'connected' ? (
     <>
       <TransactionProgress
@@ -143,7 +142,7 @@ const Airdrop = React.memo(() => {
               `}
             >
               <span>Balance</span>
-              <span>1</span>
+              <span>{balance}</span>
             </div>
             <div
               css={`

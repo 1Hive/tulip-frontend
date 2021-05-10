@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useApprove } from '../../../providers/Poolprovider'
+import { getNetworkConfig } from '../../../networks'
+
 const Approve = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const balanceToEth = props.amount.balance
   const approve = useApprove(props.token, balanceToEth)
+  const network = getNetworkConfig()
 
   const handleApprove = () => {
     approve()
@@ -35,7 +38,7 @@ const Approve = props => {
         onClick={handleApprove}
       />
       <TransactionProgress
-        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
+        transactionHashUrl={network.txUrl + txHash}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}

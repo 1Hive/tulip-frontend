@@ -1,10 +1,8 @@
 import React from 'react'
-// import { useAppState } from '../../providers/AppState'
-import { Button, Card, GU, textStyle, useViewport } from '@1hive/1hive-ui'
+import { Card, GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import xCombImage from '../../assets/tulip/xComb.svg'
 
 const PlaceHolder = React.memo(() => {
-  // const { setConnectionBoxOpened } = useAppState()
   const { width: vw, below } = useViewport()
   const small = below('medium')
 
@@ -49,18 +47,6 @@ const PlaceHolder = React.memo(() => {
             In order to check your eligibility for the airdrop, please connect
             your account to xDai network
           </span>
-          <Button
-            css={`
-              margin-top: ${GU * 4}px;
-              /* background colors doesn't exist on current theme */
-              background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-              width: ${GU * 22}px;
-              height: ${GU * 5}px;
-            `}
-            id="Connect"
-            label="Connect Account"
-            onClick={() => {}}
-          />
         </Card>
       </div>
     </>

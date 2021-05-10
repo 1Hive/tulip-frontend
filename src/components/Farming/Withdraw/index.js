@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useWithdraw } from '../../../providers/Poolprovider'
+import { getNetworkConfig } from '../../../networks'
 
 const Withdraw = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const withdraw = useWithdraw(props.id)
+  const network = getNetworkConfig()
   const handleWithdraw = () => {
     withdraw()
       .then(x => {
@@ -34,7 +36,7 @@ const Withdraw = props => {
       />
       <TransactionProgress
         transactionHash={txHash}
-        transactionHashUrl={`https://rinkeby.etherscan.io/tx/${txHash}`}
+        transactionHashUrl={network.txUrl + txHash}
         progress={0.3}
         visible={visible}
         endTime={new Date(Date.now() + 100000)}

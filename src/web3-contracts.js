@@ -40,6 +40,8 @@ export function useGetTokenBalance(address, abi, provider = DEFAULT_PROVIDER) {
     }
 
     const contract = new EthersContract(address, abi, provider)
-    return contract.balanceOf(account)
+    return () => {
+      return contract.balanceOf(account)
+    }
   }, [abi, account, address, provider])
 }
