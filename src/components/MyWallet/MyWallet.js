@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
 import HeroBanner from './HeroBanner'
-import HomeChart from '../LineChart/HomeChart'
+// import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
 import AssetList from './AssetList'
 
@@ -60,12 +60,12 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
             $ {walletData.netBalance}
           </span>
         </div>
-        <HomeChart
+        {/* <HomeChart
           height={GU * 15.75}
           width={small ? vw - padding : vw * 0.65 - padding}
           data={chartData}
           onSelectRange={onSelectRange}
-        />
+        /> */}
       </div>
       <AssetCardList walletData={walletData} />
       <div

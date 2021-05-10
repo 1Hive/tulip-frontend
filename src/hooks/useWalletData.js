@@ -3,6 +3,7 @@ import moment from 'moment'
 import { wallet } from 'tulip-data'
 import { useWallet } from 'use-wallet'
 import { useLocalStorage } from './useLocalStorage'
+import { formatNumber } from '../utils/validate-utils'
 
 export function useWalletData() {
   const [walletInfo, setWalletInfo] = useState([])
@@ -144,6 +145,9 @@ export function useNetBalance() {
     netBalance = parseFloat(
       Number(walletBalance) + Number(poolBalance) + netBalance
     ).toFixed(2)
+    walletBalance = formatNumber(walletBalance)
+    poolBalance = formatNumber(poolBalance)
+    netBalance = formatNumber(netBalance)
 
     return {
       walletBalance,
