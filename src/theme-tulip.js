@@ -9,7 +9,7 @@ export default {
 
   background: '#FFFFFF',
 
-  selected: '#C4C4C4',
+  selected: '#7CE0D6',
   selectedContent: '#FFFFFF',
   selectedDisabled: '#C4CDD5',
 
