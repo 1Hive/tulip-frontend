@@ -3,9 +3,9 @@ import { GU } from '@1hive/1hive-ui'
 import WalletCard from './WalletCard'
 
 import Farming from '../../assets/tulip/farm_card.svg'
-import Lent from '../../assets/tulip/lent_card.svg'
+// import Lent from '../../assets/tulip/lent_card.svg'
 import Pools from '../../assets/tulip/pool_card.svg'
-import Staked from '../../assets/tulip/staked_card.svg'
+// import Staked from '../../assets/tulip/staked_card.svg'
 import Wallet from '../../assets/tulip/wallet_card.svg'
 
 function AssetCardList({ walletData }) {
@@ -25,15 +25,15 @@ function AssetCardList({ walletData }) {
         title="Wallet"
         value={'$ ' + walletData.walletBalance}
       />
-      <WalletCard icon={Staked} title="Staked" value="$ 0" />
-      <WalletCard icon={Lent} title="Lent" value="$ 0" />
+      {/* <WalletCard icon={Staked} title="Staked" value="$ 0" />
+      <WalletCard icon={Lent} title="Lent" value="$ 0" /> */}
       <WalletCard
         icon={Pools}
         title="Pools"
         value={'$ ' + walletData.poolBalance}
       />
       <WalletCard icon={Farming} title="Farming" value="$ 0" />
-      <WalletCard icon={Lent} title="Borrowed" value="$ 0" isBorrow />
+      {/* <WalletCard icon={Lent} title="Borrowed" value="$ 0" isBorrow /> */}
     </div>
   )
 }

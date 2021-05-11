@@ -93,9 +93,9 @@ export function useNetBalance() {
           {
             symbol: value.symbol,
             name: value.name,
-            balance: value.balance.toFixed(4),
-            price: value.priceUSD.toFixed(2),
-            value: value.valueUSD.toFixed(2),
+            balance: formatNumber(value.balance.toFixed(2)),
+            price: formatNumber(value.priceUSD.toFixed(2)),
+            value: formatNumber(value.valueUSD.toFixed(2)),
             image1: value.logoURI,
             image2: '',
           },
@@ -127,9 +127,11 @@ export function useNetBalance() {
             symbol,
             image1,
             image2,
-            balance: Number(value.balance).toFixed(4),
-            value: Number(value.valueUSD).toFixed(2),
-            price: Number(value.valueUSD / value.balance).toFixed(2),
+            balance: formatNumber(Number(value.balance).toFixed(2)),
+            value: formatNumber(Number(value.valueUSD).toFixed(2)),
+            price: formatNumber(
+              Number(value.valueUSD / value.balance).toFixed(2)
+            ),
             name: 'HoneySwap',
           },
         ])
