@@ -16,6 +16,7 @@ export const networkConfigs = {
     ReferralRewarder: '',
     StreamedAirdropper: '',
     xCombToken: '',
+    hsfToken: '',
     txUrl: '',
     nodes: {
       defaultEth: '',
@@ -27,6 +28,7 @@ export const networkConfigs = {
     ReferralRewarder: '',
     StreamedAirdropper: '',
     xCombToken: '',
+    hsfToken: '',
     txUrl: '',
     nodes: {
       defaultEth: '',
@@ -37,6 +39,7 @@ export const networkConfigs = {
     honeyfarm: '0xd6099161AcB5d01097f7f89FF64AbB835c42b80c',
     ReferralRewarder: '0x8A536488674ec4C3bDa25FEEBd0Bd202a8559d2F',
     StreamedAirdropper: '0x4BeA4ba49063061123aC8A51796F277Cfe2457F4',
+    hsfToken: '0xe26EF0e1890d83e196191822752749a37d7A199f',
     xCombToken: '0x3522331574F7850bA2f604a6786b784230C7f28C',
     txUrl: 'https://rinkeby.etherscan.io/tx/',
     nodes: {
