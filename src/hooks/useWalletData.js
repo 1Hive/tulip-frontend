@@ -142,6 +142,7 @@ export function useNetBalance() {
     assetsSortedList = assetsSortedList.sort(
       (a, b) => Number(b.value) - Number(a.value)
     )
+    console.log('ASSETS SORTED LIST', assetsSortedList)
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
     netBalance = parseFloat(
