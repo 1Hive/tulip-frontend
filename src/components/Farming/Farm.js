@@ -15,8 +15,7 @@ const Farm = React.memo(({ onlyTable }) => {
     setSelected(selected)
   }
 
-  const { data, balance, deposits } = usePoolProvider()
-  console.log(data)
+  const { data, balance, deposits, poolInfo } = usePoolProvider()
   const handleSearch = value => {
     setSearch(value)
   }
@@ -51,7 +50,12 @@ const Farm = React.memo(({ onlyTable }) => {
         `}
       >
         {selected === 0 ? (
-          <FarmTable pairData={data} balance={balance} searchValue={search} />
+          <FarmTable
+            pairData={data}
+            balance={balance}
+            searchValue={search}
+            poolInfo={poolInfo}
+          />
         ) : (
           <DepositTable depositData={deposits} searchValue={search} />
         )}

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
+import Styled from './slidercomponent.style'
 
 const SliderComponent = props => {
-  const [progress, setProgress] = useState(1)
+  const [progress, setProgress] = useState(0)
+  const [multiplier, setMultiplier] = useState(1)
+  const { timeLockMultiplier, timeLockConstant } = props
+  const mult = (multiplier / 1e18 / 1e18).toFixed(1)
   useEffect(() => {
     if (props.type === 'tokenAmount') {
       props.onUpdate({
@@ -13,6 +17,7 @@ const SliderComponent = props => {
       props.onUpdate({
         type: props.type,
         amount: 'Not Set',
+        multiplier: 'Not Set',
       })
     }
   }, [])
@@ -66,7 +71,10 @@ const SliderComponent = props => {
               />{' '}
             </>
           ) : (
-            <></>
+            <Styled.Multiplier>
+              {mult}
+              {' x'}
+            </Styled.Multiplier>
           )}
         </div>
         <Slider
@@ -82,9 +90,20 @@ const SliderComponent = props => {
               amount:
                 props.type === 'tokenAmount'
                   ? (value * props.tokenAmount).toFixed(10)
-                  : Math.floor((progress * props.tokenAmount).toFixed(0)),
+                  : Math.floor(
+                      (
+                        progress * Math.floor(props.timeLock / 3600 / 24)
+                      ).toFixed(0)
+                    ),
+              multiplier: props.type === 'timeLock' ? mult : null,
             })
             setProgress(value.toFixed(10))
+            if (props.type === 'timeLock') {
+              setMultiplier(
+                Math.floor(progress * props.timeLock) * timeLockMultiplier +
+                  timeLockConstant
+              )
+            }
           }}
         />
         <span
@@ -93,7 +112,9 @@ const SliderComponent = props => {
           `}
         >
           {props.type === 'timeLock'
-            ? `${Math.floor((progress * props.tokenAmount).toFixed(0))} days`
+            ? `${Math.floor(
+                (progress * Math.floor(props.timeLock / 3600 / 24)).toFixed(0)
+              )} days`
             : (progress * props.tokenAmount).toFixed(3)}
         </span>
       </div>

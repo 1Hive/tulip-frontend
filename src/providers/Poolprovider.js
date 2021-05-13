@@ -41,7 +41,9 @@ const loadPoolData = async () => {
   })
   return poolPlusApy
 }
-
+const loadPoolInfo = async () => {
+  return await tulipData.farm.info()
+}
 export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState('')
@@ -49,6 +51,7 @@ export function PoolProvider({ children }) {
   const { account, networkName } = useWallet()
   const network = networkName.toLowerCase()
   const { data, status } = useQuery('loadPoolData', loadPoolData)
+  const poolInfo = useQuery('loadPoolInfo', loadPoolInfo)
   if (status === 'success') {
     for (const x of data) {
       tokens.push(x.poolToken)
@@ -70,15 +73,21 @@ export function PoolProvider({ children }) {
     const tulipF = await tulipData.farm.deposits({
       user_address: account,
     })
-    for (const d of tulipF) {
-      const contract = getContract(d.pool, erc20)
-      const symbol = await contract.functions.symbol()
-      deposits.push({
-        ...d,
-        symbol,
-      })
+    if (tulipF.length > 0) {
+      for (const d of tulipF) {
+        const c = getContract(d.pool, erc20)
+        const symbol = await c.functions.symbol()
+        const rewardBalance = await contract.functions.pendingHsf(d.id)
+        deposits.push({
+          ...d,
+          symbol,
+          rewardBalance,
+        })
+      }
+      setDeposits(deposits)
+    } else {
+      setDeposits([])
     }
-    setDeposits(deposits)
   }
   useEffect(() => {
     if (account) {
@@ -96,6 +105,7 @@ export function PoolProvider({ children }) {
     status,
     balance,
     deposits,
+    poolInfo: poolInfo.data,
   }
   return <PoolContext.Provider value={r}>{children}</PoolContext.Provider>
 }
