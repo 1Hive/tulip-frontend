@@ -3,43 +3,13 @@
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
-				"name": "hsf_",
+				"name": "_hsf",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "totalHsfToDist",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "startTime_",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "endTime_",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "endDistFrac",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "maxTimeLock_",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timeLockMultiplier_",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timeLockConstant_",
-				"type": "uint256"
+				"internalType": "uint256[9]",
+				"name": "_parameters",
+				"type": "uint256[9]"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -105,9 +75,15 @@
 				"type": "address"
 			},
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
 				"name": "depositId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "downgradeReward",
 				"type": "uint256"
 			}
 		],
@@ -151,7 +127,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "allocPoint",
+				"name": "allocation",
 				"type": "uint256"
 			}
 		],
@@ -170,7 +146,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "allocPoint",
+				"name": "allocation",
 				"type": "uint256"
 			}
 		],
@@ -194,6 +170,25 @@
 			}
 		],
 		"name": "Referred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "depositId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardsWithdraw",
 		"type": "event"
 	},
 	{
@@ -237,14 +232,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "allocPoint",
-				"type": "uint256"
+				"internalType": "contract IERC20",
+				"name": "_lpToken",
+				"type": "address"
 			},
 			{
-				"internalType": "contract IERC20",
-				"name": "lpToken",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "_allocation",
+				"type": "uint256"
 			}
 		],
 		"name": "add",
@@ -290,10 +285,23 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "baseURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "depositId",
+				"name": "_depositId",
 				"type": "uint256"
 			}
 		],
@@ -319,22 +327,22 @@
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
-				"name": "poolToken",
+				"name": "_poolToken",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "_amount",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "unlockTime",
+				"name": "_unlockTime",
 				"type": "uint256"
 			},
 			{
 				"internalType": "address",
-				"name": "referrer",
+				"name": "_referrer",
 				"type": "address"
 			}
 		],
@@ -396,7 +404,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "tokenRecipient",
+				"name": "_tokenRecipient",
 				"type": "address"
 			}
 		],
@@ -407,7 +415,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "distSlope",
+		"name": "distributionSlope",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -422,13 +430,26 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "depositId",
+				"name": "_depositId",
 				"type": "uint256"
 			}
 		],
 		"name": "downgradeExpired",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "downgradeFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -467,16 +488,16 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "from",
+				"name": "_from",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "to",
+				"name": "_to",
 				"type": "uint256"
 			}
 		],
-		"name": "getDist",
+		"name": "getDistribution",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -491,7 +512,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "index",
+				"name": "_index",
 				"type": "uint256"
 			}
 		],
@@ -504,7 +525,7 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "allocPoint",
+				"name": "allocation",
 				"type": "uint256"
 			},
 			{
@@ -530,7 +551,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "unlockTime",
+				"name": "_unlockTime",
 				"type": "uint256"
 			}
 		],
@@ -604,6 +625,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "minTimeLock",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "name",
 		"outputs": [
 			{
@@ -651,7 +685,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "depositId",
+				"name": "_depositId",
 				"type": "uint256"
 			}
 		],
@@ -678,7 +712,7 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "allocPoint",
+				"name": "allocation",
 				"type": "uint256"
 			},
 			{
@@ -788,12 +822,12 @@
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
-				"name": "poolToken",
+				"name": "_poolToken",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "allocPoint",
+				"name": "_allocation",
 				"type": "uint256"
 			}
 		],
@@ -823,8 +857,21 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "baseURI_",
+				"type": "string"
+			}
+		],
+		"name": "setBaseURI",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "referralRewarder_",
+				"name": "_referralRewarder",
 				"type": "address"
 			}
 		],
@@ -835,7 +882,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "startDist",
+		"name": "startDistribution",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -921,6 +968,49 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
 			}
@@ -938,7 +1028,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "totalAllocPoint",
+		"name": "totalAllocationPoints",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -952,6 +1042,19 @@
 	{
 		"inputs": [],
 		"name": "totalDeposits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -1002,7 +1105,7 @@
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
-				"name": "poolToken",
+				"name": "_poolToken",
 				"type": "address"
 			}
 		],
@@ -1015,7 +1118,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "depositId",
+				"name": "_depositId",
 				"type": "uint256"
 			}
 		],
