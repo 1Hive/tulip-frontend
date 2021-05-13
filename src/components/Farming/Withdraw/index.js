@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useWithdraw } from '../../../providers/Poolprovider'
+import { useWithdraw } from '../../../hooks/useWithdraw'
 import { getNetworkConfig } from '../../../networks'
 
 const Withdraw = props => {
@@ -26,14 +26,6 @@ const Withdraw = props => {
   }
   return (
     <>
-      <Button
-        css={`
-          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-        `}
-        onClick={handleWithdraw}
-        label="Withdraw"
-        wide
-      />
       <TransactionProgress
         transactionHash={txHash}
         transactionHashUrl={network.txUrl + txHash}
@@ -43,6 +35,18 @@ const Withdraw = props => {
         onClose={() => setVisible(false)}
         opener={opener}
         slow
+      />
+      <Button
+        disabled={!props.disabled}
+        css={`
+          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+        `}
+        onClick={() => {
+          handleWithdraw()
+        }}
+        label="Withdraw"
+        wide
+        ref={opener}
       />
     </>
   )
