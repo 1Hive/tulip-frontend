@@ -48,14 +48,7 @@ const FarmTable = props => {
         `}
       >
         <DataView
-          fields={[
-            'Asset',
-            'Base Yield',
-            'Reward Yield',
-            'Total Yield',
-            'Reward Asset',
-            ' ',
-          ]}
+          fields={['Asset', 'Reward Yield', 'Reward Asset', ' ']}
           css={`
             border-top: none;
           `}
@@ -81,7 +74,7 @@ const FarmTable = props => {
           }}
           entries={account ? (props.searchValue ? results : pairs) : []}
           header
-          renderEntry={({ name, symbol, baseApy, rewardApy, totalApy }) => {
+          renderEntry={({ name, symbol, rewardApy }) => {
             const customLabel = name
             const token0Img = getKnownTokenImg(symbol)
             const token1Img = getKnownTokenImg(null)
@@ -96,9 +89,7 @@ const FarmTable = props => {
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
-              <p>{baseApy}%</p>,
-              <p>{rewardApy}%</p>,
-              <p>{totalApy}%</p>,
+              <p>{rewardApy.toFixed(2)}%</p>,
               <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
                 <Button
