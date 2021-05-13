@@ -27,6 +27,7 @@ export function useWalletData() {
         const balances = await wallet.tokenBalances({
           user_address: account,
         })
+        console.log('balances', balances)
 
         if (!cancelled) {
           setWalletInfo(balances)
@@ -44,6 +45,7 @@ export function useWalletData() {
         const poolingData = await wallet.poolBalances({
           user_address: account,
         })
+        console.log('poolingData', poolingData)
 
         if (!cancelled) {
           setPoolingInfo(poolingData)
@@ -77,71 +79,86 @@ export function useNetBalance() {
     netBalance,
     assetsSortedList,
   } = useMemo(() => {
+    console.log('useMemo')
     let netBalance = 0
     let walletBalance = 0
     let poolBalance = 0
     setAssetsList([])
-    if (!walletInfo || walletInfo.length === 0 || !poolingInfo) {
+    console.log('walletInfo before', walletInfo)
+    console.log('poolingInfo', poolingInfo)
+    /*
+    if (!walletInfo || walletInfo.length === 0) {
+      console.log('not walletinfo')
       return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
     }
+    
+     */
 
-    walletInfo.map(value => {
-      if (value && parseFloat(value.valueUSD)) {
-        walletBalance = walletBalance + parseFloat(value.valueUSD)
-        setAssetsList(data => [
-          ...data,
-          {
-            symbol: value.symbol,
-            name: value.name,
-            balance: formatNumber(value.balance.toFixed(2)),
-            price: formatNumber(value.priceUSD.toFixed(2)),
-            value: formatNumber(value.valueUSD.toFixed(2)),
-            image1: value.logoURI,
-            image2: '',
-          },
-        ])
-      }
-    })
-
-    poolingInfo.map(value => {
-      if (value && parseFloat(value.valueUSD)) {
-        poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
-        let symbol = ''
-        let image1 = ''
-        let image2 = ''
-
-        if (value.tokens && value.tokens.length > 1) {
-          value.tokens.map((token, i) => {
-            symbol = i === 0 ? token.symbol + '-' : symbol + token.symbol
-            if (i === 0) {
-              image1 = token.logoURI
-            } else {
-              image2 = token.logoURI
-            }
-          })
+    console.log('walletInfo', walletInfo)
+    if (walletInfo) {
+      walletInfo.map(value => {
+        if (value && parseFloat(value.valueUSD)) {
+          walletBalance = walletBalance + parseFloat(value.valueUSD)
+          setAssetsList(data => [
+            ...data,
+            {
+              symbol: value.symbol,
+              name: value.name,
+              balance: formatNumber(value.balance.toFixed(2)),
+              price: formatNumber(value.priceUSD.toFixed(2)),
+              value: formatNumber(value.valueUSD.toFixed(2)),
+              image1: value.logoURI,
+              image2: '',
+            },
+          ])
         }
+      })
+    }
+    console.log('after walletInfo')
 
-        setAssetsList(data => [
-          ...data,
-          {
-            symbol,
-            image1,
-            image2,
-            balance: formatNumber(Number(value.balance).toFixed(2)),
-            value: formatNumber(Number(value.valueUSD).toFixed(2)),
-            price: formatNumber(
-              Number(value.valueUSD / value.balance).toFixed(2)
-            ),
-            name: 'HoneySwap',
-          },
-        ])
-      }
-    })
+    if (poolingInfo) {
+      poolingInfo.map(value => {
+        if (value && parseFloat(value.valueUSD)) {
+          poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
+          let symbol = ''
+          let image1 = ''
+          let image2 = ''
 
+          if (value.tokens && value.tokens.length > 1) {
+            value.tokens.map((token, i) => {
+              symbol = i === 0 ? token.symbol + '-' : symbol + token.symbol
+              if (i === 0) {
+                image1 = token.logoURI
+              } else {
+                image2 = token.logoURI
+              }
+            })
+          }
+
+          setAssetsList(data => [
+            ...data,
+            {
+              symbol,
+              image1,
+              image2,
+              balance: formatNumber(Number(value.balance).toFixed(2)),
+              value: formatNumber(Number(value.valueUSD).toFixed(2)),
+              price: formatNumber(
+                Number(value.valueUSD / value.balance).toFixed(2)
+              ),
+              name: 'HoneySwap',
+            },
+          ])
+        }
+      })
+    }
+
+    console.log('test')
     let assetsSortedList = assetsList
     assetsSortedList = assetsSortedList.sort(
       (a, b) => Number(b.value) - Number(a.value)
     )
+    console.log('assetsSortedList', assetsSortedList)
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
     netBalance = parseFloat(
