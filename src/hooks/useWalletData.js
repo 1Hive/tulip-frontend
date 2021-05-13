@@ -8,8 +8,10 @@ import { formatNumber } from '../utils/validate-utils'
 export function useWalletData() {
   const [walletInfo, setWalletInfo] = useState([])
   const [poolingInfo, setPoolingInfo] = useState([])
+  const [farmingInfo, setFarmingInfo] = useState([])
   const [isFetchingWallet, setIsFetchingWallet] = useState(false)
   const [isFetchingPool, setIsFetchingPool] = useState(false)
+  const [isFetchingFarm, setIsFetchingFarm] = useState(false)
   const { account, status } = useWallet()
 
   useEffect(() => {
@@ -54,18 +56,41 @@ export function useWalletData() {
       }
     }
 
+    const fetchFarmingBalances = async () => {
+      try {
+        setIsFetchingPool(true)
+
+        const stakedData = await wallet.stakedBalances({
+          user_address: account,
+        })
+
+        if (!cancelled) {
+          setFarmingInfo(stakedData)
+          return setIsFetchingFarm(false)
+        }
+      } catch (err) {
+        console.error(`Could not fetch wallet data `, err)
+      }
+    }
+
     fetchWalletData()
     fetchPoolingData()
+    fetchFarmingBalances()
     return () => {
       cancelled = true
     }
   }, [account, status])
 
-  return [walletInfo, poolingInfo, isFetchingWallet || isFetchingPool]
+  return [
+    walletInfo,
+    poolingInfo,
+    farmingInfo,
+    isFetchingWallet || isFetchingPool || isFetchingFarm,
+  ]
 }
 
 export function useNetBalance() {
-  const [walletInfo, poolingInfo, isFetching] = useWalletData()
+  const [walletInfo, poolingInfo, farmingInfo, isFetching] = useWalletData()
   const { account } = useWallet()
   const [assetsList, setAssetsList] = useState([])
   const CHART_DATA_KEY = 'chart_data'
@@ -74,38 +99,76 @@ export function useNetBalance() {
   const {
     walletBalance,
     poolBalance,
+    farmBalance,
     netBalance,
     assetsSortedList,
   } = useMemo(() => {
     let netBalance = 0
     let walletBalance = 0
+    let farmBalance = 0
     let poolBalance = 0
     setAssetsList([])
-    if (!walletInfo || walletInfo.length === 0 || !poolingInfo) {
-      return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
+
+    if (walletInfo) {
+      walletInfo.map(value => {
+        if (value && parseFloat(value.valueUSD)) {
+          walletBalance = walletBalance + parseFloat(value.valueUSD)
+          setAssetsList(data => [
+            ...data,
+            {
+              symbol: value.symbol,
+              name: value.name,
+              balance: formatNumber(value.balance.toFixed(2)),
+              price: formatNumber(value.priceUSD.toFixed(2)),
+              value: formatNumber(value.valueUSD.toFixed(2)),
+              image1: value.logoURI,
+              image2: '',
+            },
+          ])
+        }
+      })
     }
 
-    walletInfo.map(value => {
-      if (value && parseFloat(value.valueUSD)) {
-        walletBalance = walletBalance + parseFloat(value.valueUSD)
-        setAssetsList(data => [
-          ...data,
-          {
-            symbol: value.symbol,
-            name: value.name,
-            balance: formatNumber(value.balance.toFixed(2)),
-            price: formatNumber(value.priceUSD.toFixed(2)),
-            value: formatNumber(value.valueUSD.toFixed(2)),
-            image1: value.logoURI,
-            image2: '',
-          },
-        ])
-      }
-    })
+    if (poolingInfo) {
+      poolingInfo.map(value => {
+        if (value && parseFloat(value.valueUSD)) {
+          poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
+          let symbol = ''
+          let image1 = ''
+          let image2 = ''
 
-    poolingInfo.map(value => {
-      if (value && parseFloat(value.valueUSD)) {
-        poolBalance = Number(poolBalance) + parseFloat(value.valueUSD)
+          if (value.tokens && value.tokens.length > 1) {
+            value.tokens.map((token, i) => {
+              symbol = i === 0 ? token.symbol + '-' : symbol + token.symbol
+              if (i === 0) {
+                image1 = token.logoURI
+              } else {
+                image2 = token.logoURI
+              }
+            })
+          }
+
+          setAssetsList(data => [
+            ...data,
+            {
+              symbol,
+              image1,
+              image2,
+              balance: formatNumber(Number(value.balance).toFixed(2)),
+              value: formatNumber(Number(value.valueUSD).toFixed(2)),
+              price: formatNumber(
+                Number(value.valueUSD / value.balance).toFixed(2)
+              ),
+              name: 'HoneySwap',
+            },
+          ])
+        }
+      })
+    }
+
+    if (farmingInfo && farmingInfo.length > 0) {
+      farmingInfo.map(value => {
+        farmBalance = Number(farmBalance) + parseFloat(value.valueUSD)
         let symbol = ''
         let image1 = ''
         let image2 = ''
@@ -132,11 +195,11 @@ export function useNetBalance() {
             price: formatNumber(
               Number(value.valueUSD / value.balance).toFixed(2)
             ),
-            name: 'HoneySwap',
+            name: 'HoneyComb Farm',
           },
         ])
-      }
-    })
+      })
+    }
 
     let assetsSortedList = assetsList
     assetsSortedList = assetsSortedList.sort(
@@ -144,21 +207,27 @@ export function useNetBalance() {
     )
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
+    farmBalance = farmBalance.toFixed(2)
     netBalance = parseFloat(
-      Number(walletBalance) + Number(poolBalance) + netBalance
+      Number(walletBalance) +
+        Number(poolBalance) +
+        Number(farmBalance) +
+        netBalance
     ).toFixed(2)
     walletBalance = formatNumber(walletBalance)
     poolBalance = formatNumber(poolBalance)
+    farmBalance = formatNumber(farmBalance)
     netBalance = formatNumber(netBalance)
 
     return {
       walletBalance,
       poolBalance,
       netBalance,
+      farmBalance,
       assetsSortedList,
       isFetching,
     }
-  }, [walletInfo, poolingInfo, isFetching])
+  }, [walletInfo, poolingInfo, farmingInfo, isFetching])
 
   useMemo(() => {
     if (account && !isFetching) {
@@ -170,6 +239,7 @@ export function useNetBalance() {
     walletBalance,
     poolBalance,
     netBalance,
+    farmBalance,
     assetsList: assetsSortedList,
     isFetching,
   }
