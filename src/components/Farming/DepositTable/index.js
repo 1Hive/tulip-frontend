@@ -26,12 +26,14 @@ const DepositTable = props => {
       rewardShare,
       setRewards,
       symbol,
+      rewardBalance,
     } of props.depositData) {
       const depositInfoObj = {
         id,
         amount: amount.toFixed(3),
         pool,
         referrer,
+        rewardBalance,
         rewardDebt: rewardDebt.toFixed(3),
         unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.onlyDate),
         rewardShare: rewardShare,
@@ -100,6 +102,7 @@ const DepositTable = props => {
           rewardShare,
           setRewards,
           symbol,
+          rewardBalance,
         }) => {
           const imgObj = {
             pair1: getKnownTokenImg(symbol),
@@ -109,7 +112,7 @@ const DepositTable = props => {
           const unlockDate = new Date(unlockTime).getTime() / 1000
           const currentTime = Math.floor(Date.now() / 1000)
           const withdrawEnabled = currentTime > unlockDate
-          console.log(withdrawEnabled)
+          const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
           return [
             <PairName
               image={imgObj}
@@ -119,7 +122,7 @@ const DepositTable = props => {
             <p>{amount}</p>,
             <p>{unlockTime}</p>,
             <RewardComponent image={xComb} name="xComb" />,
-            <p>{rewardDebt}</p>,
+            <p>{pendingReward}</p>,
             <Withdraw id={id} disabled={withdrawEnabled} />,
             <Harvest id={id} />,
           ]

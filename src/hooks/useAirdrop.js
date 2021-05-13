@@ -58,7 +58,6 @@ export function useClaim() {
         if (result.length > 0) {
           const remainingTokens = result[0]
           const tokenBalance = await tokenb()
-          console.log(tokenBalance)
           setBalance(utils.formatUnits(tokenBalance).substring(0, 9))
 
           const rTokens = utils.formatUnits(remainingTokens)

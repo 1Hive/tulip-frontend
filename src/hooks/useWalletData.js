@@ -267,7 +267,6 @@ function updateLocalBalance(account, netBalance, storedValue, setStoredValue) {
               timeStamp: timeStamp.unix(),
               value: netBalance,
             })
-            console.log(storedValue)
             setStoredValue(storedValue)
           } else {
             storedValue[i].chartData[svindex].value = netBalance

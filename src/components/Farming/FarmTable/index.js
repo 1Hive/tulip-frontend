@@ -13,22 +13,23 @@ import xComb from '../../../assets/coins/xcomb.svg'
 const FarmTable = props => {
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
-  const pairs = props.pairData || []
+  const { pairData, searchValue, balance, poolInfo } = props
+  const pairs = pairData || []
   const fuse = new Fuse(pairs, {
     keys: ['name', 'symbol'],
   })
-  const results = fuse.search(props.searchValue)
+  const results = fuse.search(searchValue)
   const { account, status } = useWallet()
   const handleModalActions = e => {
     setModalAction(true)
-    const d = props.searchValue ? results : pairs
+    const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
       return data.symbol === e.target.id
     })
     setModalData({
       ...filtered[0],
       account,
-      balance: props.balance[filtered[0].poolToken],
+      balance: balance[filtered[0].poolToken],
     })
   }
 
@@ -63,7 +64,7 @@ const FarmTable = props => {
             default: {
               displayLoader: false,
               title: `${
-                props.searchValue
+                searchValue
                   ? 'No Pairs Found'
                   : 'Connect your account to see farm'
               }`,
@@ -79,7 +80,7 @@ const FarmTable = props => {
               clearLabel: null,
             },
           }}
-          entries={account ? (props.searchValue ? results : pairs) : []}
+          entries={account ? (searchValue ? results : pairs) : []}
           header
           renderEntry={({ name, symbol, baseApy, rewardApy, totalApy }) => {
             const customLabel = name
@@ -116,6 +117,8 @@ const FarmTable = props => {
                   handleModalClose={handleModalClose}
                   tokenImg={imgObj}
                   data={modalData}
+                  poolInfo={poolInfo}
+                  rewardApy={rewardApy}
                 />
               </React.Fragment>,
             ]

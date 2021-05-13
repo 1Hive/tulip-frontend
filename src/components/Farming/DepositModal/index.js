@@ -6,18 +6,14 @@ import { getKnownTokenImg } from '../../../utils/known-tokens'
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
-import multiplier from '../../../assets/multiplier.svg'
 
 const DepositModal = props => {
   const [approved, setApproved] = useState('')
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
+  const [timeLockMultiplier, setTimelockMultiplier] = useState()
   const imgObj = {
     pair1: getKnownTokenImg(props.data.symbol),
-    pair2: undefined,
-  }
-  const multiplierObj = {
-    pair1: multiplier,
     pair2: undefined,
   }
   useCheckApprovedToken(
@@ -32,6 +28,7 @@ const DepositModal = props => {
       setAmount(sliderObj.amount)
     } else {
       setTimeLock(sliderObj.amount)
+      setTimelockMultiplier(sliderObj.multiplier)
     }
   }
 
@@ -97,11 +94,12 @@ const DepositModal = props => {
           onUpdate={handleSliderUpdate}
         />
         <SliderComponent
-          imgObj={multiplierObj}
-          tokenAmount={59}
+          timeLock={props.poolInfo.maxTimeLock}
           pairTitle="How long do you want to lock your deposit?"
           type="timeLock"
           onUpdate={handleSliderUpdate}
+          timeLockMultiplier={props.poolInfo.timeLockMultiplier}
+          timeLockConstant={props.poolInfo.timeLockConstant}
         />
       </div>
       <div
@@ -118,10 +116,11 @@ const DepositModal = props => {
           font-family: 'Overpass', sans-serif;
         `}
       >
-        Currently your deposit is projected to have a yield of 120% per year.
-        This yield is variable and depends on the price of the reward asset,
-        underlying asset yields, and the amount of capital participating in the
-        Farm. Find out more about how we calculate projected yields here.
+        Currently your deposit is projected to have a yield of{' '}
+        {parseFloat(timeLockMultiplier) * props.rewardApy} per year. This yield
+        is variable and depends on the price of the reward asset, underlying
+        asset yields, and the amount of capital participating in the Farm. Find
+        out more about how we calculate projected yields here.
       </div>
       {approved ? (
         <Deposit
