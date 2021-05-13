@@ -27,7 +27,6 @@ export function useWalletData() {
         const balances = await wallet.tokenBalances({
           user_address: account,
         })
-        console.log('balances', balances)
 
         if (!cancelled) {
           setWalletInfo(balances)
@@ -45,7 +44,6 @@ export function useWalletData() {
         const poolingData = await wallet.poolBalances({
           user_address: account,
         })
-        console.log('poolingData', poolingData)
 
         if (!cancelled) {
           setPoolingInfo(poolingData)
@@ -79,22 +77,11 @@ export function useNetBalance() {
     netBalance,
     assetsSortedList,
   } = useMemo(() => {
-    console.log('useMemo')
     let netBalance = 0
     let walletBalance = 0
     let poolBalance = 0
     setAssetsList([])
-    console.log('walletInfo before', walletInfo)
-    console.log('poolingInfo', poolingInfo)
-    /*
-    if (!walletInfo || walletInfo.length === 0) {
-      console.log('not walletinfo')
-      return { walletBalance, poolBalance, netBalance, assetsList, isFetching }
-    }
-    
-     */
 
-    console.log('walletInfo', walletInfo)
     if (walletInfo) {
       walletInfo.map(value => {
         if (value && parseFloat(value.valueUSD)) {
@@ -114,7 +101,6 @@ export function useNetBalance() {
         }
       })
     }
-    console.log('after walletInfo')
 
     if (poolingInfo) {
       poolingInfo.map(value => {
@@ -153,12 +139,10 @@ export function useNetBalance() {
       })
     }
 
-    console.log('test')
     let assetsSortedList = assetsList
     assetsSortedList = assetsSortedList.sort(
       (a, b) => Number(b.value) - Number(a.value)
     )
-    console.log('assetsSortedList', assetsSortedList)
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
     netBalance = parseFloat(
@@ -284,7 +268,6 @@ function updateLocalBalance(account, netBalance, storedValue, setStoredValue) {
               timeStamp: timeStamp.unix(),
               value: netBalance,
             })
-            console.log(storedValue)
             setStoredValue(storedValue)
           } else {
             storedValue[i].chartData[svindex].value = netBalance
