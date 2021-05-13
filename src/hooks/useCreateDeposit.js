@@ -1,7 +1,7 @@
 import { useContract } from '../web3-contracts'
 import honeyFarm from '../abi/honeyfarm.json'
 import { ethers } from 'ethers'
-import { networkConfigs } from '../networks' 
+import { networkConfigs } from '../networks'
 
 export function useCreateDeposit(
   tokenAddress,

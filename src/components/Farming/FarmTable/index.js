@@ -19,7 +19,6 @@ const FarmTable = props => {
   })
   const results = fuse.search(props.searchValue)
   const { account, status } = useWallet()
-  
   const handleModalActions = e => {
     setModalAction(true)
     const d = props.searchValue ? results : pairs
