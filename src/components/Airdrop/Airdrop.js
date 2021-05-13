@@ -130,9 +130,17 @@ const Airdrop = React.memo(() => {
                 justify-content: space-between;
               `}
             >
-              <span>Claimed Amount</span>
+              <span>Available to Claim</span>
               <span>{claimed}</span>
             </div>
+            <div
+              css={`
+                margin-top: ${GU}px;
+                height: ${0.125 * GU}px;
+                width: 100%;
+                background-color: #efefef;
+              `}
+            />
             <div
               css={`
                 display: flex;
@@ -144,14 +152,6 @@ const Airdrop = React.memo(() => {
               <span>Balance</span>
               <span>{balance}</span>
             </div>
-            <div
-              css={`
-                margin-top: ${GU}px;
-                height: ${0.125 * GU}px;
-                width: 100%;
-                background-color: #efefef;
-              `}
-            />
           </div>
           <span
             css={`

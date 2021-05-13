@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useCreateDeposit } from '../../../providers/Poolprovider'
+import { useCreateDeposit } from '../../../hooks/useCreateDeposit'
 import { getNetworkConfig } from '../../../networks'
-import Styled from './deposit.style'
 
 const Deposit = props => {
   const [visible, setVisible] = useState(false)
@@ -40,6 +39,16 @@ const Deposit = props => {
   }
   return (
     <>
+      <TransactionProgress
+        transactionHash={txHash}
+        transactionHashUrl={network.txUrl + txHash}
+        progress={0.3}
+        visible={visible}
+        endTime={new Date(Date.now() + 100000)}
+        onClose={() => setVisible(false)}
+        opener={opener}
+        slow
+      />
       <Button
         css={`
           background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
@@ -47,19 +56,8 @@ const Deposit = props => {
         label="Deposit"
         onClick={handleDeposit}
         wide
+        ref={opener}
       />
-      <Styled.TransactionProgress>
-        <TransactionProgress
-          transactionHash={txHash}
-          transactionHashUrl={network.txUrl + txHash}
-          progress={0.3}
-          visible={visible}
-          endTime={new Date(Date.now() + 100000)}
-          onClose={() => setVisible(false)}
-          opener={opener}
-          slow
-        />
-      </Styled.TransactionProgress>
     </>
   )
 }

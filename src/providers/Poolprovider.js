@@ -1,18 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import tulipData from 'tulip-data'
-import { getContract, useContract } from '../web3-contracts'
-import { getNetworkConfig } from '../networks'
+import { getContract } from '../web3-contracts'
+import { networkConfigs } from '../networks'
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
-// import erc721 from '../abi/ERC721.json'
-
 import { useWallet } from './Wallet'
-import { providers as Providers, ethers } from 'ethers'
+import { providers as Providers } from 'ethers'
 
 const PoolContext = React.createContext()
-const network = getNetworkConfig()
-const contract = getContract(network.honeyfarm, honeyFarm)
+const contract = getContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
 
 const loadPoolData = async () => {
   const scale = await contract.functions.SCALE()
@@ -43,64 +40,6 @@ const loadPoolData = async () => {
     }
   })
   return poolPlusApy
-}
-
-export async function useCheckApprovedToken(tokenAddress, account, balance) {
-  if (tokenAddress !== undefined && account !== undefined) {
-    const contract = getContract(tokenAddress, erc20)
-    const allowance = await contract.allowance(account, network.honeyfarm)
-    if (allowance.lt(balance)) {
-      return false
-    }
-    return true
-  }
-}
-
-export function useApprove(tokenAddress, amount) {
-  const contract = useContract(tokenAddress, erc20)
-  return () => {
-    return contract
-      .approve(network.honeyfarm, amount)
-      .then(async x => {
-        return await x.wait()
-      })
-      .catch(err => console.log(err))
-  }
-}
-
-export function useCreateDeposit(
-  tokenAddress,
-  amount,
-  unlockTime = 0,
-  referrer = '0x0000000000000000000000000000000000000000'
-) {
-  amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
-  const contract = useContract(network.honeyfarm, honeyFarm)
-  return () => {
-    return contract
-      .createDeposit(tokenAddress, amount, unlockTime, referrer)
-      .then(x => {
-        return x
-      })
-      .catch(err => console.log(err))
-  }
-}
-
-export function useWithdraw(id) {
-  const contract = useContract(network.honeyfarm, honeyFarm)
-  return () => {
-    return contract
-      .closeDeposit(id)
-      .then(x => {
-        return x
-      })
-      .catch(err => console.log(err))
-  }
-}
-export function useHarvest(id) {
-  return () => {
-    // TODO: Add harvest function here
-  }
 }
 
 export function PoolProvider({ children }) {

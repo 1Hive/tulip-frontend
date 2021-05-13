@@ -10,12 +10,12 @@ export function useClaim() {
   const [working, setWorking] = useState(false)
   const [txHash, setTxHash] = useState('')
   const { account, status } = useWallet()
-  const [tokens, setTokens] = useState(0)
-  const [claimed, setClaimed] = useState(0)
+  const [unclaimed, setUnclaimed] = useState(0)
+  const [available, setAvailable] = useState(0)
   const [balance, setBalance] = useState(0)
   const networks = getNetworkConfig()
   const contract = useContract(networks.StreamedAirdropper, StreamedAirdropper)
-  const tokenb = useGetTokenBalance(networks.xCombToken, ERC20)
+  const tokenb = useGetTokenBalance(networks.hsfToken, ERC20)
 
   const claim = useMemo(() => {
     if (!account || status === 'disconnected') {
@@ -34,18 +34,16 @@ export function useClaim() {
   }, [account, contract, status])
 
   useEffect(() => {
-    let cancelled = false
-
     if (!account || status === 'disconnected') {
-      setTokens(0)
+      setAvailable(0)
       return
     }
-
-    const fetchPendingTokens = async () => {
+    let cancelled = false
+    const fetchAvailable = async () => {
       try {
         const tokens = await contract.pendingTokens(account)
         if (!cancelled && tokens) {
-          setTokens(utils.formatUnits(tokens).substring(0, 9))
+          setAvailable(utils.formatUnits(tokens).substring(0, 9))
         }
 
         return tokens
@@ -54,31 +52,18 @@ export function useClaim() {
       }
     }
 
-    const fetchClaimedData = async () => {
+    const fetchUnclaimedData = async () => {
       try {
         const result = await contract.vestingUsers(account)
         if (result.length > 0) {
-          const ds = await contract.distributionStart()
-          const lw = result[1]
-          const de = await contract.distributionEnd()
           const remainingTokens = result[0]
-
-          const totalTokens = utils.formatUnits(
-            de
-              .sub(ds)
-              .mul(remainingTokens)
-              .div(de.sub(lw))
-          )
-
           const tokenBalance = await tokenb()
-          setBalance(tokenBalance.toNumber())
+          console.log(tokenBalance)
+          setBalance(utils.formatUnits(tokenBalance).substring(0, 9))
 
-          if (totalTokens) {
-            const rTokens = utils.formatUnits(remainingTokens)
-            if (rTokens) {
-              const cTokens = parseFloat(totalTokens - rTokens).toFixed(4)
-              setClaimed(cTokens)
-            }
+          const rTokens = utils.formatUnits(remainingTokens)
+          if (rTokens) {
+            setUnclaimed(parseFloat(rTokens).toFixed(4))
           }
         }
       } catch (err) {
@@ -86,12 +71,12 @@ export function useClaim() {
       }
     }
 
-    fetchPendingTokens()
-    fetchClaimedData()
+    fetchAvailable()
+    fetchUnclaimedData()
     return () => {
       cancelled = true
     }
   }, [account, status, working])
 
-  return [balance, claim, claimed, tokens, txHash, working]
+  return [balance, claim, available, unclaimed, txHash, working]
 }
