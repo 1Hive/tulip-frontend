@@ -32,7 +32,11 @@ function AssetCardList({ walletData }) {
         title="Pools"
         value={'$ ' + walletData.poolBalance}
       />
-      <WalletCard icon={Farming} title="Farming" value="$ 0" />
+      <WalletCard
+        icon={Farming}
+        title="Farming"
+        value={'$ ' + walletData.farmBalance}
+      />
       {/* <WalletCard icon={Lent} title="Borrowed" value="$ 0" isBorrow /> */}
     </div>
   )
