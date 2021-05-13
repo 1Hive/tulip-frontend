@@ -106,6 +106,10 @@ const DepositTable = props => {
             pair2: null,
           }
           const customLabel = symbol
+          const unlockDate = new Date(unlockTime).getTime() / 1000
+          const currentTime = Math.floor(Date.now() / 1000)
+          const withdrawEnabled = currentTime > unlockDate
+          console.log(withdrawEnabled)
           return [
             <PairName
               image={imgObj}
@@ -116,7 +120,7 @@ const DepositTable = props => {
             <p>{unlockTime}</p>,
             <RewardComponent image={xComb} name="xComb" />,
             <p>{rewardDebt}</p>,
-            <Withdraw id={id} />,
+            <Withdraw id={id} disabled={withdrawEnabled} />,
             <Harvest id={id} />,
           ]
         }}

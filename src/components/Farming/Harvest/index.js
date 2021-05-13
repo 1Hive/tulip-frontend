@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useHarvest } from '../../../providers/Poolprovider'
+import { useHarvest } from '../../../hooks/useHarvest'
 
 const Harvest = props => {
   const [visible, setVisible] = useState(false)
@@ -20,14 +20,6 @@ const Harvest = props => {
 
   return (
     <>
-      <Button
-        css={`
-          background: linear-gradient(90deg, #f1f3f7, #f1f3f3);
-        `}
-        onClick={handleHarvest}
-        label="Harvest"
-        wide
-      />
       <TransactionProgress
         transactionHashUrl={`https://etherscan.io/tx/${txHash}`}
         progress={0.3}
@@ -36,6 +28,15 @@ const Harvest = props => {
         onClose={() => setVisible(false)}
         opener={opener}
         slow
+      />
+      <Button
+        css={`
+          background: linear-gradient(90deg, #f1f3f7, #f1f3f3);
+        `}
+        onClick={handleHarvest}
+        label="Harvest"
+        wide
+        ref={opener}
       />
     </>
   )
