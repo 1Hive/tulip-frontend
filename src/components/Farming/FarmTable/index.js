@@ -18,8 +18,8 @@ const FarmTable = props => {
     keys: ['name', 'symbol'],
   })
   const results = fuse.search(props.searchValue)
-
   const { account, status } = useWallet()
+  console.log(pairs, status)
   const handleModalActions = e => {
     setModalAction(true)
     const d = props.searchValue ? results : pairs
