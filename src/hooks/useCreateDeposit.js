@@ -1,7 +1,7 @@
 import { useContract } from '../web3-contracts'
 import honeyFarm from '../abi/honeyfarm.json'
 import { ethers } from 'ethers'
-import { addresses } from '../constants/addresses'
+import { networkConfigs } from '../networks' 
 
 export function useCreateDeposit(
   tokenAddress,
@@ -10,7 +10,7 @@ export function useCreateDeposit(
   referrer = '0x0000000000000000000000000000000000000000'
 ) {
   amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
-  const contract = useContract(addresses.honeyfarm, honeyFarm)
+  const contract = useContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
   return () => {
     return contract
       .createDeposit(tokenAddress, amount, unlockTime, referrer)

@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import tulipData from 'tulip-data'
 import { getContract } from '../web3-contracts'
-import { addresses } from '../constants/addresses'
+import { networkConfigs } from '../networks';
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
 import { useWallet } from './Wallet'
 import { providers as Providers } from 'ethers'
 
 const PoolContext = React.createContext()
-const contract = getContract(addresses.honeyfarm, honeyFarm)
+const contract = getContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
 
 const loadPoolData = async () => {
   const scale = await contract.functions.SCALE()
