@@ -22,6 +22,13 @@ const Airdrop = React.memo(() => {
   const [balance, claim, claimed, tokens, txHash, working] = useClaim()
   const networks = getNetworkConfig()
 
+  let tokenImage = xCombImage
+  let tokenName = 'xComb'
+  if (networks.token) {
+    tokenImage = networks.token.image
+    tokenName = networks.token.name
+  }
+
   if (working !== visible) {
     setVisible(working)
   }
@@ -53,7 +60,7 @@ const Airdrop = React.memo(() => {
               font-weight: 700;
             `}
           >
-            Claim your xComb Airdrop
+            Claim your {tokenName} Airdrop
           </span>
           <span
             css={`
@@ -66,7 +73,7 @@ const Airdrop = React.memo(() => {
             `}
           >
             Welcome to 1Hive's automated investment strategies platform,
-            qualifying addresses are eligible to claim xComb tokens.
+            qualifying addresses are eligible to claim {tokenName} tokens.
           </span>
           <Card
             height={6.25 * GU}
@@ -90,7 +97,7 @@ const Airdrop = React.memo(() => {
                   font-weight: 300;
                 `}
               >
-                Unclaimed xComb
+                Unclaimed {tokenName}
               </span>
               <div
                 css={`
@@ -99,7 +106,7 @@ const Airdrop = React.memo(() => {
                   align-items: center;
                 `}
               >
-                <img src={xCombImage} />
+                <img src={tokenImage} />
                 <span
                   css={`
                     margin-left: ${GU}px;
