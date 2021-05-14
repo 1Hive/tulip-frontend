@@ -97,6 +97,7 @@ export function PoolProvider({ children }) {
   }, [account])
   contract.on('Transfer', (to, amount, from) => {
     if (account) {
+      loadBalanceData()
       loadDepositData()
     }
   })
