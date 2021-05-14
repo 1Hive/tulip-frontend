@@ -3,12 +3,18 @@ import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import PairName from '../Farming/PairName'
 import Fuse from 'fuse.js'
 import Icon from '../../assets/tulip/icon.svg'
+import { getNetworkConfig } from '../../networks'
 
 const AssetsTable = props => {
   const assets = props.assets || []
   const fuse = new Fuse(assets, {
     keys: ['name', 'symbol'],
   })
+  let image = Icon
+  const network = getNetworkConfig()
+  if (network) {
+    image = network.token.image
+  }
   const results = fuse.search(props.searchValue)
   return (
     <div
@@ -31,7 +37,7 @@ const AssetsTable = props => {
             title:
               'Connect your account to get more information about your assets',
             subtitle: null,
-            illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
+            illustration: <img src={image} height={6 * GU} width={5.5 * GU} />,
             clearLabel: null,
           },
           loading: {

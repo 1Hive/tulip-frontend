@@ -1,10 +1,19 @@
 import React from 'react'
 import { Card, GU, textStyle, useViewport } from '@1hive/1hive-ui'
+import { getNetworkConfig } from '../../networks'
 import xCombImage from '../../assets/tulip/xComb.svg'
 
 const PlaceHolder = React.memo(() => {
   const { width: vw, below } = useViewport()
   const small = below('medium')
+
+  let tokenImage = xCombImage
+  let tokenName = 'xComb'
+  const networks = getNetworkConfig()
+  if (networks.token) {
+    tokenImage = networks.token.image
+    tokenName = networks.token.name
+  }
 
   return (
     <>
@@ -22,7 +31,7 @@ const PlaceHolder = React.memo(() => {
               width: ${9.125 * GU}px;
               height: ${10 * GU}px;
             `}
-            src={xCombImage}
+            src={tokenImage}
           />
           <span
             css={`
@@ -32,7 +41,7 @@ const PlaceHolder = React.memo(() => {
               margin-top: ${4 * GU}px;
             `}
           >
-            xComb Airdrop
+            {tokenName} Airdrop
           </span>
           <span
             css={`
@@ -45,7 +54,7 @@ const PlaceHolder = React.memo(() => {
             `}
           >
             In order to check your eligibility for the airdrop, please connect
-            your account to xDai network
+            your account to xDai or Polygon network
           </span>
         </Card>
       </div>

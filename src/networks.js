@@ -21,6 +21,10 @@ export const networkConfigs = {
       defaultEth: '',
       subgraph: '',
     },
+    token: {
+      name: 'xComb',
+      image: '/xComb.svg',
+    },
   },
   polygon: {
     honeyfarm: '',
@@ -31,6 +35,10 @@ export const networkConfigs = {
     nodes: {
       defaultEth: '',
       subgraph: '',
+    },
+    token: {
+      name: 'pComb',
+      image: '/pComb.svg',
     },
   },
   rinkeby: {
@@ -43,6 +51,10 @@ export const networkConfigs = {
       defaultEth: '',
       subgraph: '',
     },
+    token: {
+      name: 'xComb',
+      image: '/xComb.svg',
+    },
   },
   local: {
     honeyfarm: '',
@@ -53,6 +65,10 @@ export const networkConfigs = {
     nodes: {
       defaultEth: 'http://localhost:8545',
       subgraph: '',
+    },
+    token: {
+      name: 'xComb',
+      image: '/xComb.svg',
     },
   },
 }
