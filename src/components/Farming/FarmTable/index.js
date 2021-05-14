@@ -24,18 +24,23 @@ const FarmTable = props => {
     setModalAction(true)
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
-      return data.symbol === e.target.id
+      console.log('props filter', data)
+      return data.pair === e.target.id
     })
+    console.log('props e target', e.target.id)
+    console.log('props balance', balance)
+    console.log('props filtered', filtered)
     setModalData({
       ...filtered[0],
       account,
-      balance: balance[filtered[0].poolToken],
+      balance: balance[filtered[0].id],
     })
   }
 
   const handleModalClose = () => {
     setModalAction(false)
   }
+  console.log('props farmtable', props)
   if (pairs.length === 0 && status !== 'disconnected') {
     return <Loader />
   } else {
@@ -75,14 +80,16 @@ const FarmTable = props => {
           }}
           entries={account ? (searchValue ? results : pairs) : []}
           header
-          renderEntry={({ name, symbol, rewardApy }) => {
+          renderEntry={pool => {
             const customLabel = name
-            const token0Img = getKnownTokenImg(symbol)
-            const token1Img = getKnownTokenImg(null)
+            const token0Img = getKnownTokenImg(pool.pairInfo.token0.symbol)
+            const token1Img = getKnownTokenImg(pool.pairInfo.token1.symbol)
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
             }
+
+            console.log('token1 symbol', pool.pairInfo.token1.symbol)
 
             return [
               <PairName
@@ -90,14 +97,14 @@ const FarmTable = props => {
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
-              <p>{rewardApy.toFixed(2)}%</p>,
+              <p>{pool.rewardApy.toFixed(2)}%</p>,
               <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
                 <Button
                   css={`
                     background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
                   `}
-                  id={symbol}
+                  id={pool.pair}
                   label="Stake"
                   onClick={e => {
                     handleModalActions(e)
@@ -109,7 +116,7 @@ const FarmTable = props => {
                   tokenImg={imgObj}
                   data={modalData}
                   poolInfo={poolInfo}
-                  rewardApy={rewardApy}
+                  rewardApy={pool.rewardApy}
                 />
               </React.Fragment>,
             ]

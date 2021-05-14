@@ -113,6 +113,13 @@ const DepositTable = props => {
           const currentTime = Math.floor(Date.now() / 1000)
           const withdrawEnabled = currentTime > unlockDate
           const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
+          let withdrawDisabledCSS = ''
+          if (!withdrawEnabled) {
+            withdrawDisabledCSS = `color: 'red'`
+          }
+          if (new Date(unlockTime).getTime() === 0) {
+            unlockTime = 'Not locked'
+          }
           return [
             <PairName
               image={imgObj}
@@ -120,7 +127,7 @@ const DepositTable = props => {
               subheadline="Honeyswap"
             />,
             <p>{amount}</p>,
-            <p>{unlockTime}</p>,
+            <p css={withdrawDisabledCSS}>{unlockTime}</p>,
             <RewardComponent image={xComb} name="xComb" />,
             <p>{pendingReward}</p>,
             <Withdraw id={id} disabled={withdrawEnabled} />,

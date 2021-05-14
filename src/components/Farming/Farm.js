@@ -16,6 +16,9 @@ const Farm = React.memo(({ onlyTable }) => {
   }
 
   const { data, balance, deposits, poolInfo } = usePoolProvider()
+  console.log('props data', data)
+
+  console.log('props data, balance', balance)
   const handleSearch = value => {
     setSearch(value)
   }

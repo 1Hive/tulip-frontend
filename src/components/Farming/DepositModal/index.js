@@ -11,7 +11,10 @@ const DepositModal = props => {
   const [approved, setApproved] = useState('')
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
-  const [timeLockMultiplier, setTimelockMultiplier] = useState()
+  const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
+
+  console.log('depositModal props', props)
+
   const imgObj = {
     pair1: getKnownTokenImg(props.data.symbol),
     pair2: undefined,
@@ -29,6 +32,7 @@ const DepositModal = props => {
     } else {
       setTimeLock(sliderObj.amount)
       setTimelockMultiplier(sliderObj.multiplier)
+      console.log('sliderObj.multiplier', sliderObj.multiplier)
     }
   }
 
@@ -68,8 +72,8 @@ const DepositModal = props => {
       </h2>
       <span>
         This farm allows you to <strong>optionally</strong> lock your deposit
-        for up to 1 year to increase the reward yield multiplier on your
-        deposit.
+        for up to {Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)} days to
+        increase the reward yield multiplier on your deposit.
       </span>
       <div
         css={`
@@ -117,10 +121,12 @@ const DepositModal = props => {
         `}
       >
         Currently your deposit is projected to have a yield of{' '}
-        {parseFloat(timeLockMultiplier) * props.rewardApy} per year. This yield
-        is variable and depends on the price of the reward asset, underlying
-        asset yields, and the amount of capital participating in the Farm. Find
-        out more about how we calculate projected yields here.
+        {console.log('timeLockMultiplier', timeLockMultiplier)}
+        {console.log('rewardApy', props.data.rewardApy)}
+        {(timeLockMultiplier * props.data.rewardApy).toFixed(2)} per year. This
+        yield is variable and depends on the price of the reward asset,
+        underlying asset yields, and the amount of capital participating in the
+        Farm. Find out more about how we calculate projected yields here.
       </div>
       {approved ? (
         <Deposit
