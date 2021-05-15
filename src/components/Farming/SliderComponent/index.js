@@ -6,7 +6,7 @@ const SliderComponent = props => {
   const [progress, setProgress] = useState(0)
   const [multiplier, setMultiplier] = useState(1)
   const { timeLockMultiplier, timeLockConstant } = props
-  const mult = (multiplier / 1e18 / 1e18).toFixed(1)
+  const mult = (multiplier / 1e18 / 1e18 + 1).toFixed(2)
   useEffect(() => {
     if (props.type === 'tokenAmount') {
       props.onUpdate({
@@ -17,7 +17,7 @@ const SliderComponent = props => {
       props.onUpdate({
         type: props.type,
         amount: 'Not Set',
-        multiplier: 'Not Set',
+        multiplier: 1,
       })
     }
   }, [])

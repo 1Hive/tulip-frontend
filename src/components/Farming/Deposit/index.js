@@ -31,6 +31,7 @@ const Deposit = props => {
           x.wait()
             .then(() => {
               setVisible(false)
+              props.onTransactionComplete()
             })
             .catch(err => console.log(err))
         }

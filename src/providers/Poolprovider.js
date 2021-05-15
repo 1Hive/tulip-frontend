@@ -11,101 +11,81 @@ import { providers as Providers } from 'ethers'
 const PoolContext = React.createContext()
 const contract = getContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
 
-const loadPoolData = async () => {
-  const scale = await contract.functions.SCALE()
-  const poolLength = await contract.functions.poolLength()
-  const poolLengthToNumber = poolLength[0].toNumber()
-  const poolData = []
-  const tokenList = []
-  const tulipApy = await tulipData.farm.apys()
-  for (let i = 0; i < poolLengthToNumber; i++) {
-    const data = await contract.functions.getPoolByIndex(i)
-    const c = getContract(data.poolToken, erc20)
-    poolData.push({
-      ...data,
-      name: await c.name(),
-      symbol: await c.symbol(),
-      scale,
-    })
-    tokenList.push(data.poolToken)
-  }
-  const poolPlusApy = poolData.map(p => {
-    for (const x of tulipApy) {
-      if (x.pair.toLowerCase() === p.poolToken.toLowerCase()) {
-        return {
-          ...p,
-          ...x,
-        }
-      }
-    }
-  })
-  return poolPlusApy
-}
-const loadPoolInfo = async () => {
-  return await tulipData.farm.info()
-}
 export function PoolProvider({ children }) {
   const tokens = []
-  const [balance, setBalance] = useState('')
-  const [deposits, setDeposits] = useState('')
+  const [balance, setBalance] = useState()
+  // const [balance, setBalance] = useState('')
+  // const [deposits, setDeposits] = useState('')
   const { account, networkName } = useWallet()
   const network = networkName.toLowerCase()
-  const { data, status } = useQuery('loadPoolData', loadPoolData)
-  const poolInfo = useQuery('loadPoolInfo', loadPoolInfo)
-  if (status === 'success') {
-    for (const x of data) {
-      tokens.push(x.poolToken)
-    }
-  }
-  const loadBalanceData = async () => {
-    const tulipD = await tulipData.wallet.simplyTokenBalances({
-      user_address: account,
-      network: network,
-      tokens,
-      web3: {
-        eth: new Providers.Web3Provider(window.ethereum),
-      },
+
+  const loadPoolData = async () => {
+    const tulipApy = await tulipData.farm.apys()
+    tulipApy.forEach(pool => {
+      tokens.push(pool.pair)
     })
-    setBalance(tulipD)
+    if (account && tokens.length > 0) {
+      const tulipD = await tulipData.wallet.simplyTokenBalances({
+        user_address: account,
+        network: network,
+        tokens: tokens,
+        web3: {
+          eth: new Providers.Web3Provider(window.ethereum),
+        },
+      })
+      setBalance(tulipD)
+    }
+    return tulipApy
+  }
+  const loadPoolInfo = async () => {
+    const poolInfo = await tulipData.farm.info()
+    return poolInfo
   }
   const loadDepositData = async () => {
     const deposits = []
-    const tulipF = await tulipData.farm.deposits({
-      user_address: account,
-    })
-    if (tulipF.length > 0) {
-      for (const d of tulipF) {
-        const c = getContract(d.pool, erc20)
-        const symbol = await c.functions.symbol()
-        const rewardBalance = await contract.functions.pendingHsf(d.id)
-        deposits.push({
-          ...d,
-          symbol,
-          rewardBalance,
-        })
+    if (account) {
+      const tulipF = await tulipData.farm.deposits({
+        user_address: account,
+      })
+      if (tulipF.length > 0) {
+        for (const d of tulipF) {
+          const c = getContract(d.pool, erc20)
+          const symbol = await c.functions.symbol()
+          const rewardBalance = await contract.functions.pendingHsf(d.id)
+          deposits.push({
+            ...d,
+            symbol,
+            rewardBalance,
+          })
+        }
+        return deposits
+      } else {
+        return []
       }
-      setDeposits(deposits)
-    } else {
-      setDeposits([])
     }
   }
+  const poolData = useQuery('loadPoolData', loadPoolData)
+  const poolInfo = useQuery('loadPoolInfo', loadPoolInfo)
+  const deposits = useQuery('loadDepositData', loadDepositData)
+
   useEffect(() => {
-    if (account) {
-      loadBalanceData()
-      loadDepositData(account)
-    }
+    poolData.refetch()
+    poolInfo.refetch()
+    deposits.refetch()
   }, [account])
+
   contract.on('Transfer', (to, amount, from) => {
     if (account) {
-      loadBalanceData()
-      loadDepositData()
+      poolData.refetch()
+      poolInfo.refetch()
+      deposits.refetch()
     }
   })
   const r = {
-    data,
+    data: poolData.data,
     status,
     balance,
-    deposits,
+    deposits: deposits.data,
     poolInfo: poolInfo.data,
   }
   return <PoolContext.Provider value={r}>{children}</PoolContext.Provider>

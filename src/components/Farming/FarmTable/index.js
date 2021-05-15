@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
-import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import Fuse from 'fuse.js'
@@ -24,15 +23,14 @@ const FarmTable = props => {
     setModalAction(true)
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
-      return data.symbol === e.target.id
+      return data.pair === e.target.id
     })
     setModalData({
       ...filtered[0],
       account,
-      balance: balance[filtered[0].poolToken],
+      balance: balance[filtered[0].pair],
     })
   }
-
   const handleModalClose = () => {
     setModalAction(false)
   }
@@ -58,8 +56,8 @@ const FarmTable = props => {
               displayLoader: false,
               title: `${
                 searchValue
-                  ? 'No Pairs Found'
-                  : 'Connect your account to see farm'
+                  ? 'No results'
+                  : 'Connect your account to see the farms'
               }`,
               subtitle: null,
               illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
@@ -75,29 +73,28 @@ const FarmTable = props => {
           }}
           entries={account ? (searchValue ? results : pairs) : []}
           header
-          renderEntry={({ name, symbol, rewardApy }) => {
-            const customLabel = name
-            const token0Img = getKnownTokenImg(symbol)
-            const token1Img = getKnownTokenImg(null)
+          renderEntry={pool => {
+            const customLabel = `${pool.pairInfo.token0.name} - ${pool.pairInfo.token1.name}`
+            const token0Img = pool.pairInfo.token0.logoURI
+            const token1Img = pool.pairInfo.token1.logoURI
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
             }
-
             return [
               <PairName
                 image={imgObj}
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
-              <p>{rewardApy.toFixed(2)}%</p>,
+              <p>{pool.rewardApy.toFixed(2)}%</p>,
               <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
                 <Button
                   css={`
                     background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
                   `}
-                  id={symbol}
+                  id={pool.pair}
                   label="Stake"
                   onClick={e => {
                     handleModalActions(e)
@@ -109,7 +106,7 @@ const FarmTable = props => {
                   tokenImg={imgObj}
                   data={modalData}
                   poolInfo={poolInfo}
-                  rewardApy={rewardApy}
+                  rewardApy={pool.rewardApy}
                 />
               </React.Fragment>,
             ]

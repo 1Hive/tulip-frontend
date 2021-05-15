@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Modal, GU } from '@1hive/1hive-ui'
 import { ethers } from 'ethers'
 import SliderComponent from '../SliderComponent'
-import { getKnownTokenImg } from '../../../utils/known-tokens'
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
@@ -11,13 +10,24 @@ const DepositModal = props => {
   const [approved, setApproved] = useState('')
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
-  const [timeLockMultiplier, setTimelockMultiplier] = useState()
+  const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
   const imgObj = {
-    pair1: getKnownTokenImg(props.data.symbol),
-    pair2: undefined,
+    pair1:
+      props.data.pairInfo !== undefined
+        ? props.data.pairInfo.token0.logoURI
+        : undefined,
+    pair2:
+      props.data.pairInfo !== undefined
+        ? props.data.pairInfo.token1.logoURI
+        : undefined,
   }
+
+  const tokenName = props.data.pairInfo
+    ? `${props.data.pairInfo.token0.symbol} - ${props.data.pairInfo.token1.symbol}`
+    : ''
+
   useCheckApprovedToken(
-    props.data.poolToken,
+    props.data.pair,
     props.data.account,
     props.data.balance
   ).then(x => {
@@ -31,7 +41,9 @@ const DepositModal = props => {
       setTimelockMultiplier(sliderObj.multiplier)
     }
   }
-
+  const handleTransactionComplete = () => {
+    props.handleModalClose()
+  }
   return (
     <Modal
       visible={props.modalAction}
@@ -68,8 +80,8 @@ const DepositModal = props => {
       </h2>
       <span>
         This farm allows you to <strong>optionally</strong> lock your deposit
-        for up to 1 year to increase the reward yield multiplier on your
-        deposit.
+        for up to {Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)} days to
+        increase the reward yield multiplier on your deposit.
       </span>
       <div
         css={`
@@ -87,7 +99,7 @@ const DepositModal = props => {
           }
           pairTitle={
             props.data
-              ? `How many ${props.data.name} tokens do you want to deposit?`
+              ? `How many ${tokenName} tokens do you want to deposit?`
               : 'loading'
           }
           type="tokenAmount"
@@ -117,20 +129,21 @@ const DepositModal = props => {
         `}
       >
         Currently your deposit is projected to have a yield of{' '}
-        {parseFloat(timeLockMultiplier) * props.rewardApy} per year. This yield
-        is variable and depends on the price of the reward asset, underlying
-        asset yields, and the amount of capital participating in the Farm. Find
-        out more about how we calculate projected yields here.
+        {(timeLockMultiplier * props.data.rewardApy).toFixed(2)} per year. This
+        yield is variable and depends on the price of the reward asset,
+        underlying asset yields, and the amount of capital participating in the
+        Farm. Find out more about how we calculate projected yields here.
       </div>
       {approved ? (
         <Deposit
-          token={props.data.poolToken}
+          token={props.data.pair}
           amount={amount}
           timeLock={timeLock}
+          onTransactionComplete={handleTransactionComplete}
         />
       ) : (
         <Approved
-          token={props.data.poolToken}
+          token={props.data.pair}
           amount={{
             balance: props.data.balance,
           }}
