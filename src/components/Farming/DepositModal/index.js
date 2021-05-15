@@ -36,7 +36,9 @@ const DepositModal = props => {
       setTimelockMultiplier(sliderObj.multiplier)
     }
   }
-
+  const handleTransactionComplete = () => {
+    props.handleModalClose()
+  }
   return (
     <Modal
       visible={props.modalAction}
@@ -128,7 +130,12 @@ const DepositModal = props => {
         Farm. Find out more about how we calculate projected yields here.
       </div>
       {approved ? (
-        <Deposit token={props.data.pair} amount={amount} timeLock={timeLock} />
+        <Deposit
+          token={props.data.pair}
+          amount={amount}
+          timeLock={timeLock}
+          onTransactionComplete={handleTransactionComplete}
+        />
       ) : (
         <Approved
           token={props.data.pair}
