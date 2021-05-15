@@ -51,7 +51,6 @@ const DepositTable = props => {
     keys: ['symbol'],
   })
   const results = fuse.search(props.searchValue)
-  console.log(depositArray)
   return (
     <div
       css={`

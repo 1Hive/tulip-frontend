@@ -33,15 +33,12 @@ export function PoolProvider({ children }) {
           eth: new Providers.Web3Provider(window.ethereum),
         },
       })
-      console.log(tulipD)
       setBalance(tulipD)
     }
-    console.log(tulipApy)
     return tulipApy
   }
   const loadPoolInfo = async () => {
     const poolInfo = await tulipData.farm.info()
-    console.log(poolInfo)
     return poolInfo
   }
   const loadDepositData = async () => {
@@ -50,7 +47,6 @@ export function PoolProvider({ children }) {
       const tulipF = await tulipData.farm.deposits({
         user_address: account,
       })
-      console.log(tulipF)
       if (tulipF.length > 0) {
         for (const d of tulipF) {
           const c = getContract(d.pool, erc20)
@@ -62,7 +58,6 @@ export function PoolProvider({ children }) {
             rewardBalance,
           })
         }
-        console.log(deposits)
         return deposits
       } else {
         return []

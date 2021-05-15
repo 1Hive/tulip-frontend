@@ -25,7 +25,6 @@ const FarmTable = props => {
     const filtered = d.filter(data => {
       return data.pair === e.target.id
     })
-    console.log(balance)
     setModalData({
       ...filtered[0],
       account,
@@ -78,7 +77,6 @@ const FarmTable = props => {
             const customLabel = `${pool.pairInfo.token0.name} - ${pool.pairInfo.token1.name}`
             const token0Img = pool.pairInfo.token0.logoURI
             const token1Img = pool.pairInfo.token1.logoURI
-            console.log('props poop', pool)
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
