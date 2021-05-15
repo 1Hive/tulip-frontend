@@ -21,6 +21,11 @@ const DepositModal = props => {
         ? props.data.pairInfo.token1.logoURI
         : undefined,
   }
+
+  const tokenName = props.data.pairInfo
+    ? `${props.data.pairInfo.token0.symbol} - ${props.data.pairInfo.token1.symbol}`
+    : ''
+
   useCheckApprovedToken(
     props.data.pair,
     props.data.account,
@@ -94,7 +99,7 @@ const DepositModal = props => {
           }
           pairTitle={
             props.data
-              ? `How many ${props.data.name} tokens do you want to deposit?`
+              ? `How many ${tokenName} tokens do you want to deposit?`
               : 'loading'
           }
           type="tokenAmount"

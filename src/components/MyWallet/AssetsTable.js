@@ -28,8 +28,11 @@ const AssetsTable = props => {
         emptyState={{
           default: {
             displayLoader: false,
-            title:
-              'Connect your account to get more information about your assets',
+            title: `${
+              props.searchValue
+                ? 'No results'
+                : 'Connect your account to get more information about your assets'
+            }`,
             subtitle: null,
             illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
             clearLabel: null,

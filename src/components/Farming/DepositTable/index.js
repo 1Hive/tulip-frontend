@@ -76,10 +76,10 @@ const DepositTable = props => {
             displayLoader: false,
             title: `${
               props.searchValue
-                ? 'No pairs Found'
+                ? 'No results'
                 : account
-                ? 'No deposits found'
-                : 'Connect your account to see farm'
+                ? 'No results'
+                : 'Connect your account to see your deposits'
             }`,
             subtitle: null,
             illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
