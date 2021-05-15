@@ -11,7 +11,6 @@ const DepositModal = props => {
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
   const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
-  console.log('In deposit modal', props.data)
   const imgObj = {
     pair1:
       props.data.pairInfo !== undefined
@@ -22,9 +21,8 @@ const DepositModal = props => {
         ? props.data.pairInfo.token1.logoURI
         : undefined,
   }
-  console.log(props.data)
   useCheckApprovedToken(
-    props.data.poolToken,
+    props.data.pair,
     props.data.account,
     props.data.balance
   ).then(x => {

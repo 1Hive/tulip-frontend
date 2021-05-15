@@ -8,8 +8,8 @@ export function useApprove(tokenAddress, amount) {
   return () => {
     return contract
       .approve(networkConfigs.rinkeby.honeyfarm, amount)
-      .then(async x => {
-        return await x.wait()
+      .then(x => {
+        return x
       })
       .catch(err => console.log(err))
   }

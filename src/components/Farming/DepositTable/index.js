@@ -4,7 +4,6 @@ import { useWallet } from '../../../providers/Wallet'
 import Fuse from 'fuse.js'
 import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
-import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import { KNOWN_FORMATS, dateFormat } from '../../../utils/date-utils'
@@ -15,7 +14,7 @@ import xComb from '../../../assets/coins/xcomb.svg'
 const DepositTable = props => {
   const depositArray = []
   const { account } = useWallet()
-  if (typeof props.depositData !== 'string') {
+  if (typeof props.depositData !== 'string' && props.depositData) {
     for (const {
       id,
       amount,
@@ -27,6 +26,7 @@ const DepositTable = props => {
       setRewards,
       symbol,
       rewardBalance,
+      pairInfo,
     } of props.depositData) {
       const depositInfoObj = {
         id,
@@ -39,6 +39,7 @@ const DepositTable = props => {
         rewardShare: rewardShare,
         setRewards: setRewards,
         symbol: symbol[0],
+        pairInfo,
       }
       depositArray.push(depositInfoObj)
     }
@@ -50,6 +51,7 @@ const DepositTable = props => {
     keys: ['symbol'],
   })
   const results = fuse.search(props.searchValue)
+  console.log(depositArray)
   return (
     <div
       css={`
@@ -103,10 +105,11 @@ const DepositTable = props => {
           setRewards,
           symbol,
           rewardBalance,
+          pairInfo,
         }) => {
           const imgObj = {
-            pair1: getKnownTokenImg(symbol),
-            pair2: null,
+            pair1: pairInfo ? pairInfo.token0.logoURI : undefined,
+            pair2: pairInfo ? pairInfo.token1.logoURI : undefined,
           }
           const customLabel = symbol
           const unlockDate = new Date(unlockTime).getTime() / 1000

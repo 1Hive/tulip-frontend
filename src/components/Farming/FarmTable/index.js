@@ -25,6 +25,7 @@ const FarmTable = props => {
     const filtered = d.filter(data => {
       return data.pair === e.target.id
     })
+    console.log(balance)
     setModalData({
       ...filtered[0],
       account,

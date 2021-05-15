@@ -50,6 +50,7 @@ export function PoolProvider({ children }) {
       const tulipF = await tulipData.farm.deposits({
         user_address: account,
       })
+      console.log(tulipF)
       if (tulipF.length > 0) {
         for (const d of tulipF) {
           const c = getContract(d.pool, erc20)
