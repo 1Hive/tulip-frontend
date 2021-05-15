@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
-import { getKnownTokenImg } from '../../../utils/known-tokens'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import Fuse from 'fuse.js'
@@ -24,23 +23,17 @@ const FarmTable = props => {
     setModalAction(true)
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
-      console.log('props filter', data)
       return data.pair === e.target.id
     })
-    console.log('props e target', e.target.id)
-    console.log('props balance', balance)
-    console.log('props filtered', filtered)
     setModalData({
       ...filtered[0],
       account,
-      balance: balance[filtered[0].id],
+      balance: balance[filtered[0].pair],
     })
   }
-
   const handleModalClose = () => {
     setModalAction(false)
   }
-  console.log('props farmtable', props)
   if (pairs.length === 0 && status !== 'disconnected') {
     return <Loader />
   } else {
@@ -81,16 +74,13 @@ const FarmTable = props => {
           entries={account ? (searchValue ? results : pairs) : []}
           header
           renderEntry={pool => {
-            const customLabel = name
-            const token0Img = getKnownTokenImg(pool.pairInfo.token0.symbol)
-            const token1Img = getKnownTokenImg(pool.pairInfo.token1.symbol)
+            const customLabel = `${pool.pairInfo.token0.name} - ${pool.pairInfo.token1.name}`
+            const token0Img = pool.pairInfo.token0.logoURI
+            const token1Img = pool.pairInfo.token1.logoURI
             const imgObj = {
               pair1: token0Img,
               pair2: token1Img,
             }
-
-            console.log('token1 symbol', pool.pairInfo.token1.symbol)
-
             return [
               <PairName
                 image={imgObj}

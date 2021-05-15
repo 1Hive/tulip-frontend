@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Modal, GU } from '@1hive/1hive-ui'
 import { ethers } from 'ethers'
 import SliderComponent from '../SliderComponent'
-import { getKnownTokenImg } from '../../../utils/known-tokens'
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
@@ -12,13 +11,18 @@ const DepositModal = props => {
   const [amount, setAmount] = useState('')
   const [timeLock, setTimeLock] = useState('')
   const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
-
-  console.log('depositModal props', props)
-
+  console.log('In deposit modal', props.data)
   const imgObj = {
-    pair1: getKnownTokenImg(props.data.symbol),
-    pair2: undefined,
+    pair1:
+      props.data.pairInfo !== undefined
+        ? props.data.pairInfo.token0.logoURI
+        : undefined,
+    pair2:
+      props.data.pairInfo !== undefined
+        ? props.data.pairInfo.token1.logoURI
+        : undefined,
   }
+  console.log(props.data)
   useCheckApprovedToken(
     props.data.poolToken,
     props.data.account,
@@ -32,7 +36,6 @@ const DepositModal = props => {
     } else {
       setTimeLock(sliderObj.amount)
       setTimelockMultiplier(sliderObj.multiplier)
-      console.log('sliderObj.multiplier', sliderObj.multiplier)
     }
   }
 
@@ -121,22 +124,16 @@ const DepositModal = props => {
         `}
       >
         Currently your deposit is projected to have a yield of{' '}
-        {console.log('timeLockMultiplier', timeLockMultiplier)}
-        {console.log('rewardApy', props.data.rewardApy)}
         {(timeLockMultiplier * props.data.rewardApy).toFixed(2)} per year. This
         yield is variable and depends on the price of the reward asset,
         underlying asset yields, and the amount of capital participating in the
         Farm. Find out more about how we calculate projected yields here.
       </div>
       {approved ? (
-        <Deposit
-          token={props.data.poolToken}
-          amount={amount}
-          timeLock={timeLock}
-        />
+        <Deposit token={props.data.pair} amount={amount} timeLock={timeLock} />
       ) : (
         <Approved
-          token={props.data.poolToken}
+          token={props.data.pair}
           amount={{
             balance: props.data.balance,
           }}
