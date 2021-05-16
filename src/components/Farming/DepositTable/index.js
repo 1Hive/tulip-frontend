@@ -3,15 +3,22 @@ import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
 import Fuse from 'fuse.js'
 import Loader from '../../Loader'
-import Icon from '../../../assets/tulip/icon.svg'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import { KNOWN_FORMATS, dateFormat } from '../../../utils/date-utils'
 import Withdraw from '../Withdraw'
 import Harvest from '../Harvest'
-import xComb from '../../../assets/coins/xcomb.svg'
+import Icon from '../../../assets/tulip/icon.svg'
+import { getNetworkConfig } from '../../../networks'
 
 const DepositTable = props => {
+  let tokenImage = Icon
+  let tokenName = 'xComb'
+  const network = getNetworkConfig()
+  if (network) {
+    tokenImage = network.token.image
+    tokenName = network.token.name
+  }
   const depositArray = []
   const { account } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
@@ -81,7 +88,9 @@ const DepositTable = props => {
                 : 'Connect your account to see your deposits'
             }`,
             subtitle: null,
-            illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
+            illustration: (
+              <img src={tokenImage} height={6 * GU} width={5.5 * GU} />
+            ),
             clearLabel: null,
           },
           loading: {
@@ -130,7 +139,7 @@ const DepositTable = props => {
             />,
             <p>{amount}</p>,
             <p css={withdrawDisabledCSS}>{unlockTime}</p>,
-            <RewardComponent image={xComb} name="xComb" />,
+            <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
             <Withdraw id={id} disabled={withdrawEnabled} />,
             <Harvest id={id} />,
