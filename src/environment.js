@@ -1,5 +1,6 @@
 // rinkeby
 const CHAIN_ID_DEFAULT = 4
+const CHAIN_IDS_SUPPORTED = [100, 137]
 
 const ENV_VARS = {
   BUILD() {
@@ -8,6 +9,9 @@ const ENV_VARS = {
   CHAIN_ID() {
     const chainId = parseInt(process.env.REACT_APP_CHAIN_ID)
     return isNaN(chainId) ? CHAIN_ID_DEFAULT : chainId
+  },
+  CHAIN_IDS_SUPPORTED() {
+    return CHAIN_IDS_SUPPORTED
   },
   COURT_SERVER_NAME() {
     return process.env.REACT_APP_COURT_SERVER_NAME

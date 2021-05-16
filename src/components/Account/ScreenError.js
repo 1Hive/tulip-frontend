@@ -2,18 +2,27 @@ import React, { useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { ChainUnsupportedError } from 'use-wallet'
-import { getNetworkName } from '../../lib/web3-utils'
+import { getNetworkName, getSupportedChains } from '../../lib/web3-utils'
 import connectionError from '../../assets/tulip/connection-error.png'
 
 function AccountModuleErrorScreen({ error, onBack }) {
   const theme = useTheme()
   const elementRef = useRef()
 
-  const [title, secondary] = useMemo(() => {
+  let networkNames = ''
+  getSupportedChains().forEach((chain, i, array) => {
+    networkNames += getNetworkName(chain)
+    if (i !== array.length - 1) {
+      networkNames += ', '
+    }
+  })
+
+  const [title, message, networks] = useMemo(() => {
     if (error instanceof ChainUnsupportedError) {
       return [
         'Wrong network',
-        `Please select the ${getNetworkName()} network in your wallet and try again.`,
+        'Please select one of these networks in your wallet and try again:',
+        networkNames,
       ]
     }
     return [
@@ -68,8 +77,9 @@ function AccountModuleErrorScreen({ error, onBack }) {
             color: ${theme.surfaceContentSecondary};
           `}
         >
-          {secondary}
+          {message}
         </p>
+        <p>{networks}</p>
       </div>
       <div
         css={`

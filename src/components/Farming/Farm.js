@@ -41,7 +41,10 @@ const Farm = React.memo(({ onlyTable }) => {
           flex-direction: row;
         `}
       >
-        <SearchComponent passSearch={handleSearch} />
+        <SearchComponent
+          placeholder="Search by asset"
+          passSearch={handleSearch}
+        />
       </div>
       <div
         css={`

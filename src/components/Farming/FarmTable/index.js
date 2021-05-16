@@ -8,8 +8,14 @@ import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
 import { useWallet } from '../../../providers/Wallet'
 import xComb from '../../../assets/coins/xcomb.svg'
+import { getNetworkConfig } from '../../../networks'
 
 const FarmTable = props => {
+  let tokenImage = Icon
+  const network = getNetworkConfig()
+  if (network) {
+    tokenImage = network.token.image
+  }
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
   const { pairData, searchValue, balance, poolInfo } = props
@@ -60,7 +66,9 @@ const FarmTable = props => {
                   : 'Connect your account to see the farms'
               }`,
               subtitle: null,
-              illustration: <img src={Icon} height={6 * GU} width={5.5 * GU} />,
+              illustration: (
+                <img src={tokenImage} height={6 * GU} width={5.5 * GU} />
+              ),
               clearLabel: null,
             },
             loading: {
