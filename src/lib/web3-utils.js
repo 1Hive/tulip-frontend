@@ -117,6 +117,7 @@ export function getNetworkType(chainId = env('CHAIN_ID')) {
   if (chainId === '3') return 'ropsten'
   if (chainId === '4') return 'rinkeby'
   if (chainId === '100') return 'xdai'
+  if (chainId === '137') return 'poligon(matic)'
 
   return DEFAULT_LOCAL_CHAIN
 }
@@ -128,8 +129,13 @@ export function getNetworkName(chainId = env('CHAIN_ID')) {
   if (chainId === '3') return 'Ropsten'
   if (chainId === '4') return 'Rinkeby'
   if (chainId === '100') return 'xDai'
+  if (chainId === '137') return 'Poligon (Matic)'
 
   return 'unknown'
+}
+
+export function getSupportedChains() {
+  return env('CHAIN_IDS_SUPPORTED')
 }
 
 export function sanitizeNetworkType(networkType) {
