@@ -12,12 +12,13 @@ import {
 import IdentityBadge from '../IdentityBadge'
 import { getProviderFromUseWalletId } from '../../ethereum-providers'
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
+import { getNetworkName } from '../../lib/web3-utils'
 
 function AccountScreenConnected({ wallet }) {
   const theme = useTheme()
   const copy = useCopyToClipboard()
 
-  const walletNetworkName = wallet.networkName
+  const chainId = wallet._web3ReactContext.chainId
 
   const providerInfo = getProviderFromUseWalletId(wallet.connector)
 
@@ -105,7 +106,7 @@ function AccountScreenConnected({ wallet }) {
             margin-left: ${0.5 * GU}px;
           `}
         >
-          {`Connected to Ethereum ${walletNetworkName} Network`}
+          {`Connected to ${getNetworkName(chainId)} Network`}
         </span>
       </div>
 
