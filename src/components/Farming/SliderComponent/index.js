@@ -16,7 +16,7 @@ const SliderComponent = props => {
     } else {
       props.onUpdate({
         type: props.type,
-        amount: 'Not Set',
+        amount: 0,
         multiplier: 1,
       })
     }

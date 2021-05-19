@@ -9,8 +9,9 @@ import Deposit from '../Deposit'
 const DepositModal = props => {
   const [approved, setApproved] = useState('')
   const [amount, setAmount] = useState('')
-  const [timeLock, setTimeLock] = useState('')
+  const [timeLock, setTimeLock] = useState(0)
   const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
+
   const imgObj = {
     pair1:
       props.data.pairInfo !== undefined
@@ -129,7 +130,7 @@ const DepositModal = props => {
         `}
       >
         Currently your deposit is projected to have a yield of{' '}
-        {(timeLockMultiplier * props.data.rewardApy).toFixed(2)} per year. This
+        {(timeLockMultiplier * props.data.rewardApy).toFixed(2)}% per year. This
         yield is variable and depends on the price of the reward asset,
         underlying asset yields, and the amount of capital participating in the
         Farm. Find out more about how we calculate projected yields here.
