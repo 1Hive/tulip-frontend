@@ -5,13 +5,14 @@ import { EthIdenticon, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import HeaderModule from '../Header/HeaderModule'
 import useProfileName from '../../hooks/useProfileName'
 import { useWallet } from 'use-wallet'
-import { shortenAddress } from '../../lib/web3-utils'
+import { shortenAddress, getNetworkName } from '../../lib/web3-utils'
 
 function AccountButton({ label, onClick }) {
   const theme = useTheme()
   const wallet = useWallet()
   const profileName = useProfileName(wallet.account)
   const RADIUS = 1.75 * GU
+  const chainId = wallet._web3ReactContext.chainId
 
   return (
     <HeaderModule
@@ -58,7 +59,7 @@ function AccountButton({ label, onClick }) {
               color: ${theme.content};
             `}
           >
-            Connected to {wallet.networkName}
+            Connected to {getNetworkName(chainId)}
           </div>
         </>
       }
