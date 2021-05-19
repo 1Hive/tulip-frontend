@@ -19876,9 +19876,9 @@ tty-browserify@0.0.0:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
-"tulip-data@git+https://github.com/pxbee/tulip-data.git#613b7f2":
+"tulip-data@git+https://github.com/pxbee/tulip-data.git#106135e":
   version "0.0.1"
-  resolved "git+https://github.com/pxbee/tulip-data.git#613b7f22214954232697f6dcbbac6922199caba7"
+  resolved "git+https://github.com/pxbee/tulip-data.git#106135ea2a810798e17ad3965e9aef2e7c296a0e"
   dependencies:
     "@makerdao/multicall" "^0.12.0"
     bluebird "^3.7.2"
