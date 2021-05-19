@@ -10,6 +10,7 @@ const Lend = React.memo(({ onlyTable }) => {
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-family: Overpass;
       `}
     >
       <img src={agve} height={GU * 20} width={GU * 20} alt="" />
@@ -31,6 +32,7 @@ const Lend = React.memo(({ onlyTable }) => {
         `}
         id="LearnMore"
         label="Learn More"
+        href="https://agave.finance"
         onClick={() => {}}
       />
     </div>

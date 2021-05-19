@@ -10,6 +10,7 @@ const Swap = React.memo(({ onlyTable }) => {
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-family: Overpass;
       `}
     >
       <img src={bee} alt="" />
