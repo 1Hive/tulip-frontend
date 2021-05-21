@@ -63,6 +63,9 @@
     "sync-assets": "copy-aragon-ui-assets ./public"
   },
   "homepage": ".",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
