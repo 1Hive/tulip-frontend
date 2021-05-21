@@ -33,7 +33,7 @@ const Harvest = props => {
         endTime={new Date(Date.now() + 100000)}
         onClose={() => setVisible(false)}
         opener={opener}
-        slow
+        slow={false}
       />
       <Button
         css={`

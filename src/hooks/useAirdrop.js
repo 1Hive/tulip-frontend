@@ -3,7 +3,7 @@ import { useWallet } from 'use-wallet'
 import { utils } from 'ethers'
 import StreamedAirdropper from '../abi/StreamedAirdropper.json'
 import ERC20 from '../abi/ERC20.json'
-import { useContract, useGetTokenBalance } from '../web3-contracts'
+import { useContract } from '../web3-contracts'
 import { getNetworkConfig } from '../networks'
 
 export function useClaim() {
@@ -15,7 +15,7 @@ export function useClaim() {
   const [balance, setBalance] = useState(0)
   const networks = getNetworkConfig()
   const contract = useContract(networks.StreamedAirdropper, StreamedAirdropper)
-  const tokenb = useGetTokenBalance(networks.hsfToken, ERC20)
+  const tokenb = useContract(networks.xCombToken, ERC20)
 
   const claim = useMemo(() => {
     if (!account || status === 'disconnected') {
@@ -57,7 +57,7 @@ export function useClaim() {
         const result = await contract.vestingUsers(account)
         if (result.length > 0) {
           const remainingTokens = result[0]
-          const tokenBalance = await tokenb()
+          const tokenBalance = await tokenb.balanceOf(account)
           setBalance(utils.formatUnits(tokenBalance).substring(0, 9))
 
           const rTokens = utils.formatUnits(remainingTokens)
