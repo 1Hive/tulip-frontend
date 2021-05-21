@@ -53,7 +53,15 @@ const FarmTable = props => {
         `}
       >
         <DataView
-          fields={['Asset', 'Reward Yield', 'Reward Asset', ' ']}
+          fields={[
+            'Asset',
+            'Alloc Point',
+            'Rewards 24h',
+            'Reward Yield 24h',
+            'Reward Yield 1y',
+            'Reward Asset',
+            ' ',
+          ]}
           css={`
             border-top: none;
           `}
@@ -95,6 +103,9 @@ const FarmTable = props => {
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
+              <p>{pool.allocPoint}</p>,
+              <p>{pool.hsf24h.toFixed(2)}</p>,
+              <p>{pool.rewardApy24h.toFixed(2)}%</p>,
               <p>{pool.rewardApy.toFixed(2)}%</p>,
               <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
