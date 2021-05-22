@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useWithdraw } from '../../../hooks/useWithdraw'
 import { getNetworkConfig } from '../../../networks'
+import { buttonGreenCss, buttonGrayCss } from '../styles'
 
 const Withdraw = props => {
   const [visible, setVisible] = useState(false)
@@ -9,6 +10,15 @@ const Withdraw = props => {
   const opener = useRef()
   const withdraw = useWithdraw(props.id)
   const network = getNetworkConfig()
+  const buttonCss = () => {
+    if (props.disabled) {
+      return buttonGrayCss
+    }
+    return buttonGreenCss
+  }
+  const transactionTime = new Date()
+  transactionTime.setSeconds(transactionTime.getSeconds() + 8)
+
   const handleWithdraw = () => {
     withdraw()
       .then(x => {
@@ -29,18 +39,16 @@ const Withdraw = props => {
       <TransactionProgress
         transactionHash={txHash}
         transactionHashUrl={network.txUrl + txHash}
-        progress={0.3}
+        progress={1}
         visible={visible}
-        endTime={new Date(Date.now() + 100000)}
+        endTime={transactionTime}
         onClose={() => setVisible(false)}
         opener={opener}
         slow={false}
       />
       <Button
-        disabled={!props.disabled}
-        css={`
-          background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-        `}
+        disabled={props.disabled}
+        css={buttonCss}
         onClick={() => {
           handleWithdraw()
         }}

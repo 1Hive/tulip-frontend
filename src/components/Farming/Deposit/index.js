@@ -6,22 +6,33 @@ import { getNetworkConfig } from '../../../networks'
 const Deposit = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
-  const { token, amount, timeLock } = props
+  const { token, amount, days, maxDays } = props
   const network = getNetworkConfig()
   const opener = useRef()
-  let tl = timeLock || 0
-  const date = new Date()
-  if (typeof tl !== 'string' && tl > 0) {
-    date.setDate(date.getDate() + tl)
-    tl = Math.round(date.getTime() / 1000)
-  } else if (tl === 0) {
-    tl = 0
-  } else {
-    date.setDate(date.getDate() + 59)
-    tl = Math.round(date.getTime() / 1000)
+
+  const transactionTime = new Date()
+  transactionTime.setSeconds(transactionTime.getSeconds() + 8)
+
+  const calculateUnlockTimestamp = days => {
+    if (days === 0 || !days) {
+      return 0
+    }
+
+    const date = new Date()
+    let unlockTimestamp = Math.floor(date.setDate(date.getDate() + days) / 1000)
+    // add or remove 100 seconds on the max/min value to cover for rounding errors
+    if (days === 1) {
+      unlockTimestamp += 100
+    }
+    if (days === maxDays) {
+      unlockTimestamp -= 100
+    }
+    return unlockTimestamp
   }
 
-  const deposit = useCreateDeposit(token, amount.toString(), tl)
+  const unlockTimestamp = calculateUnlockTimestamp(days)
+
+  const deposit = useCreateDeposit(token, amount.toString(), unlockTimestamp)
   const handleDeposit = () => {
     deposit()
       .then(x => {
@@ -43,9 +54,9 @@ const Deposit = props => {
       <TransactionProgress
         transactionHash={txHash}
         transactionHashUrl={network.txUrl + txHash}
-        progress={0.3}
+        progress={1}
         visible={visible}
-        endTime={new Date(Date.now() + 100000)}
+        endTime={transactionTime}
         onClose={() => setVisible(false)}
         opener={opener}
         slow={false}

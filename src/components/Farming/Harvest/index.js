@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useHarvest } from '../../../hooks/useHarvest'
 import { getNetworkConfig } from '../../../networks'
+import { buttonGreenCss } from '../styles'
 
 const Harvest = props => {
   const [visible, setVisible] = useState(false)
@@ -9,6 +10,9 @@ const Harvest = props => {
   const opener = useRef()
   const harvest = useHarvest(props.id)
   const network = getNetworkConfig()
+  const transactionTime = new Date()
+  transactionTime.setSeconds(transactionTime.getSeconds() + 8)
+
   const handleHarvest = () => {
     harvest().then(x => {
       if (x) {
@@ -28,17 +32,15 @@ const Harvest = props => {
       <TransactionProgress
         transactionHash={txHash}
         transactionHashUrl={network.txUrl + txHash}
-        progress={0.3}
+        progress={1}
         visible={visible}
-        endTime={new Date(Date.now() + 100000)}
+        endTime={transactionTime}
         onClose={() => setVisible(false)}
         opener={opener}
         slow={false}
       />
       <Button
-        css={`
-          background: linear-gradient(90deg, #f1f3f7, #f1f3f3);
-        `}
+        css={buttonGreenCss}
         onClick={handleHarvest}
         label="Harvest"
         wide

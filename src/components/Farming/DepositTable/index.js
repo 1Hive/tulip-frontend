@@ -55,7 +55,12 @@ const DepositTable = props => {
     })
   }
   const fuse = new Fuse(depositArray, {
-    keys: ['symbol'],
+    keys: [
+      'pairInfo.token0.name',
+      'pairInfo.token0.symbol',
+      'pairInfo.token1.symbol',
+      'pairInfo.token1.name',
+    ],
   })
   const results = fuse.search(props.searchValue)
   return (
@@ -124,10 +129,6 @@ const DepositTable = props => {
           const currentTime = Math.floor(Date.now() / 1000)
           const withdrawEnabled = currentTime > unlockDate
           const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
-          let withdrawDisabledCSS = ''
-          if (!withdrawEnabled) {
-            withdrawDisabledCSS = `color: 'red'`
-          }
           if (new Date(unlockTime).getTime() === 0) {
             unlockTime = 'Not locked'
           }
@@ -138,10 +139,10 @@ const DepositTable = props => {
               subheadline="Honeyswap"
             />,
             <p>{amount}</p>,
-            <p css={withdrawDisabledCSS}>{unlockTime}</p>,
+            <p>{unlockTime}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
-            <Withdraw id={id} disabled={withdrawEnabled} />,
+            <Withdraw id={id} disabled={!withdrawEnabled} />,
             <Harvest id={id} />,
           ]
         }}
