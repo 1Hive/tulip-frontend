@@ -205,7 +205,9 @@ export function useNetBalance() {
     })
 
     assetsSortedList = assetsSortedList.sort(
-      (a, b) => Number(b.value) - Number(a.value)
+      (a, b) =>
+        parseFloat(b.value.replace(/,/g, '')) -
+        parseFloat(a.value.replace(/,/g, ''))
     )
 
     walletBalance = walletBalance.toFixed(2)

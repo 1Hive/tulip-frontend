@@ -41,7 +41,7 @@ const Airdrop = React.memo(() => {
         endTime={new Date(Date.now() + 100000)}
         onClose={() => setVisible(false)}
         opener={opener}
-        slow
+        slow={false}
       />
       <div
         css={`
