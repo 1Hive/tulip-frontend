@@ -20,7 +20,7 @@ const DepositTable = props => {
     tokenName = network.token.name
   }
   const depositArray = []
-  const { account } = useWallet()
+  const { account, status } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
     for (const {
       id,
@@ -62,7 +62,13 @@ const DepositTable = props => {
       'pairInfo.token1.name',
     ],
   })
+
   const results = fuse.search(props.searchValue)
+
+  if (depositArray.length === 0 && status !== 'disconnected' && account) {
+    return <Loader />
+  }
+
   return (
     <div
       css={`
