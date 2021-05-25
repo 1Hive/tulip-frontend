@@ -17,6 +17,6 @@ export function useCreateDeposit(
       .then(x => {
         return x
       })
-      .catch(err => console.log(err))
+      .catch(err => err)
   }
 }

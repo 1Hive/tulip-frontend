@@ -22,7 +22,9 @@ const Withdraw = props => {
             .catch(err => console.log(err))
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        props.onError(err)
+      })
   }
   return (
     <>
@@ -33,7 +35,7 @@ const Withdraw = props => {
         visible={visible}
         endTime={new Date(Date.now() + 100000)}
         onClose={() => setVisible(false)}
-        opener={opener}
+        opener={opener.current}
         slow
       />
       <Button

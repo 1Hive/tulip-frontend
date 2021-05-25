@@ -34,6 +34,7 @@ const DepositModal = props => {
   ).then(x => {
     setApproved(x)
   })
+  console.log(timeLock)
   const handleSliderUpdate = sliderObj => {
     if (sliderObj.type === 'tokenAmount') {
       setAmount(sliderObj.amount)

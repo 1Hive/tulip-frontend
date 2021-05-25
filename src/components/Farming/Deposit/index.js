@@ -17,7 +17,7 @@ const Deposit = props => {
   } else if (tl === 0) {
     tl = 0
   } else {
-    date.setDate(date.getDate() + 59)
+    date.setDate(date.getDate() + 0)
     tl = Math.round(date.getTime() / 1000)
   }
 
@@ -25,7 +25,9 @@ const Deposit = props => {
   const handleDeposit = () => {
     deposit()
       .then(x => {
-        if (x) {
+        console.log(typeof x)
+        if (x && x.message === undefined) {
+          console.log(x, typeof x)
           setVisible(true)
           setTxHash(x.hash)
           x.wait()
