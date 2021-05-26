@@ -9,8 +9,6 @@ const UserErrorScreen = props => {
   useEffect(() => {
     setVisible(props.isVisible)
   }, [props.isVisible])
-  console.log(visible)
-
   const ModalBody = styled.div`
     display: flex;
     flex-direction: column;

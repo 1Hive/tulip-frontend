@@ -36,9 +36,7 @@ const Deposit = props => {
   const handleDeposit = () => {
     deposit()
       .then(x => {
-        console.log(typeof x)
         if (x && x.message === undefined) {
-          console.log(x, typeof x)
           setVisible(true)
           setTxHash(x.hash)
           x.wait()
@@ -47,13 +45,11 @@ const Deposit = props => {
               props.onTransactionComplete()
             })
             .catch(err => {
-              console.log(err)
               props.onError(err)
             })
         }
       })
       .catch(err => {
-        console.log(err)
         props.onError(err)
       })
   }

@@ -70,7 +70,6 @@ const DepositTable = props => {
   const results = fuse.search(props.searchValue)
 
   const handleError = err => {
-    console.log(err)
     setErrorVisible(true)
     setErrorMessage(
       err.data ? err.data.originalError.error.message : err.message
