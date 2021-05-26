@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
 import Fuse from 'fuse.js'
@@ -10,6 +10,8 @@ import Withdraw from '../Withdraw'
 import Harvest from '../Harvest'
 import Icon from '../../../assets/tulip/icon.svg'
 import { getNetworkConfig } from '../../../networks'
+// import xComb from '../../../assets/coins/xcomb.svg'
+import UserErrorScreen from '../../Errors/UserErrorScreen'
 
 const DepositTable = props => {
   let tokenImage = Icon
@@ -20,6 +22,9 @@ const DepositTable = props => {
     tokenName = network.token.name
   }
   const depositArray = []
+  const [errorVisible, setErrorVisible] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const opener = React.createRef()
   const { account } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
     for (const {
@@ -63,6 +68,16 @@ const DepositTable = props => {
     ],
   })
   const results = fuse.search(props.searchValue)
+
+  const handleError = err => {
+    setErrorVisible(true)
+    setErrorMessage(
+      err.data ? err.data.originalError.error.message : err.message
+    )
+  }
+  const closeError = () => {
+    setErrorVisible(false)
+  }
   return (
     <div
       css={`
@@ -72,6 +87,13 @@ const DepositTable = props => {
         font-size: 18px;
       `}
     >
+      <UserErrorScreen
+        isVisible={errorVisible}
+        opener={opener}
+        onClose={closeError}
+      >
+        {errorMessage}
+      </UserErrorScreen>
       <DataView
         fields={[
           'Deposit Asset',
@@ -127,7 +149,7 @@ const DepositTable = props => {
           const customLabel = symbol
           const unlockDate = new Date(unlockTime).getTime() / 1000
           const currentTime = Math.floor(Date.now() / 1000)
-          const withdrawEnabled = currentTime > unlockDate
+          const withdrawEnabled = currentTime < unlockDate
           const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
           if (new Date(unlockTime).getTime() === 0) {
             unlockTime = 'Not locked'
@@ -142,8 +164,13 @@ const DepositTable = props => {
             <p>{unlockTime}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
-            <Withdraw id={id} disabled={!withdrawEnabled} />,
-            <Harvest id={id} />,
+            <Withdraw
+              id={id}
+              disabled={withdrawEnabled}
+              onError={handleError}
+              opener={opener}
+            />,
+            <Harvest id={id} onError={handleError} />,
           ]
         }}
       />

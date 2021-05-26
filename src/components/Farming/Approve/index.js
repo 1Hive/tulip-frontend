@@ -21,10 +21,14 @@ const Approve = props => {
             .then(() => {
               setVisible(false)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+              props.onError(err)
+            })
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        props.onError(err)
+      })
   }
 
   return (
