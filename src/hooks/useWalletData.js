@@ -93,6 +93,7 @@ export function useNetBalance() {
   const [walletInfo, poolingInfo, farmingInfo, isFetching] = useWalletData()
   const { account } = useWallet()
   const [assetsList, setAssetsList] = useState([])
+  const farmingList = []
   const CHART_DATA_KEY = 'chart_data'
   const { storedValue, setStoredValue } = useLocalStorage(CHART_DATA_KEY)
 
@@ -183,28 +184,32 @@ export function useNetBalance() {
             }
           })
         }
-
-        setAssetsList(data => [
-          ...data,
-          {
-            symbol,
-            image1,
-            image2,
-            balance: formatNumber(Number(value.balance).toFixed(2)),
-            value: formatNumber(Number(value.valueUSD).toFixed(2)),
-            price: formatNumber(
-              Number(value.valueUSD / value.balance).toFixed(2)
-            ),
-            name: 'HoneyComb Farm',
-          },
-        ])
+        farmingList.push({
+          symbol,
+          image1,
+          image2,
+          balance: formatNumber(Number(value.balance).toFixed(2)),
+          value: formatNumber(Number(value.valueUSD).toFixed(2)),
+          price: formatNumber(
+            Number(value.valueUSD / value.balance).toFixed(2)
+          ),
+          name: 'HoneyComb Farm',
+        })
       })
     }
+    // Todo: fix this ..maybe
+    let assetsSortedList = []
+    assetsSortedList = assetsList
+    farmingList.map(item => {
+      assetsSortedList.push(item)
+    })
 
-    let assetsSortedList = assetsList
     assetsSortedList = assetsSortedList.sort(
-      (a, b) => Number(b.value) - Number(a.value)
+      (a, b) =>
+        parseFloat(b.value.replace(/,/g, '')) -
+        parseFloat(a.value.replace(/,/g, ''))
     )
+
     walletBalance = walletBalance.toFixed(2)
     poolBalance = poolBalance.toFixed(2)
     farmBalance = farmBalance.toFixed(2)

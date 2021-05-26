@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { Modal, GU } from '@1hive/1hive-ui'
 import { ethers } from 'ethers'
-import SliderComponent from '../SliderComponent'
+import { TimeLockSlider, AmountSlider } from '../SliderComponent'
+
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
 
 const DepositModal = props => {
-  const [approved, setApproved] = useState('')
-  const [amount, setAmount] = useState('')
-  const [timeLock, setTimeLock] = useState(0)
-  const [timeLockMultiplier, setTimelockMultiplier] = useState(1)
+  const [approved, setApproved] = useState(false)
+  const [amount, setAmount] = useState(0)
+  const [days, setDays] = useState(0)
+  const [multiplier, setMultiplier] = useState('')
+
+  const maxDays = Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)
 
   const imgObj = {
     pair1:
@@ -31,18 +34,19 @@ const DepositModal = props => {
     props.data.pair,
     props.data.account,
     props.data.balance
-  ).then(x => {
-    setApproved(x)
+  ).then(isApproved => {
+    setApproved(isApproved)
   })
-  console.log(timeLock)
-  const handleSliderUpdate = sliderObj => {
-    if (sliderObj.type === 'tokenAmount') {
-      setAmount(sliderObj.amount)
-    } else {
-      setTimeLock(sliderObj.amount)
-      setTimelockMultiplier(sliderObj.multiplier)
-    }
+
+  const handleTimeLockSliderUpdate = values => {
+    setDays(values.days)
+    setMultiplier(values.multiplier)
   }
+
+  const handleAmountSliderUpdate = values => {
+    setAmount(values.amount)
+  }
+
   const handleTransactionComplete = () => {
     props.handleModalClose()
   }
@@ -82,8 +86,8 @@ const DepositModal = props => {
       </h2>
       <span>
         This farm allows you to <strong>optionally</strong> lock your deposit
-        for up to {Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)} days to
-        increase the reward yield multiplier on your deposit.
+        for up to {maxDays} days to increase the reward yield multiplier on your
+        deposit.
       </span>
       <div
         css={`
@@ -92,7 +96,7 @@ const DepositModal = props => {
           padding-top: 10px;
         `}
       >
-        <SliderComponent
+        <AmountSlider
           imgObj={imgObj}
           tokenAmount={
             props.data.balance
@@ -104,16 +108,15 @@ const DepositModal = props => {
               ? `How many ${tokenName} tokens do you want to deposit?`
               : 'loading'
           }
-          type="tokenAmount"
-          onUpdate={handleSliderUpdate}
+          onUpdate={handleAmountSliderUpdate}
         />
-        <SliderComponent
-          timeLock={props.poolInfo.maxTimeLock}
+        <TimeLockSlider
           pairTitle="How long do you want to lock your deposit?"
-          type="timeLock"
-          onUpdate={handleSliderUpdate}
+          onUpdate={handleTimeLockSliderUpdate}
           timeLockMultiplier={props.poolInfo.timeLockMultiplier}
           timeLockConstant={props.poolInfo.timeLockConstant}
+          maxDays={maxDays}
+          scale={props.poolInfo.scale}
         />
       </div>
       <div
@@ -131,16 +134,17 @@ const DepositModal = props => {
         `}
       >
         Currently your deposit is projected to have a yield of{' '}
-        {(timeLockMultiplier * props.data.rewardApy).toFixed(2)}% per year. This
-        yield is variable and depends on the price of the reward asset,
-        underlying asset yields, and the amount of capital participating in the
-        Farm. Find out more about how we calculate projected yields here.
+        {(multiplier * props.data.rewardApy).toFixed(2)}% per year. This yield
+        is variable and depends on the price of the reward asset, underlying
+        asset yields, and the amount of capital participating in the Farm. It is
+        calculated from the 24h reward yield annualized.
       </div>
       {approved ? (
         <Deposit
           token={props.data.pair}
           amount={amount}
-          timeLock={timeLock}
+          days={days}
+          maxDays={maxDays}
           onTransactionComplete={handleTransactionComplete}
         />
       ) : (

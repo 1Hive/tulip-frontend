@@ -9,6 +9,7 @@ import Icon from '../../../assets/tulip/icon.svg'
 import { useWallet } from '../../../providers/Wallet'
 import xComb from '../../../assets/coins/xcomb.svg'
 import { getNetworkConfig } from '../../../networks'
+import { buttonGrayCss, buttonGreenCss } from '../styles'
 
 const FarmTable = props => {
   let tokenImage = Icon
@@ -21,22 +22,45 @@ const FarmTable = props => {
   const { pairData, searchValue, balance, poolInfo } = props
   const pairs = pairData || []
   const fuse = new Fuse(pairs, {
-    keys: ['name', 'symbol'],
+    keys: [
+      'pairInfo.token0.name',
+      'pairInfo.token0.symbol',
+      'pairInfo.token1.symbol',
+      'pairInfo.token1.name',
+    ],
   })
+
+  const isZeroBalance = pairAddress => {
+    return !balance || Number(balance[pairAddress]) === 0
+  }
+
+  const buttonCss = pairAddress => {
+    if (isZeroBalance(pairAddress)) {
+      return buttonGrayCss
+    }
+    return buttonGreenCss
+  }
   const results = fuse.search(searchValue)
   const { account, status } = useWallet()
   const handleModalActions = e => {
-    setModalAction(true)
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
       return data.pair === e.target.id
     })
+
+    // do nothing if balance is zero or data is not loaded
+    if (filtered.length === 0 || isZeroBalance(e.target.id)) {
+      return
+    }
+
+    setModalAction(true)
     setModalData({
       ...filtered[0],
       account,
       balance: balance[filtered[0].pair],
     })
   }
+
   const handleModalClose = () => {
     setModalAction(false)
   }
@@ -53,7 +77,15 @@ const FarmTable = props => {
         `}
       >
         <DataView
-          fields={['Asset', 'Reward Yield', 'Reward Asset', ' ']}
+          fields={[
+            'Asset',
+            'Alloc Point',
+            'Rewards 24h',
+            'Reward Yield 24h',
+            'Reward Yield 1y',
+            'Reward Asset',
+            ' ',
+          ]}
           css={`
             border-top: none;
           `}
@@ -95,13 +127,15 @@ const FarmTable = props => {
                 name={customLabel}
                 subheadline="Honeyswap"
               />,
+              <p>{pool.allocPoint}</p>,
+              <p>{pool.hsf24h.toFixed(2)}</p>,
+              <p>{pool.rewardApy24h.toFixed(2)}%</p>,
               <p>{pool.rewardApy.toFixed(2)}%</p>,
               <RewardComponent image={xComb} name="xComb" />,
               <React.Fragment>
                 <Button
-                  css={`
-                    background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-                  `}
+                  disabled={isZeroBalance(pool.pair)}
+                  css={buttonCss(pool.pair)}
                   id={pool.pair}
                   label="Stake"
                   onClick={e => {
