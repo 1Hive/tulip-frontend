@@ -23,6 +23,7 @@ const DepositTable = props => {
   }
   const depositArray = []
   const [errorVisible, setErrorVisible] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const opener = React.createRef()
   const { account } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
@@ -71,6 +72,9 @@ const DepositTable = props => {
   const handleError = err => {
     console.log(err)
     setErrorVisible(true)
+    setErrorMessage(
+      err.data ? err.data.originalError.error.message : err.message
+    )
   }
   const closeError = () => {
     setErrorVisible(false)
@@ -89,7 +93,7 @@ const DepositTable = props => {
         opener={opener}
         onClose={closeError}
       >
-        hi
+        {errorMessage}
       </UserErrorScreen>
       <DataView
         fields={[
@@ -146,7 +150,7 @@ const DepositTable = props => {
           const customLabel = symbol
           const unlockDate = new Date(unlockTime).getTime() / 1000
           const currentTime = Math.floor(Date.now() / 1000)
-          const withdrawEnabled = currentTime > unlockDate
+          const withdrawEnabled = currentTime < unlockDate
           const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
           if (new Date(unlockTime).getTime() === 0) {
             unlockTime = 'Not locked'
@@ -167,7 +171,7 @@ const DepositTable = props => {
               onError={handleError}
               opener={opener}
             />,
-            <Harvest id={id} />,
+            <Harvest id={id} onError={handleError} />,
           ]
         }}
       />

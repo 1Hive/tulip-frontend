@@ -14,17 +14,24 @@ const Harvest = props => {
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
   const handleHarvest = () => {
-    harvest().then(x => {
-      if (x) {
-        setTxHash(x.hash)
-        setVisible(true)
-        x.wait()
-          .then(() => {
-            setVisible(false)
-          })
-          .catch(err => console.log(err))
-      }
-    })
+    harvest()
+      .then(x => {
+        if (x) {
+          setTxHash(x.hash)
+          setVisible(true)
+          x.wait()
+            .then(() => {
+              setVisible(false)
+            })
+            .catch(err => {
+              console.log(err)
+              props.onError(err)
+            })
+        }
+      })
+      .catch(err => {
+        props.onError(err)
+      })
   }
 
   return (

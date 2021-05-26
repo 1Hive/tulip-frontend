@@ -2,6 +2,7 @@ import { useContract } from '../web3-contracts'
 import honeyFarm from '../abi/honeyfarm.json'
 import { ethers } from 'ethers'
 import { networkConfigs } from '../networks'
+import { serializeError } from 'eth-rpc-errors'
 
 export function useCreateDeposit(
   tokenAddress,
@@ -12,11 +13,13 @@ export function useCreateDeposit(
   amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
   const contract = useContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
   return () => {
-    return contract
-      .createDeposit(tokenAddress, amount, unlockTime, referrer)
-      .then(x => {
-        return x
-      })
-      .catch(err => err)
+    return new Promise((resolve, reject) => {
+      contract
+        .createDeposit(tokenAddress, amount, unlockTime, referrer)
+        .then(x => {
+          resolve(x)
+        })
+        .catch(err => reject(serializeError(err)))
+    })
   }
 }

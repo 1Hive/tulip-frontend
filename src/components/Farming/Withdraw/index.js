@@ -29,7 +29,10 @@ const Withdraw = props => {
             .then(() => {
               setVisible(false)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+              console.log(err)
+              props.onError(err)
+            })
         }
       })
       .catch(err => {
