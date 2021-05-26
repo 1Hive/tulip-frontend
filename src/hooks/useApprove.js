@@ -1,5 +1,6 @@
 import { useContract } from '../web3-contracts'
 import { networkConfigs } from '../networks'
+import { serializeError } from 'eth-rpc-errors'
 
 import erc20 from '../abi/ERC20.json'
 
@@ -12,7 +13,7 @@ export function useApprove(tokenAddress, amount) {
         .then(x => {
           resolve(x)
         })
-        .catch(err => reject(err))
+        .catch(err => reject(serializeError(err)))
     })
   }
 }
