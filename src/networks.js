@@ -4,7 +4,7 @@ export const networkConfigs = {
   xdai: {
     honeyfarm: '',
     ReferralRewarder: '',
-    StreamedAirdropper: '0x307ED236a5D6199141cd881dd32F8DcE44f96bBE',
+    StreamedAirdropper: '0x9e45e73c1AC4692246a910783Ce05c0389E87197',
     xCombToken: '0x9619006520C59d497586Cb1A30620cfa813DDa35',
     txUrl: '',
     nodes: {
