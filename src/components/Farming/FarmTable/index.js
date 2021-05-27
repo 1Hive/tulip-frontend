@@ -12,8 +12,13 @@ import { getNetworkConfig } from '../../../networks'
 import { buttonGrayCss, buttonGreenCss } from '../styles'
 
 const FarmTable = props => {
+  const {
+    account,
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
   let tokenImage = Icon
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   if (network) {
     tokenImage = network.token.image
   }
@@ -45,7 +50,6 @@ const FarmTable = props => {
     return buttonGreenCss
   }
   const results = fuse.search(searchValue)
-  const { account, status } = useWallet()
   const handleModalActions = e => {
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {

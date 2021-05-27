@@ -14,9 +14,15 @@ import { getNetworkConfig } from '../../../networks'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
 
 const DepositTable = props => {
+  const {
+    account,
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
+
   let tokenImage = Icon
   let tokenName = 'xComb'
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   if (network) {
     tokenImage = network.token.image
     tokenName = network.token.name
@@ -25,7 +31,6 @@ const DepositTable = props => {
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const opener = React.createRef()
-  const { account, status } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
     for (const {
       id,

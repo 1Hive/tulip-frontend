@@ -1,21 +1,11 @@
 import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
 
-export const RINKEBY_COURT = '0x7Ecb121a56BF92442289Dddb89b28A58640e76F5'
-export const RINKEBY_STAGING_COURT =
-  '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
-
 export const networkConfigs = {
-  main: {
-    nodes: {
-      defaultEth: 'https://mainnet.infura.io/v3/undefined',
-      subgraph: '',
-    },
-  },
   xdai: {
     honeyfarm: '',
     ReferralRewarder: '',
-    StreamedAirdropper: '',
-    xCombToken: '',
+    StreamedAirdropper: '0x307ED236a5D6199141cd881dd32F8DcE44f96bBE',
+    xCombToken: '0x9619006520C59d497586Cb1A30620cfa813DDa35',
     txUrl: '',
     nodes: {
       defaultEth: '',
@@ -73,14 +63,10 @@ export const networkConfigs = {
   },
 }
 
-export function getInternalNetworkName() {
-  return isLocalOrUnknownNetwork() ? 'local' : getNetworkType()
+export function getInternalNetworkName(chainId) {
+  return isLocalOrUnknownNetwork() ? 'local' : getNetworkType(chainId)
 }
 
-export function getNetworkConfig() {
-  return networkConfigs[getInternalNetworkName()]
+export function getNetworkConfig(chainId) {
+  return networkConfigs[getInternalNetworkName(chainId)]
 }
-
-export const networkAgentAddress = getNetworkConfig().network_agent
-
-export const networkReserveAddress = getNetworkConfig().network_reserve

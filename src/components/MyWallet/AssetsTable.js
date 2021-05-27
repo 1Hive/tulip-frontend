@@ -4,14 +4,18 @@ import PairName from '../Farming/PairName'
 import Fuse from 'fuse.js'
 import Icon from '../../assets/tulip/icon.svg'
 import { getNetworkConfig } from '../../networks'
+import { useWallet } from 'use-wallet'
 
 const AssetsTable = props => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const assets = props.assets || []
   const fuse = new Fuse(assets, {
     keys: ['name', 'symbol'],
   })
   let image = Icon
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   if (network) {
     image = network.token.image
   }
