@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import tulipData from 'tulip-data'
+import tulipData from 'tulip-backend'
 import { getContract } from '../web3-contracts'
 import { networkConfigs } from '../networks'
 import honeyFarm from '../abi/honeyfarm.json'
@@ -16,18 +16,20 @@ export function PoolProvider({ children }) {
   const [balance, setBalance] = useState()
   // const [balance, setBalance] = useState('')
   // const [deposits, setDeposits] = useState('')
-  const { account, networkName } = useWallet()
-  const network = networkName.toLowerCase()
+  const {
+    account,
+    _web3ReactContext: { chainId },
+  } = useWallet()
 
   const loadPoolData = async () => {
-    const tulipApy = await tulipData.farm.apys()
+    const tulipApy = await tulipData.farm.apys({ chain_id: chainId })
     tulipApy.forEach(pool => {
       tokens.push(pool.pair)
     })
     if (account && tokens.length > 0) {
       const tulipD = await tulipData.wallet.simplyTokenBalances({
         user_address: account,
-        network: network,
+        chain_id: chainId,
         tokens: tokens,
         web3: {
           eth: new Providers.Web3Provider(window.ethereum),
@@ -38,7 +40,7 @@ export function PoolProvider({ children }) {
     return tulipApy
   }
   const loadPoolInfo = async () => {
-    const poolInfo = await tulipData.farm.info()
+    const poolInfo = await tulipData.farm.info({ chain_id: chainId })
     return poolInfo
   }
   const loadDepositData = async () => {
@@ -46,6 +48,7 @@ export function PoolProvider({ children }) {
     if (account) {
       const tulipF = await tulipData.farm.deposits({
         user_address: account,
+        chain_id: chainId,
       })
       if (tulipF.length > 0) {
         for (const d of tulipF) {
