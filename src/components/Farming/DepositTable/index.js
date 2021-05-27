@@ -25,7 +25,7 @@ const DepositTable = props => {
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const opener = React.createRef()
-  const { account } = useWallet()
+  const { account, status } = useWallet()
   if (typeof props.depositData !== 'string' && props.depositData) {
     for (const {
       id,
@@ -77,6 +77,10 @@ const DepositTable = props => {
   }
   const closeError = () => {
     setErrorVisible(false)
+  }
+
+  if (depositArray.length === 0 && status !== 'disconnected' && account) {
+    return <Loader />
   }
   return (
     <div

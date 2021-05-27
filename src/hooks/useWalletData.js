@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import moment from 'moment'
-import { wallet } from 'tulip-data'
+import { wallet } from 'tulip-backend'
 import { useWallet } from 'use-wallet'
 import { useLocalStorage } from './useLocalStorage'
 import { formatNumber } from '../utils/validate-utils'
@@ -12,7 +12,11 @@ export function useWalletData() {
   const [isFetchingWallet, setIsFetchingWallet] = useState(false)
   const [isFetchingPool, setIsFetchingPool] = useState(false)
   const [isFetchingFarm, setIsFetchingFarm] = useState(false)
-  const { account, status } = useWallet()
+  const {
+    account,
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
 
   useEffect(() => {
     let cancelled = false
@@ -28,6 +32,7 @@ export function useWalletData() {
         setIsFetchingWallet(true)
         const balances = await wallet.tokenBalances({
           user_address: account,
+          chain_id: chainId,
         })
 
         if (!cancelled) {
@@ -45,6 +50,7 @@ export function useWalletData() {
 
         const poolingData = await wallet.poolBalances({
           user_address: account,
+          chain_id: chainId,
         })
 
         if (!cancelled) {
@@ -62,6 +68,7 @@ export function useWalletData() {
 
         const stakedData = await wallet.stakedBalances({
           user_address: account,
+          chain_id: chainId,
         })
 
         if (!cancelled) {
