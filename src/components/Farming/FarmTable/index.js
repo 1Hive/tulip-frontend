@@ -31,7 +31,11 @@ const FarmTable = props => {
   })
 
   const isZeroBalance = pairAddress => {
-    return !balance || Number(balance[pairAddress]) === 0
+    return (
+      balance === undefined ||
+      Number(balance[pairAddress]) === 0 ||
+      balance.length === 0
+    )
   }
 
   const buttonCss = pairAddress => {
