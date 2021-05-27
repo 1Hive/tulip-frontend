@@ -1,15 +1,18 @@
 import { useContract } from '../web3-contracts'
 import honeyFarm from '../abi/honeyfarm.json'
 import { networkConfigs } from '../networks'
+import { serializeError } from 'eth-rpc-errors'
 
 export function useWithdraw(id) {
   const contract = useContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
   return () => {
-    return contract
-      .closeDeposit(id)
-      .then(x => {
-        return x
-      })
-      .catch(err => console.log(err))
+    return new Promise((resolve, reject) => {
+      contract
+        .closeDeposit(id)
+        .then(x => {
+          resolve(x)
+        })
+        .catch(err => reject(serializeError(err)))
+    })
   }
 }
