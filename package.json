@@ -41,7 +41,7 @@
     "typescript": "^4.2.4",
     "urql": "^1.6.3",
     "use-wallet": "^0.8.1",
-    "tulip-backend": "https://github.com/1Hive/tulip-backend"
+    "tulip-backend": "https://github.com/1Hive/tulip-backend#6fe972c"
   },
   "scripts": {
     "start": "node ./scripts/start",
