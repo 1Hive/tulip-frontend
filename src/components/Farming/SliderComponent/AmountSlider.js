@@ -9,15 +9,20 @@ const AmountSlider = props => {
 
   const calculateAmount = progress => {
     const amount = progress * Number(props.tokenAmount)
+    console.log(amount)
     // cut of trailing numbers but make sure amount is not rounded up
     // const test = Number(amount.toString().match(/^-?\d+(?:\.\d{0,17})?/)[0])
     const test = toFixed(amount)
     // const test2 = test.toString()
     // const test2 = test.toString().match(/.(0+)?[1-9]{3}/g)
-    // const test2 = Number(test.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0])
+    console.log(test)
+    const test2 = test.toString().match(/[0-9]\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)
+      ? test.toString().match(/[0-9]\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)[0]
+      : 0
     // const test = amount.toString()
     // console.log('calculateAmount', test2)
-    return test
+    console.log(test2)
+    return test2
   }
 
   useEffect(() => {

@@ -68,5 +68,6 @@ export function getInternalNetworkName(chainId) {
 }
 
 export function getNetworkConfig(chainId) {
+  console.log(chainId)
   return networkConfigs[getInternalNetworkName(chainId)]
 }
