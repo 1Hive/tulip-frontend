@@ -2,10 +2,10 @@ import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
 
 export const networkConfigs = {
   xdai: {
-    honeyfarm: '0x63B7f0116774C456f25a29270491f469d8F42024',
-    ReferralRewarder: '0x44b916044Ec3245ACE4f4a1dAC616c11bb884C69',
-    StreamedAirdropper: '0x9e45e73c1AC4692246a910783Ce05c0389E87197',
-    xCombToken: '0x9619006520C59d497586Cb1A30620cfa813DDa35',
+    honeyfarm: '0xB44825cF0d8D4dD552f2434056c41582415AaAa1',
+    ReferralRewarder: '0x82374C59709AAc2f7864191a3c492932379536F4',
+    StreamedAirdropper: '0xdD36008685108aFafc11F88bBc66C39A851Df843',
+    xCombToken: '0x38Fb649Ad3d6BA1113Be5F57B927053E97fC5bF7',
     txUrl: '',
     nodes: {
       defaultEth: '',

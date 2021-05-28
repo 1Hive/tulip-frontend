@@ -89,7 +89,6 @@ const FarmTable = props => {
       <DataView
         fields={[
           'Asset',
-          'Alloc Point',
           'Rewards 24h',
           'Reward Yield 24h',
           'Reward Yield 1y',
@@ -137,7 +136,6 @@ const FarmTable = props => {
               name={customLabel}
               subheadline="Honeyswap"
             />,
-            <p>{pool.allocPoint}</p>,
             <p>{pool.hsf24h.toFixed(2)}</p>,
             <p>{pool.rewardApy24h.toFixed(2)}%</p>,
             <p>{pool.rewardApy.toFixed(2)}%</p>,
