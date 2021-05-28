@@ -3,8 +3,8 @@ import honeyFarm from '../abi/honeyfarm.json'
 import { networkConfigs } from '../networks'
 import { serializeError } from 'eth-rpc-errors'
 
-export function useWithdraw(id) {
-  const contract = useContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
+export function useWithdraw(id, chainId) {
+  const contract = useContract(networkConfigs[chainId].honeyfarm, honeyFarm)
   return () => {
     return new Promise((resolve, reject) => {
       contract

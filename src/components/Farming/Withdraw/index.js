@@ -12,7 +12,7 @@ const Withdraw = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
-  const withdraw = useWithdraw(props.id)
+  const withdraw = useWithdraw(props.id, chainId)
   const network = getNetworkConfig(chainId)
 
   console.log('chainId', chainId)

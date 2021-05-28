@@ -12,7 +12,7 @@ const Harvest = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
-  const harvest = useHarvest(props.id)
+  const harvest = useHarvest(props.id, chainId)
   const network = getNetworkConfig(chainId)
 
   console.log('chainId', chainId)

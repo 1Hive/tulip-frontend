@@ -9,17 +9,19 @@ import { useWallet } from './Wallet'
 import { providers as Providers } from 'ethers'
 
 const PoolContext = React.createContext()
-const contract = getContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
 
 export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState()
   // const [balance, setBalance] = useState('')
   // const [deposits, setDeposits] = useState('')
+
   const {
     account,
     _web3ReactContext: { chainId },
   } = useWallet()
+
+  const contract = getContract(networkConfigs[chainId].honeyfarm, honeyFarm)
 
   const loadPoolData = async () => {
     let tulipApy = []
