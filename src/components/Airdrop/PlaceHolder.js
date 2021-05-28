@@ -15,6 +15,7 @@ const PlaceHolder = React.memo(() => {
   let tokenImage = xCombImage
   let tokenName = 'xComb'
   const networks = getNetworkConfig(chainId)
+
   if (networks.token) {
     tokenImage = networks.token.image
     tokenName = networks.token.name

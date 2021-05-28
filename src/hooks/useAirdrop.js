@@ -18,6 +18,7 @@ export function useClaim() {
   const [available, setAvailable] = useState(0)
   const [balance, setBalance] = useState(0)
   const networks = getNetworkConfig(chainId)
+
   const contract = useContract(networks.StreamedAirdropper, StreamedAirdropper)
   const tokenb = useContract(networks.xCombToken, ERC20)
 

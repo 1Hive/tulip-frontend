@@ -2,32 +2,42 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import tulipData from 'tulip-backend'
 import { getContract } from '../web3-contracts'
-import { networkConfigs } from '../networks'
+import { getNetworkConfig } from '../networks'
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
 import { useWallet } from './Wallet'
 import { providers as Providers } from 'ethers'
 
 const PoolContext = React.createContext()
-const contract = getContract(networkConfigs.rinkeby.honeyfarm, honeyFarm)
 
 export function PoolProvider({ children }) {
   const tokens = []
   const [balance, setBalance] = useState()
   // const [balance, setBalance] = useState('')
   // const [deposits, setDeposits] = useState('')
+
   const {
     account,
     _web3ReactContext: { chainId },
   } = useWallet()
 
+  const network = getNetworkConfig(chainId)
+
+  let contract
+  if (chainId !== undefined) {
+    contract = getContract(network.honeyfarm, honeyFarm)
+  }
   const loadPoolData = async () => {
-    const tulipApy = await tulipData.farm.apys({ chain_id: chainId })
-    tulipApy.forEach(pool => {
-      tokens.push(pool.pair)
-    })
-    if (account && tokens.length > 0) {
-      const tulipD = await tulipData.wallet.simplyTokenBalances({
+    let tulipApy = []
+    if (chainId !== undefined && account) {
+      tulipApy = await tulipData.farm.apys({ chain_id: chainId })
+      tulipApy.forEach(pool => {
+        tokens.push(pool.pair)
+      })
+    }
+    let tulipD = []
+    if (chainId !== undefined && account && tokens.length > 0) {
+      tulipD = await tulipData.wallet.simplyTokenBalances({
         user_address: account,
         chain_id: chainId,
         tokens: tokens,
@@ -77,13 +87,15 @@ export function PoolProvider({ children }) {
     deposits.refetch()
   }, [account])
 
-  contract.on('Transfer', (to, amount, from) => {
-    if (account) {
-      poolData.refetch()
-      poolInfo.refetch()
-      deposits.refetch()
-    }
-  })
+  if (contract !== undefined) {
+    contract.on('Transfer', (to, amount, from) => {
+      if (account) {
+        poolData.refetch()
+        poolInfo.refetch()
+        deposits.refetch()
+      }
+    })
+  }
   const r = {
     data: poolData.data,
     status,

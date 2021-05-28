@@ -35,13 +35,16 @@ const Airdrop = React.memo(() => {
   if (working !== visible) {
     setVisible(working)
   }
+  const transactionTime = new Date()
+  transactionTime.setSeconds(transactionTime.getSeconds() + 8)
+
   return status === 'connected' ? (
     <>
       <TransactionProgress
         transactionHashUrl={`${networks.txUrl + txHash.hash}`}
-        progress={0.3}
+        progress={1}
         visible={visible}
-        endTime={new Date(Date.now() + 100000)}
+        endTime={transactionTime}
         onClose={() => setVisible(false)}
         opener={opener}
         slow={false}

@@ -23,10 +23,12 @@ const DepositTable = props => {
   let tokenImage = Icon
   let tokenName = 'xComb'
   const network = getNetworkConfig(chainId)
+
   if (network) {
     tokenImage = network.token.image
     tokenName = network.token.name
   }
+
   const depositArray = []
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -75,10 +77,10 @@ const DepositTable = props => {
   const results = fuse.search(props.searchValue)
 
   const handleError = err => {
-    setErrorVisible(true)
-    setErrorMessage(
-      err.data ? err.data.originalError.error.message : err.message
-    )
+    if (err && err.message) {
+      setErrorVisible(true)
+      setErrorMessage(err.message)
+    }
   }
   const closeError = () => {
     setErrorVisible(false)
