@@ -109,7 +109,7 @@ const Airdrop = React.memo(() => {
                   align-items: center;
                 `}
               >
-                <img src={tokenImage} />
+                <img height={25} src={tokenImage} />
                 <span
                   css={`
                     margin-left: ${GU}px;
