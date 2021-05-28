@@ -22,12 +22,16 @@ export function PoolProvider({ children }) {
   } = useWallet()
 
   const loadPoolData = async () => {
-    const tulipApy = await tulipData.farm.apys({ chain_id: chainId })
-    tulipApy.forEach(pool => {
-      tokens.push(pool.pair)
-    })
-    if (account && tokens.length > 0) {
-      const tulipD = await tulipData.wallet.simplyTokenBalances({
+    let tulipApy = []
+    if (chainId !== undefined && account) {
+      tulipApy = await tulipData.farm.apys({ chain_id: chainId })
+      tulipApy.forEach(pool => {
+        tokens.push(pool.pair)
+      })
+    }
+    let tulipD = []
+    if (chainId !== undefined && account && tokens.length > 0) {
+      tulipD = await tulipData.wallet.simplyTokenBalances({
         user_address: account,
         chain_id: chainId,
         tokens: tokens,
