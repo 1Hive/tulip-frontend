@@ -8593,7 +8593,7 @@ eth-rpc-errors@^3.0.0:
   dependencies:
     fast-safe-stringify "^2.0.6"
 
-eth-rpc-errors@^4.0.2:
+eth-rpc-errors@^4.0.2, eth-rpc-errors@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eth-rpc-errors/-/eth-rpc-errors-4.0.3.tgz#6ddb6190a4bf360afda82790bb7d9d5e724f423a"
   integrity sha512-Z3ymjopaoft7JDoxZcEb3pwdGh7yiYMhOwm2doUt6ASXlMavpNlK6Cre0+IMl2VSGyEU9rkiperQhp5iRxn5Pg==
@@ -19876,9 +19876,9 @@ tty-browserify@0.0.0:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
-"tulip-data@git+https://github.com/pxbee/tulip-data.git#613b7f2":
-  version "0.0.1"
-  resolved "git+https://github.com/pxbee/tulip-data.git#613b7f22214954232697f6dcbbac6922199caba7"
+"tulip-backend@https://github.com/1Hive/tulip-backend#380c86d":
+  version "1.0.0"
+  resolved "https://github.com/1Hive/tulip-backend#380c86dfba74338000aeb9d6b6fa988363d069d4"
   dependencies:
     "@makerdao/multicall" "^0.12.0"
     bluebird "^3.7.2"
@@ -19976,6 +19976,11 @@ typeforce@^1.11.3, typeforce@^1.11.5:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
   integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
+
+typescript@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
+  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
 
 typical@^6.0.0:
   version "6.0.1"
@@ -20322,7 +20327,7 @@ use-inside@^0.2.0:
   dependencies:
     prop-types "^15.7.2"
 
-use-wallet@^0.8.0:
+use-wallet@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/use-wallet/-/use-wallet-0.8.1.tgz#2532b02c9a44bdb65c4a5be4f653f0957954c820"
   integrity sha512-V0Y6oMnLXWBhl8+DYdouf3VZtjKJppLEBRpdQP95bGQn0s70ODWJQmqYmB1E7zWy04YYPkBofLQbMVzPyArGAA==
