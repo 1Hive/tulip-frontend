@@ -14,6 +14,9 @@ const Harvest = props => {
   const opener = useRef()
   const harvest = useHarvest(props.id)
   const network = getNetworkConfig(chainId)
+
+  console.log('chainId', chainId)
+  console.log('networkConfig', network)
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 

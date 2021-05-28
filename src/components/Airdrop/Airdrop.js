@@ -25,6 +25,9 @@ const Airdrop = React.memo(() => {
   const [balance, claim, claimed, tokens, txHash, working] = useClaim()
   const networks = getNetworkConfig(chainId)
 
+  console.log('chainId', chainId)
+  console.log('networkConfig', networks)
+
   let tokenImage = xCombImage
   let tokenName = 'xComb'
   if (networks.token) {

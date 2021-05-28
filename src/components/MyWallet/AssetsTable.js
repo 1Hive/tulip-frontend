@@ -16,6 +16,9 @@ const AssetsTable = props => {
   })
   let image = Icon
   const network = getNetworkConfig(chainId)
+
+  console.log('chainId', chainId)
+  console.log('networkConfig', network)
   if (network) {
     image = network.token.image
   }

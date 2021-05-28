@@ -12,6 +12,9 @@ const Deposit = props => {
   const [txHash, setTxHash] = useState('')
   const { token, amount, days, maxDays } = props
   const network = getNetworkConfig(chainId)
+
+  console.log('chainId', chainId)
+  console.log('networkConfig', network)
   const opener = useRef()
 
   const transactionTime = new Date()

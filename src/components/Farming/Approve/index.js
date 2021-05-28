@@ -14,6 +14,9 @@ const Approve = props => {
   const balanceToEth = props.amount.balance
   const approve = useApprove(props.token, balanceToEth)
   const network = getNetworkConfig(chainId)
+
+  console.log('chainId', chainId)
+  console.log('networkConfig', network)
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
