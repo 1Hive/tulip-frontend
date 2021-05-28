@@ -2,14 +2,18 @@ import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useApprove } from '../../../hooks/useApprove'
 import { getNetworkConfig } from '../../../networks'
+import { useWallet } from 'use-wallet'
 
 const Approve = props => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const balanceToEth = props.amount.balance
   const approve = useApprove(props.token, balanceToEth)
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
 
   const handleApprove = () => {
     approve()

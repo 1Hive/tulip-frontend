@@ -3,13 +3,17 @@ import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useHarvest } from '../../../hooks/useHarvest'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGreenCss } from '../styles'
+import { useWallet } from 'use-wallet'
 
 const Harvest = props => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const harvest = useHarvest(props.id)
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 

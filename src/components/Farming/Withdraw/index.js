@@ -3,13 +3,17 @@ import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useWithdraw } from '../../../hooks/useWithdraw'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGreenCss, buttonGrayCss } from '../styles'
+import { useWallet } from 'use-wallet'
 
 const Withdraw = props => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const withdraw = useWithdraw(props.id)
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   const buttonCss = () => {
     if (props.disabled) {
       return buttonGrayCss

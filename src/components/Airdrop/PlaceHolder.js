@@ -2,14 +2,19 @@ import React from 'react'
 import { Card, GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { getNetworkConfig } from '../../networks'
 import xCombImage from '../../assets/tulip/xComb.svg'
+import { useWallet } from 'use-wallet'
 
 const PlaceHolder = React.memo(() => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
+
   const { width: vw, below } = useViewport()
   const small = below('medium')
 
   let tokenImage = xCombImage
   let tokenName = 'xComb'
-  const networks = getNetworkConfig()
+  const networks = getNetworkConfig(chainId)
   if (networks.token) {
     tokenImage = networks.token.image
     tokenName = networks.token.name

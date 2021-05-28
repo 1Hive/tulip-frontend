@@ -15,12 +15,15 @@ import xCombImage from '../../assets/tulip/xComb.svg'
 
 const Airdrop = React.memo(() => {
   const [visible, setVisible] = useState(false)
-  const { status } = useWallet()
+  const {
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const { width: vw, below } = useViewport()
   const small = below('medium')
   const opener = useRef()
   const [balance, claim, claimed, tokens, txHash, working] = useClaim()
-  const networks = getNetworkConfig()
+  const networks = getNetworkConfig(chainId)
 
   let tokenImage = xCombImage
   let tokenName = 'xComb'

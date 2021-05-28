@@ -9,11 +9,15 @@ import { getNetworkConfig } from '../networks'
 export function useClaim() {
   const [working, setWorking] = useState(false)
   const [txHash, setTxHash] = useState('')
-  const { account, status } = useWallet()
+  const {
+    account,
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const [unclaimed, setUnclaimed] = useState(0)
   const [available, setAvailable] = useState(0)
   const [balance, setBalance] = useState(0)
-  const networks = getNetworkConfig()
+  const networks = getNetworkConfig(chainId)
   const contract = useContract(networks.StreamedAirdropper, StreamedAirdropper)
   const tokenb = useContract(networks.xCombToken, ERC20)
 

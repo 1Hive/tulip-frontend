@@ -12,8 +12,13 @@ import { getNetworkConfig } from '../../../networks'
 import { buttonGrayCss, buttonGreenCss } from '../styles'
 
 const FarmTable = props => {
+  const {
+    account,
+    status,
+    _web3ReactContext: { chainId },
+  } = useWallet()
   let tokenImage = Icon
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   if (network) {
     tokenImage = network.token.image
   }
@@ -45,7 +50,6 @@ const FarmTable = props => {
     return buttonGreenCss
   }
   const results = fuse.search(searchValue)
-  const { account, status } = useWallet()
   const handleModalActions = e => {
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
@@ -85,7 +89,6 @@ const FarmTable = props => {
       <DataView
         fields={[
           'Asset',
-          'Alloc Point',
           'Rewards 24h',
           'Reward Yield 24h',
           'Reward Yield 1y',
@@ -133,7 +136,6 @@ const FarmTable = props => {
               name={customLabel}
               subheadline="Honeyswap"
             />,
-            <p>{pool.allocPoint}</p>,
             <p>{pool.hsf24h.toFixed(2)}</p>,
             <p>{pool.rewardApy24h.toFixed(2)}%</p>,
             <p>{pool.rewardApy.toFixed(2)}%</p>,

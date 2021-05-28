@@ -2,12 +2,16 @@ import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
 import { useCreateDeposit } from '../../../hooks/useCreateDeposit'
 import { getNetworkConfig } from '../../../networks'
+import { useWallet } from 'use-wallet'
 
 const Deposit = props => {
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const { token, amount, days, maxDays } = props
-  const network = getNetworkConfig()
+  const network = getNetworkConfig(chainId)
   const opener = useRef()
 
   const transactionTime = new Date()
