@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
+import { toFixed } from '../../../lib/math-utils'
 // import Styled from './slidercomponent.style'
 
 const AmountSlider = props => {
@@ -9,7 +10,14 @@ const AmountSlider = props => {
   const calculateAmount = progress => {
     const amount = progress * Number(props.tokenAmount)
     // cut of trailing numbers but make sure amount is not rounded up
-    return Number(amount.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0])
+    // const test = Number(amount.toString().match(/^-?\d+(?:\.\d{0,17})?/)[0])
+    const test = toFixed(amount)
+    // const test2 = test.toString()
+    // const test2 = test.toString().match(/.(0+)?[1-9]{3}/g)
+    // const test2 = Number(test.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0])
+    // const test = amount.toString()
+    // console.log('calculateAmount', test2)
+    return test
   }
 
   useEffect(() => {
