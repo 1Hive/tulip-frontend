@@ -1,7 +1,7 @@
 import { useContract } from '../web3-contracts'
 import honeyFarm from '../abi/honeyfarm.json'
 import { ethers } from 'ethers'
-import { networkConfigs } from '../networks'
+import { getNetworkConfig } from '../networks'
 import { serializeError } from 'eth-rpc-errors'
 
 export function useCreateDeposit(
@@ -12,7 +12,9 @@ export function useCreateDeposit(
   chainId
 ) {
   amount = amount !== '' ? ethers.utils.parseEther(amount) : amount
-  const contract = useContract(networkConfigs[chainId].honeyfarm, honeyFarm)
+  const network = getNetworkConfig(chainId)
+
+  const contract = useContract(network.honeyfarm, honeyFarm)
   return () => {
     return new Promise((resolve, reject) => {
       contract

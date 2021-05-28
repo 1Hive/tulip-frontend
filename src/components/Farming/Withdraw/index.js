@@ -15,8 +15,6 @@ const Withdraw = props => {
   const withdraw = useWithdraw(props.id, chainId)
   const network = getNetworkConfig(chainId)
 
-  console.log('chainId', chainId)
-  console.log('networkConfig', network)
   const buttonCss = () => {
     if (props.disabled) {
       return buttonGrayCss

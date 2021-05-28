@@ -7,6 +7,7 @@ import UserErrorScreen from '../../Errors/UserErrorScreen'
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
+import { useWallet } from 'use-wallet'
 
 const DepositModal = props => {
   const [approved, setApproved] = useState(false)
@@ -33,10 +34,15 @@ const DepositModal = props => {
     ? `${props.data.pairInfo.token0.symbol} - ${props.data.pairInfo.token1.symbol}`
     : ''
 
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
+
   useCheckApprovedToken(
     props.data.pair,
     props.data.account,
-    props.data.balance
+    props.data.balance,
+    chainId
   ).then(isApproved => {
     setApproved(isApproved)
   })

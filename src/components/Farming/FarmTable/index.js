@@ -20,8 +20,6 @@ const FarmTable = props => {
   let tokenImage = Icon
   const network = getNetworkConfig(chainId)
 
-  console.log('chainId', chainId)
-  console.log('networkConfig', network)
   if (network) {
     tokenImage = network.token.image
   }

@@ -23,14 +23,12 @@ const DepositTable = props => {
   let tokenImage = Icon
   let tokenName = 'xComb'
   const network = getNetworkConfig(chainId)
-  console.log('chainId', chainId)
-  console.log('networkConfig', network)
+
   if (network) {
     tokenImage = network.token.image
     tokenName = network.token.name
   }
 
-  console.log('network', network)
   const depositArray = []
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)

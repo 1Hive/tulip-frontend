@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import tulipData from 'tulip-backend'
 import { getContract } from '../web3-contracts'
-import { networkConfigs } from '../networks'
+import { getNetworkConfig } from '../networks'
 import honeyFarm from '../abi/honeyfarm.json'
 import erc20 from '../abi/ERC20.json'
 import { useWallet } from './Wallet'
@@ -21,8 +21,12 @@ export function PoolProvider({ children }) {
     _web3ReactContext: { chainId },
   } = useWallet()
 
-  const contract = getContract(networkConfigs[chainId].honeyfarm, honeyFarm)
+  const network = getNetworkConfig(chainId)
 
+  let contract
+  if (chainId !== undefined) {
+    contract = getContract(network.honeyfarm, honeyFarm)
+  }
   const loadPoolData = async () => {
     let tulipApy = []
     if (chainId !== undefined && account) {
@@ -83,13 +87,15 @@ export function PoolProvider({ children }) {
     deposits.refetch()
   }, [account])
 
-  contract.on('Transfer', (to, amount, from) => {
-    if (account) {
-      poolData.refetch()
-      poolInfo.refetch()
-      deposits.refetch()
-    }
-  })
+  if (contract !== undefined) {
+    contract.on('Transfer', (to, amount, from) => {
+      if (account) {
+        poolData.refetch()
+        poolInfo.refetch()
+        deposits.refetch()
+      }
+    })
+  }
   const r = {
     data: poolData.data,
     status,
