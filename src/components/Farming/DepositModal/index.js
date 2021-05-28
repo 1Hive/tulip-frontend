@@ -60,10 +60,10 @@ const DepositModal = props => {
     props.handleModalClose()
   }
   const handleError = err => {
-    setErrorVisible(true)
-    setErrorMessage(
-      err.data ? err.data.originalError.error.message : err.message
-    )
+    if (err && err.message) {
+      setErrorVisible(true)
+      setErrorMessage(err.message)
+    }
   }
   const onModalClose = () => {
     setErrorVisible(false)

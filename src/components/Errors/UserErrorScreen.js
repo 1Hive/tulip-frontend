@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal } from '@1hive/1hive-ui'
-import error from '../../assets/error.svg'
+// import error from '../../assets/error.svg'
 import styled from 'styled-components'
 
 const UserErrorScreen = props => {
@@ -26,10 +26,7 @@ const UserErrorScreen = props => {
         props.onClose()
       }}
     >
-      <ModalBody>
-        <img src={error} />
-        {props.children}
-      </ModalBody>
+      <ModalBody>{props.children}</ModalBody>
     </Modal>
   )
 }

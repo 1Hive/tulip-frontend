@@ -26,11 +26,3 @@ To view a deposit:
  -- Navigate to the "My Deposits" tab.
  -- Click the 'Withdraw' button on the deposit you would like to withdraw
 
-## Things to be aware of
- -- APY's for the farm page will be added once the APY stats have been included in the tulip-data module.
- -- We are still working on error handling for errors when interacting with the contract. For example if you try to close your deposit before the unlock time, nothing will happen. Errors messages will be added in the next push.
- -- The harvest function is not yet hooked up, as this function is not included in the current deployed version of the smart contract. This will be updated once the test-net contract has been updated to the current version. 
- -- The USD equivalents on the smart contract will be added once that data is included in the tulip-data module.
- -- If you are not connected to the rinkeby network when you land on the farm page, you will see the loading bee indefinitely. You will need to change your metamask RPC to rinkeby and reload the page if you encounter this.  
- -- There is also currently an issue where if you land on the page connected to the wrong network and switch to rinkeby without reloading an error is thrown. If you switch networks please reload before connecting your account.
-
