@@ -16,8 +16,10 @@ const AmountSlider = props => {
     // const test2 = test.toString().match(/.(0+)?[1-9]{3}/g)
     const result = fixedResult
       .toString()
-      .match(/[0-9]\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)
-      ? fixedResult.toString().match(/[0-9]\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)[0]
+      .match(/([0-9]+)?\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)
+      ? fixedResult
+          .toString()
+          .match(/([0-9]+)?\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)[0]
       : 0
     // const test = amount.toString()
     return result
