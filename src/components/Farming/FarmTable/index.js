@@ -141,7 +141,13 @@ const FarmTable = props => {
               name={customLabel}
               subheadline="Honeyswap"
             />,
-            <p>{pool.hsf24h.toFixed(2)}</p>,
+            <p
+              css={`
+                padding-right: 15px;
+              `}
+            >
+              {pool.hsf24h.toFixed(2)}
+            </p>,
             <p>{pool.rewardApy24h.toFixed(2)}%</p>,
             <p>{pool.rewardApy.toFixed(2)}%</p>,
             <RewardComponent image={xComb} name="xComb" />,
