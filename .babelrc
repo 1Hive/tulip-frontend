@@ -12,7 +12,8 @@
   ],
   "plugins": [
     ["styled-components", { "displayName": true }],
-    "@babel/plugin-proposal-class-properties"
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-react-jsx"
   ],
   "env": {
     "test": {

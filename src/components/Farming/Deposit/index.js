@@ -10,14 +10,17 @@ const Deposit = props => {
   } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
-  const { token, amount, days, maxDays } = props
+  const { token, amount, days, maxDays, referrer } = props
   const network = getNetworkConfig(chainId)
+
   const opener = useRef()
 
+  const userReferrer = referrer
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
   const calculateUnlockTimestamp = days => {
+    console.log(days)
     if (days === 0 || !days) {
       return 0
     }
@@ -31,12 +34,18 @@ const Deposit = props => {
     if (days === maxDays) {
       unlockTimestamp -= 100
     }
+    console.log(unlockTimestamp)
     return unlockTimestamp
   }
-
   const unlockTimestamp = calculateUnlockTimestamp(days)
-
-  const deposit = useCreateDeposit(token, amount.toString(), unlockTimestamp)
+  console.log(unlockTimestamp)
+  const deposit = useCreateDeposit(
+    token,
+    amount.toString(),
+    unlockTimestamp,
+    userReferrer,
+    chainId
+  )
   const handleDeposit = () => {
     deposit()
       .then(x => {

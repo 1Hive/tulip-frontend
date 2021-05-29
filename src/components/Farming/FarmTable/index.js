@@ -19,6 +19,7 @@ const FarmTable = props => {
   } = useWallet()
   let tokenImage = Icon
   const network = getNetworkConfig(chainId)
+
   if (network) {
     tokenImage = network.token.image
   }

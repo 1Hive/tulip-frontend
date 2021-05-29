@@ -6,7 +6,7 @@ export const networkConfigs = {
     ReferralRewarder: '0x82374C59709AAc2f7864191a3c492932379536F4',
     StreamedAirdropper: '0xdD36008685108aFafc11F88bBc66C39A851Df843',
     xCombToken: '0x38Fb649Ad3d6BA1113Be5F57B927053E97fC5bF7',
-    txUrl: '',
+    txUrl: 'https://blockscout.com/poa/xdai/tx/',
     nodes: {
       defaultEth: '',
       subgraph: '',
@@ -21,7 +21,7 @@ export const networkConfigs = {
     ReferralRewarder: '',
     StreamedAirdropper: '',
     xCombToken: '',
-    txUrl: '',
+    txUrl: 'https://polygon-explorer-mainnet.chainstacklabs.com/tx/',
     nodes: {
       defaultEth: '',
       subgraph: '',
@@ -68,5 +68,6 @@ export function getInternalNetworkName(chainId) {
 }
 
 export function getNetworkConfig(chainId) {
+  console.log(chainId)
   return networkConfigs[getInternalNetworkName(chainId)]
 }

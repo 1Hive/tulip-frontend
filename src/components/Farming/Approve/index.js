@@ -12,8 +12,11 @@ const Approve = props => {
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
   const balanceToEth = props.amount.balance
-  const approve = useApprove(props.token, balanceToEth)
+  const approve = useApprove(props.token, balanceToEth, chainId)
   const network = getNetworkConfig(chainId)
+
+  const transactionTime = new Date()
+  transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
   const handleApprove = () => {
     approve()
@@ -39,12 +42,12 @@ const Approve = props => {
     <>
       <TransactionProgress
         transactionHashUrl={network.txUrl + txHash}
-        progress={0.3}
+        progress={1}
         visible={visible}
-        endTime={new Date(Date.now() + 100000)}
+        endTime={transactionTime}
         onClose={() => setVisible(false)}
         opener={opener}
-        slow
+        slow={false}
       />
       <Button
         css={`
