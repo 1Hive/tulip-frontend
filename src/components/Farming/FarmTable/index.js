@@ -25,6 +25,8 @@ const FarmTable = props => {
   }
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
+  const [imgObj2, setImgObj] = useState(null)
+  const [rewardApy, setRewardApy] = useState(0)
   const { pairData, searchValue, balance, poolInfo } = props
   const pairs = pairData || []
   const fuse = new Fuse(pairs, {
@@ -51,12 +53,14 @@ const FarmTable = props => {
     return buttonGreenCss
   }
   const results = fuse.search(searchValue)
-  const handleModalActions = e => {
+  const handleModalActions = (e, img, rwdApy) => {
     const d = searchValue ? results : pairs
     const filtered = d.filter(data => {
       return data.pair === e.target.id
     })
 
+    setImgObj(img)
+    setRewardApy(rwdApy)
     // do nothing if balance is zero or data is not loaded
     if (filtered.length === 0 || isZeroBalance(e.target.id)) {
       return
@@ -91,8 +95,8 @@ const FarmTable = props => {
         fields={[
           'Asset',
           'Rewards 24h',
-          'Reward Yield 24h',
-          'Reward Yield 1y',
+          'Reward Yield 24h ',
+          'Reward Yield 1y ',
           'Reward Asset',
           ' ',
         ]}
@@ -148,20 +152,20 @@ const FarmTable = props => {
                 id={pool.pair}
                 label="Stake"
                 onClick={e => {
-                  handleModalActions(e)
+                  handleModalActions(e, imgObj, pool.rewardApy, pool)
                 }}
-              />
-              <DepositModal
-                modalAction={modalAction}
-                handleModalClose={handleModalClose}
-                tokenImg={imgObj}
-                data={modalData}
-                poolInfo={poolInfo}
-                rewardApy={pool.rewardApy}
               />
             </React.Fragment>,
           ]
         }}
+      />
+      <DepositModal
+        modalAction={modalAction}
+        handleModalClose={handleModalClose}
+        tokenImg={imgObj2}
+        data={modalData}
+        poolInfo={poolInfo}
+        rewardApy={rewardApy}
       />
     </div>
   )

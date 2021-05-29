@@ -19876,9 +19876,9 @@ tty-browserify@0.0.0:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
-"tulip-backend@https://github.com/1Hive/tulip-backend#380c86d":
+"tulip-backend@https://github.com/1Hive/tulip-backend#e3642f3":
   version "1.0.0"
-  resolved "https://github.com/1Hive/tulip-backend#380c86dfba74338000aeb9d6b6fa988363d069d4"
+  resolved "https://github.com/1Hive/tulip-backend#e3642f32b95204f971aee4ada68ef079156753f3"
   dependencies:
     "@makerdao/multicall" "^0.12.0"
     bluebird "^3.7.2"
