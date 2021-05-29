@@ -17,7 +17,23 @@ const DepositModal = props => {
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const maxDays = Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
+
+  useCheckApprovedToken(
+    props.data.pair,
+    props.data.account,
+    props.data.balance,
+    chainId
+  ).then(isApproved => {
+    setApproved(isApproved)
+  })
+
+  if (!props.poolInfo) {
+    return <div />
+  }
+  const maxDays = Math.floor(props.maxTimeLock / 3600 / 24)
 
   const imgObj = {
     pair1:
@@ -34,19 +50,6 @@ const DepositModal = props => {
     ? `${props.data.pairInfo.token0.symbol} - ${props.data.pairInfo.token1.symbol}`
     : ''
 
-  const {
-    _web3ReactContext: { chainId },
-  } = useWallet()
-
-  useCheckApprovedToken(
-    props.data.pair,
-    props.data.account,
-    props.data.balance,
-    chainId
-  ).then(isApproved => {
-    setApproved(isApproved)
-  })
-
   const handleTimeLockSliderUpdate = values => {
     setDays(values.days)
     setMultiplier(values.multiplier)
@@ -60,7 +63,6 @@ const DepositModal = props => {
     props.handleModalClose()
   }
   const handleError = err => {
-    console.log(err)
     if (err && err.message) {
       setErrorVisible(true)
       setErrorMessage(err.message)

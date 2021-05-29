@@ -12,10 +12,8 @@ export function useCreateDeposit(
   chainId
 ) {
   // amount = amount !== '' ? ethers.utils.parseEther('0.00000426') : amount
-  console.log(typeof amount)
   amount = ethers.utils.parseEther(amount)
   const network = getNetworkConfig(chainId)
-  console.log(tokenAddress, amount.toString(), unlockTime, referrer)
   const contract = useContract(network.honeyfarm, honeyFarm)
   return () => {
     return new Promise((resolve, reject) => {
