@@ -33,7 +33,7 @@ const DepositModal = props => {
   if (!props.poolInfo) {
     return <div />
   }
-  const maxDays = Math.floor(props.maxTimeLock / 3600 / 24)
+  const maxDays = Math.floor(props.poolInfo.maxTimeLock / 3600 / 24)
 
   const imgObj = {
     pair1:
@@ -63,18 +63,28 @@ const DepositModal = props => {
     props.handleModalClose()
   }
   const handleError = err => {
-    if (err && err.message) {
+    if (err && err.data && err.data.message) {
+      setErrorVisible(true)
+      setErrorMessage(`${err.data.data}: ${err.data.message}`)
+    } else if (err && err.message) {
       setErrorVisible(true)
       setErrorMessage(err.message)
     }
   }
-  const onModalClose = () => {
+  const closeError = () => {
     setErrorVisible(false)
   }
   return (
     <>
-      <UserErrorScreen isVisible={errorVisible} onClose={onModalClose}>
-        {errorMessage}
+      <UserErrorScreen
+        isVisible={errorVisible}
+        opener={opener}
+        onClose={closeError}
+      >
+        <p>
+          <b>Error</b>
+        </p>
+        <p>{errorMessage}</p>
       </UserErrorScreen>
       <Modal
         visible={props.modalAction}
