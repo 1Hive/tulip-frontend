@@ -111,6 +111,10 @@ const DepositTable = props => {
           '',
           '',
         ]}
+        css={`
+          border-top: none;
+          margin-bottom: 20px;
+        `}
         emptyState={{
           default: {
             displayLoader: false,

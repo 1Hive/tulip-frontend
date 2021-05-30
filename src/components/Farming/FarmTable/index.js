@@ -102,6 +102,7 @@ const FarmTable = props => {
         ]}
         css={`
           border-top: none;
+          margin-bottom: 20px;
         `}
         emptyState={{
           default: {
