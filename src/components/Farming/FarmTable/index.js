@@ -6,6 +6,7 @@ import Fuse from 'fuse.js'
 import DepositModal from '../DepositModal'
 import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
+import UT from '../../../assets/tulip/unknownToken.svg'
 import { useWallet } from '../../../providers/Wallet'
 import xComb from '../../../assets/coins/xcomb.svg'
 import { getNetworkConfig } from '../../../networks'
@@ -131,7 +132,11 @@ const FarmTable = props => {
         renderEntry={pool => {
           const customLabel = `${pool.pairInfo.token0.symbol} - ${pool.pairInfo.token1.symbol} LP`
           const token0Img = pool.pairInfo.token0.logoURI
+            ? pool.pairInfo.token0.logoURI
+            : UT
           const token1Img = pool.pairInfo.token1.logoURI
+            ? pool.pairInfo.token1.logoURI
+            : UT
           const imgObj = {
             pair1: token0Img,
             pair2: token1Img,

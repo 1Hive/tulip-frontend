@@ -15,7 +15,11 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(
-  <div>
+  <div
+    css={`
+      font-family: Overpass;
+    `}
+  >
     <GlobalStyle />
     <App />
   </div>,
