@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GU, textStyle } from '@1hive/1hive-ui'
+import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
@@ -10,10 +10,12 @@ const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(0)
+  const { below } = useViewport()
 
   const handleSelected = selected => {
     setSelected(selected)
   }
+  const small = below('medium')
 
   const { data, balance, deposits, poolInfo } = usePoolProvider()
   const handleSearch = value => {
@@ -44,6 +46,7 @@ const Farm = React.memo(({ onlyTable }) => {
         <SearchComponent
           placeholder="Search by asset"
           passSearch={handleSearch}
+          wide={small}
         />
       </div>
       <div

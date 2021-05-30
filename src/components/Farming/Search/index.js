@@ -7,6 +7,7 @@ const SearchComponent = prop => {
   return (
     <React.Fragment>
       <SearchInput
+        wide={prop.wide}
         value={value}
         onChange={setValue}
         placeholder={prop.placeholder}
