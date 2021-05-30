@@ -35,7 +35,7 @@ const AssetsTable = props => {
         css={`
           border-top: none;
         `}
-        entriesPerPage={20}
+        entriesPerPage={-1}
         emptyState={{
           default: {
             displayLoader: false,
