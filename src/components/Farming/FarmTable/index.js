@@ -141,9 +141,17 @@ const FarmTable = props => {
               name={customLabel}
               subheadline="Honeyswap"
             />,
-            <p>{pool.hsf24h.toFixed(2)}</p>,
-            <p>{pool.rewardApy24h.toFixed(2)}%</p>,
-            <p>{pool.rewardApy.toFixed(2)}%</p>,
+            <p
+              css={`
+                padding-right: 15px;
+              `}
+            >
+              {isFinite(pool.hsf24h) ? pool.hsf24h.toFixed(2) : 0}
+            </p>,
+            <p>
+              {isFinite(pool.rewardApy24h) ? pool.rewardApy24h.toFixed(2) : 0}%
+            </p>,
+            <p>{isFinite(pool.rewardApy) ? pool.rewardApy.toFixed(2) : 0}%</p>,
             <RewardComponent image={xComb} name="xComb" />,
             <React.Fragment>
               <Button
