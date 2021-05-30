@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 // import { useHistory } from 'react-router-dom'
-import { MENU_PANEL_WIDTH } from '../MenuPanel'
+// import { MENU_PANEL_WIDTH } from '../MenuPanel'
 // import HeroBanner from './HeroBanner'
 // import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
@@ -36,7 +36,9 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
           flex-direction: ${small ? 'column' : 'row'};
           padding-top: ${3 * GU}px;
           padding: 0 ${padding}px 0 ${padding}px;
-          width: ${small ? '100' : vw - MENU_PANEL_WIDTH - padding}px;
+          width: ${small
+            ? '100px'
+            : /* vw - MENU_PANEL_WIDTH - padding */ 'auto'};
         `}
       >
         <div
@@ -79,8 +81,8 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
           display: flex;
           flex-direction: ${small ? 'column' : 'row'};
           margin-bottom: ${2 * GU}px;
-          max-height: ${82.5 * GU}px;
         `}
+        // max-height: ${82.5 * GU}px
       >
         <div
           css={`
