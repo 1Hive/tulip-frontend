@@ -13,7 +13,7 @@ function HeaderLogo() {
       <img
         alt=""
         src={headerLogoSvg}
-        width={16 * GU}
+        height={4 * GU}
         css={`
           margin-right: ${1 * GU}px;
         `}

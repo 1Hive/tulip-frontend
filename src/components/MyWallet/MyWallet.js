@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import { MENU_PANEL_WIDTH } from '../MenuPanel'
-import HeroBanner from './HeroBanner'
+// import HeroBanner from './HeroBanner'
 // import HomeChart from '../LineChart/HomeChart'
 import AssetCardList from './AssetCardsList'
 import AssetList from './AssetList'
@@ -10,7 +10,7 @@ import AssetList from './AssetList'
 const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
   const { width: vw, below } = useViewport()
   const [search, setSearch] = useState('')
-  const history = useHistory()
+  // const history = useHistory()
 
   const small = below('medium')
   const padding = 20
@@ -18,10 +18,10 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
   const handleSearch = value => {
     setSearch(value)
   }
-
+  /*
   const handleOnLearnMore = () => {
     history.push('/farm')
-  }
+  } */
 
   return (
     <div
@@ -98,7 +98,7 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
             searchValue={search}
           />
         </div>
-        <HeroBanner onLearnMore={handleOnLearnMore} />
+        {/* <HeroBanner onLearnMore={handleOnLearnMore} /> */}
       </div>
     </div>
   )

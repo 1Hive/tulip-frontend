@@ -34,8 +34,9 @@ const AssetsTable = props => {
         fields={['Asset', 'Balance', 'Price', 'Value']}
         css={`
           border-top: none;
+          margin-bottom: 20px;
         `}
-        entriesPerPage={20}
+        entriesPerPage={-1}
         emptyState={{
           default: {
             displayLoader: false,

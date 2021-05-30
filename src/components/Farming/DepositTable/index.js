@@ -16,7 +16,6 @@ import UserErrorScreen from '../../Errors/UserErrorScreen'
 const DepositTable = props => {
   const {
     account,
-    status,
     _web3ReactContext: { chainId },
   } = useWallet()
 
@@ -86,9 +85,6 @@ const DepositTable = props => {
     setErrorVisible(false)
   }
 
-  if (depositArray.length === 0 && status !== 'disconnected' && account) {
-    return <Loader />
-  }
   return (
     <div
       css={`
@@ -115,6 +111,10 @@ const DepositTable = props => {
           '',
           '',
         ]}
+        css={`
+          border-top: none;
+          margin-bottom: 20px;
+        `}
         emptyState={{
           default: {
             displayLoader: false,
@@ -157,7 +157,13 @@ const DepositTable = props => {
             pair1: pairInfo ? pairInfo.token0.logoURI : undefined,
             pair2: pairInfo ? pairInfo.token1.logoURI : undefined,
           }
-          const customLabel = symbol
+          const customLabel = () => {
+            if (!pairInfo) return symbol
+
+            return (
+              pairInfo.token0.symbol + ' - ' + pairInfo.token1.symbol + ' LP'
+            )
+          }
           const unlockDate = new Date(unlockTime).getTime() / 1000
           const currentTime = Math.floor(Date.now() / 1000)
           const withdrawEnabled = currentTime < unlockDate
@@ -168,7 +174,7 @@ const DepositTable = props => {
           return [
             <PairName
               image={imgObj}
-              name={customLabel}
+              name={customLabel()}
               subheadline="Honeyswap"
             />,
             <p>{amount}</p>,

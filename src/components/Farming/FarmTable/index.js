@@ -102,6 +102,7 @@ const FarmTable = props => {
         ]}
         css={`
           border-top: none;
+          margin-bottom: 20px;
         `}
         emptyState={{
           default: {
@@ -128,7 +129,7 @@ const FarmTable = props => {
         entries={account ? (searchValue ? results : pairs) : []}
         header
         renderEntry={pool => {
-          const customLabel = `${pool.pairInfo.token0.name} - ${pool.pairInfo.token1.name}`
+          const customLabel = `${pool.pairInfo.token0.symbol} - ${pool.pairInfo.token1.symbol} LP`
           const token0Img = pool.pairInfo.token0.logoURI
           const token1Img = pool.pairInfo.token1.logoURI
           const imgObj = {
