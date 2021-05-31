@@ -7,11 +7,14 @@ import Farm from './components/Farming/Farm'
 import Swap from './components/Swap/Swap'
 import Pool from './components/Pool/Pool'
 import Lend from './components/Lend/Lend'
+import { useEagerConnect } from './hooks/useEagerConnect'
 
 // Preferences
 const GLOBAL_PREFERENCES_QUERY_PARAM = '?preferences=/'
 
 export default function Routes() {
+  useEagerConnect()
+
   return (
     <Switch>
       <Redirect exact from="/" to="/wallet" />
