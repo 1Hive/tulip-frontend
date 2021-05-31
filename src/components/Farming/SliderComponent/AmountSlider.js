@@ -7,11 +7,19 @@ const AmountSlider = props => {
   const [progress, setProgress] = useState(0)
   const [amount, setAmount] = useState(0)
 
+  const pricePerToken = props.pairInfo.reserveUSD / props.pairInfo.totalSupply
+
   const calculateAmount = progress => {
     const amount = progress * Number(props.tokenAmount)
     return truncateDecimals(amount)
   }
 
+  const calculateDollar = amount => {
+    return truncateDecimals(amount * pricePerToken)
+  }
+
+  // const tokenPrice = props.pairInfo.
+  console.log(pricePerToken)
   useEffect(() => {
     props.onUpdate({
       amount: calculateAmount(progress),
@@ -87,7 +95,9 @@ const AmountSlider = props => {
             min-width: 15%;
           `}
         >
-          {amount}
+          ${calculateDollar(amount)}
+          <br />
+          <small>{amount}</small>
         </span>
       </div>
     </React.Fragment>

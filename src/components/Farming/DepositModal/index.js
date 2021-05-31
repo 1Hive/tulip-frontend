@@ -143,6 +143,7 @@ const DepositModal = props => {
                 ? `How many ${tokenName} tokens do you want to deposit?`
                 : 'loading'
             }
+            pairInfo={props.data.pairInfo}
             onUpdate={handleAmountSliderUpdate}
           />
           <TimeLockSlider

@@ -29,6 +29,12 @@ const DepositTable = props => {
     tokenName = network.token.name
   }
 
+  const calculateDollar = (amount, pairInfo) => {
+    const pricePerToken = pairInfo.reserveUSD / pairInfo.totalSupply
+
+    return truncateDecimals(amount * pricePerToken)
+  }
+
   const depositArray = []
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -185,7 +191,10 @@ const DepositTable = props => {
               name={customLabel()}
               subheadline="Honeyswap"
             />,
-            <p>{amount}</p>,
+            <PairName
+              name={'$' + calculateDollar(amount, pairInfo)}
+              subheadline={amount}
+            />,
             <p>{unlockTime}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
