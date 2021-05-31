@@ -18,8 +18,6 @@ const AmountSlider = props => {
     return truncateDecimals(amount * pricePerToken)
   }
 
-  // const tokenPrice = props.pairInfo.
-  console.log(pricePerToken)
   useEffect(() => {
     props.onUpdate({
       amount: calculateAmount(progress),
