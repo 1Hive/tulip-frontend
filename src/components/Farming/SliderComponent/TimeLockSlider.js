@@ -15,8 +15,9 @@ const TimeLockSlider = props => {
 
   const calculateMultiplier = days => {
     return (
-      (days * 3600 * 24 * timeLockMultiplier + timeLockConstant) / 1e18 / 1e18 +
-      1
+      (Number(days * 3600 * 24 * timeLockMultiplier) +
+        Number(timeLockConstant)) /
+      1e18
     ).toFixed(2)
   }
 
