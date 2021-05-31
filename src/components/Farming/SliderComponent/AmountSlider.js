@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { GU, Slider } from '@1hive/1hive-ui'
-import { toFixed } from '../../../lib/math-utils'
+import { truncateDecimals } from '../../../lib/math-utils'
 // import Styled from './slidercomponent.style'
 
 const AmountSlider = props => {
   const [progress, setProgress] = useState(0)
-  const [amount, setAmount] = useState(0) // amount toFixed(3)
+  const [amount, setAmount] = useState(0)
+
+  const pricePerToken = props.pairInfo.reserveUSD / props.pairInfo.totalSupply
 
   const calculateAmount = progress => {
     const amount = progress * Number(props.tokenAmount)
-    // cut of trailing numbers but make sure amount is not rounded up
-    // const test = Number(amount.toString().match(/^-?\d+(?:\.\d{0,17})?/)[0])
-    const fixedResult = toFixed(amount)
-    // const test2 = test.toString()
-    // const test2 = test.toString().match(/.(0+)?[1-9]{3}/g)
-    const result = fixedResult
-      .toString()
-      .match(/([0-9]+)?\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)
-      ? fixedResult
-          .toString()
-          .match(/([0-9]+)?\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)[0]
-      : 0
-    // const test = amount.toString()
-    return result
+    return truncateDecimals(amount)
+  }
+
+  const calculateDollar = amount => {
+    return truncateDecimals(amount * pricePerToken)
   }
 
   useEffect(() => {
@@ -100,7 +93,9 @@ const AmountSlider = props => {
             min-width: 15%;
           `}
         >
-          {amount}
+          ${calculateDollar(amount)}
+          <br />
+          <small>{amount}</small>
         </span>
       </div>
     </React.Fragment>

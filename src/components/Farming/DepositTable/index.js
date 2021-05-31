@@ -12,6 +12,7 @@ import Icon from '../../../assets/tulip/icon.svg'
 import { getNetworkConfig } from '../../../networks'
 // import xComb from '../../../assets/coins/xcomb.svg'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
+import { truncateDecimals } from '../../../lib/math-utils'
 
 const DepositTable = props => {
   const {
@@ -26,6 +27,12 @@ const DepositTable = props => {
   if (network) {
     tokenImage = network.token.image
     tokenName = network.token.name
+  }
+
+  const calculateDollar = (amount, pairInfo) => {
+    const pricePerToken = pairInfo.reserveUSD / pairInfo.totalSupply
+
+    return truncateDecimals(amount * pricePerToken)
   }
 
   const depositArray = []
@@ -48,12 +55,12 @@ const DepositTable = props => {
     } of props.depositData) {
       const depositInfoObj = {
         id,
-        amount: amount.toFixed(3),
+        amount: truncateDecimals(amount),
         pool,
         referrer,
         rewardBalance,
         rewardDebt: rewardDebt.toFixed(3),
-        unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.onlyDate),
+        unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.standard),
         rewardShare: rewardShare,
         setRewards: setRewards,
         symbol: symbol[0],
@@ -76,7 +83,10 @@ const DepositTable = props => {
   const results = fuse.search(props.searchValue)
 
   const handleError = err => {
-    if (err && err.message) {
+    if (err && err.data && err.data.message) {
+      setErrorVisible(true)
+      setErrorMessage(`${err.data.data}: ${err.data.message}`)
+    } else if (err && err.message) {
       setErrorVisible(true)
       setErrorMessage(err.message)
     }
@@ -99,7 +109,10 @@ const DepositTable = props => {
         opener={opener}
         onClose={closeError}
       >
-        {errorMessage}
+        <p>
+          <b>Error</b>
+        </p>
+        <p>{errorMessage}</p>
       </UserErrorScreen>
       <DataView
         fields={[
@@ -164,10 +177,11 @@ const DepositTable = props => {
               pairInfo.token0.symbol + ' - ' + pairInfo.token1.symbol + ' LP'
             )
           }
-          const unlockDate = new Date(unlockTime).getTime() / 1000
-          const currentTime = Math.floor(Date.now() / 1000)
-          const withdrawEnabled = currentTime < unlockDate
-          const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
+          const unlockDate = new Date(unlockTime).getTime() / 1000 + 100 // add 100 seconds to be sure the time is reached
+          const currentTime = Math.ceil(Date.now() / 1000)
+          const withdrawDisabled = unlockDate > currentTime
+          // const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
+          const pendingReward = truncateDecimals(Number(rewardBalance) / 1e18)
           if (new Date(unlockTime).getTime() === 0) {
             unlockTime = 'Not locked'
           }
@@ -177,13 +191,16 @@ const DepositTable = props => {
               name={customLabel()}
               subheadline="Honeyswap"
             />,
-            <p>{amount}</p>,
+            <PairName
+              name={'$' + calculateDollar(amount, pairInfo)}
+              subheadline={amount}
+            />,
             <p>{unlockTime}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
             <Withdraw
               id={id}
-              disabled={withdrawEnabled}
+              disabled={withdrawDisabled}
               onError={handleError}
               opener={opener}
             />,

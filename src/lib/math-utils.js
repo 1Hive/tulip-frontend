@@ -194,3 +194,14 @@ export function toFixed(x) {
   }
   return x
 }
+
+export function truncateDecimals(x) {
+  const fixedResult = toFixed(x)
+  const result = fixedResult
+    .toString()
+    .match(/([0-9]+)?\.(0+)?[1-9]{1}[0-9]{1}[0-9]{1}/g)
+
+  if (result === null) return 0
+
+  return result[0]
+}

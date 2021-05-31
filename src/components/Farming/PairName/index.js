@@ -1,31 +1,39 @@
 import React from 'react'
 import { GU } from '@1hive/1hive-ui'
 
+const Image = props => {
+  if (!props.image) return ''
+
+  return (
+    <div
+      css={`
+        width: 60px;
+        display: flex;
+        align-items: center;
+      `}
+    >
+      <img
+        height={4 * GU}
+        css={`
+          transform: translateX(${props.image.pair2 ? '-25' : '0'}%);
+        `}
+        src={props.image.pair1}
+      />
+      <img
+        height={4 * GU}
+        css={`
+          transform: translateX(${props.image.pair1 ? '-70' : '0'}%);
+        `}
+        src={props.image.pair2}
+      />
+    </div>
+  )
+}
+
 const PairName = props => {
   return (
     <React.Fragment>
-      <div
-        css={`
-          width: 60px;
-          display: flex;
-          align-items: center;
-        `}
-      >
-        <img
-          height={4 * GU}
-          css={`
-            transform: translateX(${props.image.pair2 ? '-25' : '0'}%);
-          `}
-          src={props.image.pair1}
-        />
-        <img
-          height={4 * GU}
-          css={`
-            transform: translateX(${props.image.pair1 ? '-70' : '0'}%);
-          `}
-          src={props.image.pair2}
-        />
-      </div>
+      <Image image={props.image} />
       <div
         css={`
           display: flex;
