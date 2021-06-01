@@ -1,6 +1,6 @@
 // xdai
 const CHAIN_ID_DEFAULT = 100
-const CHAIN_IDS_SUPPORTED = [100, 137]
+const CHAIN_IDS_SUPPORTED = [100]
 
 const ENV_VARS = {
   BUILD() {
