@@ -84,7 +84,7 @@ const AmountSlider = props => {
             setProgress(value)
             setAmount(currentAmount)
             props.onUpdate({
-              amount: currentAmount,
+              amount: value === 1 ? props.tokenAmount : currentAmount,
             })
           }}
         />
