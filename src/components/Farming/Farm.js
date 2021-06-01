@@ -26,6 +26,7 @@ const Farm = React.memo(({ onlyTable }) => {
       css={`
         padding-top: ${3 * GU}px;
         font-family: 'Overpass', sans-serif;
+        margin-bottom: ${5 * GU}px;
       `}
     >
       <TabComponent
