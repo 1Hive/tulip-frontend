@@ -167,7 +167,7 @@ export function useNetBalance() {
               price: formatNumber(
                 Number(value.valueUSD / value.balance).toFixed(2)
               ),
-              name: 'HoneySwap',
+              name: 'Honeyswap',
             },
           ])
         }
@@ -200,7 +200,7 @@ export function useNetBalance() {
           price: formatNumber(
             Number(value.valueUSD / value.balance).toFixed(2)
           ),
-          name: 'HoneyComb Farm',
+          name: 'Honeycomb Farm',
         })
       })
     }

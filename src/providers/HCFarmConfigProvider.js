@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // import { useHoneyCombConfigSubscription } from '../hooks/subscription-hooks'
 // import { getNetworkConfig } from '../networks'
 
-const HoneyCombConfigContext = React.createContext()
+const HoneycombConfigContext = React.createContext()
 
 function HCFarmConfigProvider({ children }) {
   // const honeyCombAddress = getNetworkConfig().farm
@@ -12,9 +12,9 @@ function HCFarmConfigProvider({ children }) {
   // Here will be exposed the farming configuration to be used as a value in the context.
   const farmConfig = ''
   return (
-    <HoneyCombConfigContext.Provider value={farmConfig}>
+    <HoneycombConfigContext.Provider value={farmConfig}>
       {children}
-    </HoneyCombConfigContext.Provider>
+    </HoneycombConfigContext.Provider>
   )
 }
 
@@ -23,7 +23,7 @@ HCFarmConfigProvider.propTypes = {
 }
 
 function useHCFarmConfig() {
-  return useContext(HoneyCombConfigContext)
+  return useContext(HoneycombConfigContext)
 }
 
 export { HCFarmConfigProvider, useHCFarmConfig }

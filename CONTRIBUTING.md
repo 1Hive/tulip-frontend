@@ -1,4 +1,4 @@
-# Contributing to HoneyComb
+# Contributing to Honeycomb
 :tada: Thank you for being interested in contributing to Aragon! :tada:
 
 Feel welcome and read the following sections in order to know how to ask questions and how to work on something.
