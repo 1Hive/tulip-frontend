@@ -1,12 +1,12 @@
 ## Getting started
 
-There are currently four pools setup in the test contract: wETH, HNY, Agaave, and Dai.
+There are currently four pools setup in the test contract: wETH, HNY, Agave, and Dai.
 
 You can obtain wETH on Rinkeby by following [this link](https://rinkeby.etherscan.io/address/0xc778417E063141139Fce010982780140Aa0cD5Ab#writeContract) and interacting with the deposit function.
 
 You can obtain Dai on Rinkeby by following the instructions outlined [here](https://ethereum.stackexchange.com/questions/82556/how-to-obtain-rinkeby-dai).
 
-To obtain HNY or Agaave on Rinkeby, please reach out to saltorious#7801 on Discord, or any moderator within the Tulip swarm.
+To obtain HNY or Agave on Rinkeby, please reach out to saltorious#7801 on Discord, or any moderator within the Tulip swarm.
 
 ## Sending a deposit
 
