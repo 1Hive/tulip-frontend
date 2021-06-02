@@ -175,6 +175,7 @@ export function useNetBalance() {
     }
 
     if (farmingInfo && farmingInfo.length > 0) {
+      const farmSet = new Set()
       farmingInfo.map(value => {
         farmBalance = Number(farmBalance) + parseFloat(value.valueUSD)
         let symbol = ''
@@ -191,17 +192,34 @@ export function useNetBalance() {
             }
           })
         }
-        farmingList.push({
-          symbol,
-          image1,
-          image2,
-          balance: formatNumber(Number(value.balance).toFixed(2)),
-          value: formatNumber(Number(value.valueUSD).toFixed(2)),
-          price: formatNumber(
-            Number(value.valueUSD / value.balance).toFixed(2)
-          ),
-          name: 'Honeycomb Farm',
-        })
+
+        if (!farmSet.has(value.address)) {
+          farmSet.add(value.address)
+          farmingList.push({
+            address: value.address,
+            symbol,
+            image1,
+            image2,
+            balance: formatNumber(Number(value.balance).toFixed(2)),
+            value: formatNumber(Number(value.valueUSD).toFixed(2)),
+            price: formatNumber(
+              Number(value.valueUSD / value.balance).toFixed(2)
+            ),
+            name: 'Honeycomb Farm',
+          })
+        } else {
+          for (let i = 0; i < farmingList.length; i++) {
+            if (farmingList[i].address === value.address) {
+              const balance =
+                Number(farmingList[i].balance) + Number(value.balance)
+              farmingList[i].balance = formatNumber(Number(balance).toFixed(2))
+
+              const val = Number(farmingList[i].value) + Number(value.valueUSD)
+              farmingList[i].value = formatNumber(Number(val).toFixed(2))
+              break
+            }
+          }
+        }
       })
     }
     // Todo: fix this ..maybe
