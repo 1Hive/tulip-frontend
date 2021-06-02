@@ -43,7 +43,7 @@ If the answer to either of those two questions are "yes", then you're probably d
 1. Fork and clone a local copy of the repository.
 1. Make the appropriate changes for the issue you are trying to address or the feature that you want to add.
 1. Push the changes to the remote repository.
-1. Submit a pull request in Github, explaining any changes and further questions you may have.
+1. Submit a pull request in Github pointing to dev branch, explaining any changes and further questions you may have.
 1. Wait for the pull request to be reviewed.
 1. Make changes to the pull request if the maintainer recommends them.
 1. Celebrate your success after your pull request is merged!
