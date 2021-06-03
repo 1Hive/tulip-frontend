@@ -60,7 +60,7 @@ const PlaceHolder = React.memo(() => {
             `}
           >
             In order to check your eligibility for the airdrop, please connect
-            your account to xDai or Polygon network
+            your account to xDai network
           </span>
         </Card>
       </div>
