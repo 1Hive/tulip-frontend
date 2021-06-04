@@ -1,23 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
-import { usePoolProvider } from '../../providers/Poolprovider'
 import DepositTable from './DepositTable'
+import { useFetchPools } from '../../hooks/useFetchPools'
+import { useFetchDeposits } from '../../hooks/useFetchDeposits'
 
 const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(0)
+  const [pools, setPools] = useState(null)
+  const [tokenList, setTokenList] = useState(null)
   const { below } = useViewport()
 
+  const p = useFetchPools()
+  const deposits = useFetchDeposits()
+  useEffect(() => {
+    if (p) {
+      p.then(data => {
+        setPools(data)
+        const tList = data.map(d => {
+          return d.pair
+        })
+        setTokenList(tList)
+      }).catch(err => console.log(err))
+    }
+  }, [p])
   const handleSelected = selected => {
     setSelected(selected)
   }
   const small = below('medium')
 
-  const { data, balance, deposits, poolInfo } = usePoolProvider()
   const handleSearch = value => {
     setSearch(value)
   }
@@ -58,10 +73,9 @@ const Farm = React.memo(({ onlyTable }) => {
       >
         {selected === 0 ? (
           <FarmTable
-            pairData={data}
-            balance={balance}
+            pairData={pools}
             searchValue={search}
-            poolInfo={poolInfo}
+            tokenList={tokenList}
           />
         ) : (
           <DepositTable depositData={deposits} searchValue={search} />

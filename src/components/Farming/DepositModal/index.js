@@ -178,6 +178,7 @@ const DepositModal = props => {
         {approved ? (
           <Deposit
             token={props.data.pair}
+            tokenName={tokenName}
             amount={amount}
             days={days}
             maxDays={maxDays}
