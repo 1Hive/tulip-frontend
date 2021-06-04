@@ -26,8 +26,8 @@ export const usePools = () => {
           },
         })
       }
-      const pool = loadPool()
-      pool.then(data => {
+      const pools = loadPool()
+      pools.then(data => {
         setPools(data)
         const tokenList = data.map(d => {
           return d.pair
