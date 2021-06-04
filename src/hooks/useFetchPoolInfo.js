@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import tulipData from 'tulip-backend'
 import { useWallet } from '../providers/Wallet'
 
@@ -17,5 +17,6 @@ export const useFetchPoolInfo = () => {
       setPoolInfo(pInfo)
     })
   }, [chainId])
-  return poolInfo
+  const pInfo = useMemo(() => poolInfo, [poolInfo])
+  return pInfo
 }

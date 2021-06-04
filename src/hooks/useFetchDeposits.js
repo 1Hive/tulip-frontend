@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import tulipData from 'tulip-backend'
 import { useWallet } from '../providers/Wallet'
 import { getContract } from '../web3-contracts'
@@ -54,5 +54,6 @@ export const useFetchDeposits = () => {
       }
     }
   }, [account, chainId])
-  return deposits
+  const deposit = useMemo(() => deposits, [deposits])
+  return deposit
 }
