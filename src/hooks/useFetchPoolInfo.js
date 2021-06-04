@@ -12,7 +12,10 @@ export const useFetchPoolInfo = () => {
     const loadPoolInfo = async () => {
       return await tulipData.farm.info({ chain_id: chainId })
     }
-    setPoolInfo(loadPoolInfo())
+    const poolInfo = loadPoolInfo()
+    poolInfo.then(pInfo => {
+      setPoolInfo(pInfo)
+    })
   }, [chainId])
   return poolInfo
 }

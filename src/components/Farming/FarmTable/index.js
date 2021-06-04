@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
@@ -11,7 +11,6 @@ import { useWallet } from '../../../providers/Wallet'
 import xComb from '../../../assets/coins/xcomb.svg'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGrayCss, buttonGreenCss } from '../styles'
-import { useFetchBalances } from '../../../hooks/useFetchBalances'
 import { useFetchPoolInfo } from '../../../hooks/useFetchPoolInfo'
 
 const FarmTable = props => {
@@ -30,23 +29,8 @@ const FarmTable = props => {
   const [modalData, setModalData] = useState({})
   const [imgObj2, setImgObj] = useState(null)
   const [rewardApy, setRewardApy] = useState(0)
-  const [balance, setBalance] = useState(null)
-  const [poolInfo, setPoolInfo] = useState(null)
-  const { pairData, searchValue, tokenList } = props
-  const b = useFetchBalances(tokenList)
-  const info = useFetchPoolInfo()
-  useEffect(() => {
-    if (b) {
-      b.then(data => {
-        setBalance(data)
-      })
-    }
-    if (info) {
-      info.then(data => {
-        setPoolInfo(data)
-      })
-    }
-  }, [b, info])
+  const { pairData, searchValue, balance } = props
+  const poolInfo = useFetchPoolInfo()
 
   console.log(balance)
   const pairs = pairData || []

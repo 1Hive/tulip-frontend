@@ -40,6 +40,19 @@ export const useFetchDeposits = () => {
       }
     }
     loadDepositData()
+
+    if (account && contract) {
+      contract.on('Transfer', (from, to, value, event) => {
+        if (to === account) {
+          loadDepositData()
+        }
+      })
+    }
+    return () => {
+      if (contract) {
+        contract.off('Transfer')
+      }
+    }
   }, [account, chainId])
   return deposits
 }
