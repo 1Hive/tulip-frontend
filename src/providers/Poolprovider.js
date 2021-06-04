@@ -82,11 +82,9 @@ export function PoolProvider({ children }) {
             rewardBalance,
           })
         }
-        setDepositData(deposits)
-        return
       }
     }
-    setDepositData([])
+    setDepositData(deposits)
   }, [account, chainId, contract])
 
   const fetchData = useCallback(() => {
