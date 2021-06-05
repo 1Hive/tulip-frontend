@@ -45,7 +45,7 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
         <div
           css={`
             display: flex;
-            flex-direction: ${small ? 'row' : 'column'};
+            flex-direction: column;
             justify-content: ${small ? 'space-between' : 'center'};
             width: ${small ? vw - padding : vw * 0.35}px;
             padding-right: ${small ? 2 * GU : '0'}px;
