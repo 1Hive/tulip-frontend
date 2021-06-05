@@ -10,7 +10,7 @@ const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(0)
-  const { below } = useViewport()
+  const { below, width: vw } = useViewport()
 
   const handleSelected = selected => {
     setSelected(selected)
@@ -27,6 +27,7 @@ const Farm = React.memo(({ onlyTable }) => {
         padding-top: ${3 * GU}px;
         font-family: 'Overpass', sans-serif;
         margin-bottom: ${5 * GU}px;
+        width: ${small ? `${vw}px` : 'auto'};
       `}
     >
       <TabComponent

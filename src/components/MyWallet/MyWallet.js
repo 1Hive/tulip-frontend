@@ -28,6 +28,7 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
       css={`
         display: flex;
         flex-direction: column;
+        width: ${small ? `${vw}px` : 'auto'};
       `}
     >
       <div
