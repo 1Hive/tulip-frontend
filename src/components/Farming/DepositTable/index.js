@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { DataView, GU, textStyle } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
+import ReactTooltip from 'react-tooltip'
 import Fuse from 'fuse.js'
 import Loader from '../../Loader'
 import PairName from '../PairName'
@@ -10,9 +11,9 @@ import Withdraw from '../Withdraw'
 import Harvest from '../Harvest'
 import Icon from '../../../assets/tulip/icon.svg'
 import { getNetworkConfig } from '../../../networks'
-// import xComb from '../../../assets/coins/xcomb.svg'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
 import { truncateDecimals } from '../../../lib/math-utils'
+import styled from 'styled-components'
 
 const DepositTable = props => {
   const {
@@ -34,6 +35,10 @@ const DepositTable = props => {
 
     return truncateDecimals(amount * pricePerToken)
   }
+
+  const StyledTooltip = styled(ReactTooltip)`
+    border-radius: 10px !important;
+  `
 
   const depositArray = []
   const [errorVisible, setErrorVisible] = useState(false)
@@ -198,12 +203,31 @@ const DepositTable = props => {
             <p>{unlockTime}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
-            <Withdraw
-              id={id}
-              disabled={withdrawDisabled}
-              onError={handleError}
-              opener={opener}
-            />,
+            <div>
+              <StyledTooltip
+                place="top"
+                type="light"
+                effect="solid"
+                backgroundColor="#aaf5d4"
+              />
+              {withdrawDisabled ? (
+                <div data-tip="Withdraw will be disabled until the unlock date is reached">
+                  <Withdraw
+                    id={id}
+                    disabled={withdrawDisabled}
+                    onError={handleError}
+                    opener={opener}
+                  />
+                </div>
+              ) : (
+                <Withdraw
+                  id={id}
+                  disabled={withdrawDisabled}
+                  onError={handleError}
+                  opener={opener}
+                />
+              )}
+            </div>,
             <Harvest id={id} onError={handleError} />,
           ]
         }}
