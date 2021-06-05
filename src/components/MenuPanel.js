@@ -187,7 +187,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
         display: flex;
         flex-direction: column;
         position: fixed;
-        bottom: ${GU}px;
+        bottom: ${layoutSmall ? GU * 0.5 : GU}px;
         width: 100%;
       `}
     >
@@ -198,7 +198,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
           flex-direction: column;
           align-items: start;
           margin-left: ${GU * 3}px;
-          margin-bottom: ${GU * 2}px;
+          margin-bottom: ${layoutSmall ? GU * 0.5 : GU * 2}px;
         `}
       >
         <Link
