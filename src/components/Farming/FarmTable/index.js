@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
+import styled from 'styled-components'
+import ReactTooltip from 'react-tooltip'
 import PairName from '../PairName'
 import RewardComponent from '../RewardComponent'
 import Fuse from 'fuse.js'
@@ -38,6 +40,10 @@ const FarmTable = props => {
       'pairInfo.token1.name',
     ],
   })
+
+  const StyledTooltip = styled(ReactTooltip)`
+    border-radius: 10px !important;
+  `
 
   const isZeroBalance = pairAddress => {
     return (
@@ -160,15 +166,35 @@ const FarmTable = props => {
             <p>{isFinite(pool.rewardApy) ? pool.rewardApy.toFixed(2) : 0}%</p>,
             <RewardComponent image={xComb} name="xComb" />,
             <React.Fragment>
-              <Button
-                disabled={isZeroBalance(pool.pair)}
-                css={buttonCss(pool.pair)}
-                id={pool.pair}
-                label="Stake"
-                onClick={e => {
-                  handleModalActions(e, imgObj, pool.rewardApy, pool)
-                }}
+              <StyledTooltip
+                place="left"
+                type="light"
+                effect="solid"
+                backgroundColor="#aaf5d4"
               />
+              {isZeroBalance(pool.pair) ? (
+                <div data-tip="In order to be able to Stake you need to be LP of this pair in Honeyswap">
+                  <Button
+                    disabled={isZeroBalance(pool.pair)}
+                    css={buttonCss(pool.pair)}
+                    id={pool.pair}
+                    label="Stake"
+                    onClick={e => {
+                      handleModalActions(e, imgObj, pool.rewardApy, pool)
+                    }}
+                  />
+                </div>
+              ) : (
+                <Button
+                  disabled={isZeroBalance(pool.pair)}
+                  css={buttonCss(pool.pair)}
+                  id={pool.pair}
+                  label="Stake"
+                  onClick={e => {
+                    handleModalActions(e, imgObj, pool.rewardApy, pool)
+                  }}
+                />
+              )}
             </React.Fragment>,
           ]
         }}
