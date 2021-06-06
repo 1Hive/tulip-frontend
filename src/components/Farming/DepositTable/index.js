@@ -187,7 +187,9 @@ const DepositTable = props => {
           const withdrawDisabled = unlockDate > currentTime
           // const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
           const pendingReward = truncateDecimals(Number(rewardBalance) / 1e18)
-          if (new Date(unlockTime).getTime() === 0) {
+          // replace - in date to avoid Firefox error
+          const _unlockTime = unlockTime.replace(/-/g, '/')
+          if (new Date(_unlockTime).getTime() === 0) {
             unlockTime = 'Not locked'
           }
           return [
