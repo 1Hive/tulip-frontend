@@ -275,6 +275,7 @@ export function useNetBalance() {
     netBalance,
     farmBalance,
     assetsList: assetsSortedList,
+    status: !!account,
     isFetching,
   }
 }

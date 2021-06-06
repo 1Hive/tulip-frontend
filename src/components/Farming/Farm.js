@@ -5,6 +5,7 @@ import FarmTable from './FarmTable'
 import SearchComponent from './Search'
 import { usePoolProvider } from '../../providers/Poolprovider'
 import DepositTable from './DepositTable'
+import { useWallet } from '../../providers/Wallet'
 
 const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
@@ -18,9 +19,11 @@ const Farm = React.memo(({ onlyTable }) => {
   const small = below('medium')
 
   const { data, balance, deposits, poolInfo } = usePoolProvider()
+  const { account } = useWallet()
   const handleSearch = value => {
     setSearch(value)
   }
+
   return (
     <div
       css={`
@@ -45,11 +48,13 @@ const Farm = React.memo(({ onlyTable }) => {
           flex-direction: row;
         `}
       >
-        <SearchComponent
-          placeholder="Search by asset"
-          passSearch={handleSearch}
-          wide={small}
-        />
+        {!!account && (
+          <SearchComponent
+            placeholder="Search by asset"
+            passSearch={handleSearch}
+            wide={small}
+          />
+        )}
       </div>
       <div
         css={`

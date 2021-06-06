@@ -99,6 +99,7 @@ const MyWallet = React.memo(({ chartData, onSelectRange, walletData }) => {
             assets={walletData.assetsList}
             handleSearch={handleSearch}
             searchValue={search}
+            showSearch={walletData.status}
           />
         </div>
         {/* <HeroBanner onLearnMore={handleOnLearnMore} /> */}
