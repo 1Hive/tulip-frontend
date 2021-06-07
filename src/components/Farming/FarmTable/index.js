@@ -32,7 +32,6 @@ const FarmTable = props => {
   const { pairData, searchValue, balance } = props
   const poolInfo = useFetchPoolInfo()
 
-  console.log(balance)
   const pairs = pairData || []
   const fuse = new Fuse(pairs, {
     keys: [

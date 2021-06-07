@@ -45,7 +45,6 @@ export const useFetchDeposits = () => {
     if (account && contract) {
       contract.on('Transfer', (from, to, value, event) => {
         if (addressesEqual(to, account) || addressesEqual(from, account)) {
-          console.log(from, to, event)
           loadDepositData()
         }
       })
