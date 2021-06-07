@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
+import { addressesEqual } from '@1hive/1hive-ui'
 import tulipData from 'tulip-backend'
 import { useWallet } from '../providers/Wallet'
 import { getContract } from '../web3-contracts'
@@ -43,7 +44,8 @@ export const useFetchDeposits = () => {
 
     if (account && contract) {
       contract.on('Transfer', (from, to, value, event) => {
-        if (to === account) {
+        if (addressesEqual(to, account) || addressesEqual(from, account)) {
+          console.log(from, to, event)
           loadDepositData()
         }
       })

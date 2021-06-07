@@ -10,13 +10,11 @@ export const useFetchPoolInfo = () => {
 
   useEffect(() => {
     const loadPoolInfo = async () => {
-      return await tulipData.farm.info({ chain_id: chainId })
-    }
-    const poolInfo = loadPoolInfo()
-    poolInfo.then(pInfo => {
+      const pInfo = await tulipData.farm.info({ chain_id: chainId })
       setPoolInfo(pInfo)
-    })
+    }
+    loadPoolInfo()
   }, [chainId])
-  const pInfo = useMemo(() => poolInfo, [poolInfo])
-  return pInfo
+  const info = useMemo(() => poolInfo, [poolInfo])
+  return info
 }

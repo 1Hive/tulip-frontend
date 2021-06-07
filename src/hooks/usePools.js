@@ -13,11 +13,8 @@ export const usePools = () => {
 
   useEffect(() => {
     if (account) {
-      const loadPool = async () => {
-        return await tulipData.farm.apys({ chain_id: chainId })
-      }
       const loadBalances = async tokenList => {
-        return await tulipData.wallet.simplyTokenBalances({
+        const b = await tulipData.wallet.simplyTokenBalances({
           user_address: account,
           chain_id: chainId,
           tokens: tokenList,
@@ -25,18 +22,16 @@ export const usePools = () => {
             eth: new Providers.Web3Provider(window.ethereum),
           },
         })
+        setBalances(b)
       }
-      const pools = loadPool()
-      pools.then(data => {
-        setPools(data)
-        const tokenList = data.map(d => {
-          return d.pair
-        })
-        const balances = loadBalances(tokenList)
-        balances.then(b => {
-          setBalances(b)
-        })
-      })
+
+      const loadPool = async () => {
+        const poolsData = await tulipData.farm.apys({ chain_id: chainId })
+        setPools(poolsData)
+        const tokenList = poolsData.map(d => d.pair)
+        loadBalances(tokenList)
+      }
+      loadPool()
     }
   }, [chainId, account])
   const data = useMemo(

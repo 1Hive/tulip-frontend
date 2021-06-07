@@ -3,7 +3,7 @@ import { Modal, GU } from '@1hive/1hive-ui'
 import { ethers } from 'ethers'
 import { TimeLockSlider, AmountSlider } from '../SliderComponent'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
-
+import Styled from './deposit-modal.style'
 import { useCheckApprovedToken } from '../../../hooks/useCheckApproved'
 import Approved from '../Approve'
 import Deposit from '../Deposit'
@@ -16,7 +16,11 @@ const DepositModal = props => {
   const [multiplier, setMultiplier] = useState('')
   const [errorVisible, setErrorVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-
+  const { pairInfo } = props.data
+  let pricePerToken
+  if (pairInfo) {
+    pricePerToken = pairInfo.reserveUSD / pairInfo.totalSupply
+  }
   const {
     _web3ReactContext: { chainId },
   } = useWallet()
@@ -175,6 +179,20 @@ const DepositModal = props => {
           asset yields, and the amount of capital participating in the Farm. It
           is calculated from the 24h reward yield annualized.
         </div>
+        {approved ? (
+          <Styled.Confirm>
+            <div>
+              <span>Deposit Amount</span>
+              <span>$ {pricePerToken ? pricePerToken * amount : 0}</span>
+            </div>
+            <div>
+              <span>Lock Period</span>
+              <span>{!days ? 0 : days} days</span>
+            </div>
+          </Styled.Confirm>
+        ) : (
+          <></>
+        )}
         {approved ? (
           <Deposit
             token={props.data.pair}
