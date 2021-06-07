@@ -3,8 +3,9 @@ import { GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import TabComponent from './Tabs'
 import FarmTable from './FarmTable'
 import SearchComponent from './Search'
-import { usePoolProvider } from '../../providers/Poolprovider'
 import DepositTable from './DepositTable'
+import { usePools } from '../../hooks/usePools'
+import { useFetchDeposits } from '../../hooks/useFetchDeposits'
 import { useWallet } from '../../providers/Wallet'
 
 const Farm = React.memo(({ onlyTable }) => {
@@ -13,12 +14,13 @@ const Farm = React.memo(({ onlyTable }) => {
   const [selected, setSelected] = useState(0)
   const { below, width: vw } = useViewport()
 
+  const { pools, balances } = usePools()
+  const deposits = useFetchDeposits()
+
   const handleSelected = selected => {
     setSelected(selected)
   }
   const small = below('medium')
-
-  const { data, balance, deposits, poolInfo } = usePoolProvider()
   const { account } = useWallet()
   const handleSearch = value => {
     setSearch(value)
@@ -63,12 +65,7 @@ const Farm = React.memo(({ onlyTable }) => {
         `}
       >
         {selected === 0 ? (
-          <FarmTable
-            pairData={data}
-            balance={balance}
-            searchValue={search}
-            poolInfo={poolInfo}
-          />
+          <FarmTable pairData={pools} searchValue={search} balance={balances} />
         ) : (
           <DepositTable depositData={deposits} searchValue={search} />
         )}
