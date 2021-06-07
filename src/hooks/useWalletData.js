@@ -177,6 +177,7 @@ export function useNetBalance() {
     if (farmingInfo && farmingInfo.length > 0) {
       const farmSet = new Set()
       farmingInfo.map(value => {
+        console.log(value)
         farmBalance = Number(farmBalance) + parseFloat(value.valueUSD)
         let symbol = ''
         let image1 = ''
@@ -211,10 +212,13 @@ export function useNetBalance() {
           for (let i = 0; i < farmingList.length; i++) {
             if (farmingList[i].address === value.address) {
               const balance =
-                Number(farmingList[i].balance) + Number(value.balance)
+                Number(farmingList[i].balance.replace(/,/g, '')) +
+                Number(value.balance)
               farmingList[i].balance = formatNumber(Number(balance).toFixed(2))
 
-              const val = Number(farmingList[i].value) + Number(value.valueUSD)
+              const val =
+                Number(farmingList[i].value.replace(/,/g, '')) +
+                Number(value.valueUSD)
               farmingList[i].value = formatNumber(Number(val).toFixed(2))
               break
             }
@@ -271,6 +275,7 @@ export function useNetBalance() {
     netBalance,
     farmBalance,
     assetsList: assetsSortedList,
+    status: !!account,
     isFetching,
   }
 }
