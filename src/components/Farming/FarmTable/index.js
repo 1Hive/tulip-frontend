@@ -13,6 +13,7 @@ import { useWallet } from '../../../providers/Wallet'
 import xComb from '../../../assets/coins/xcomb.svg'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGrayCss, buttonGreenCss } from '../styles'
+import { useFetchPoolInfo } from '../../../hooks/useFetchPoolInfo'
 
 const FarmTable = props => {
   const {
@@ -30,7 +31,9 @@ const FarmTable = props => {
   const [modalData, setModalData] = useState({})
   const [imgObj2, setImgObj] = useState(null)
   const [rewardApy, setRewardApy] = useState(0)
-  const { pairData, searchValue, balance, poolInfo } = props
+  const { pairData, searchValue, balance } = props
+  const poolInfo = useFetchPoolInfo()
+
   const pairs = pairData || []
   const fuse = new Fuse(pairs, {
     keys: [
@@ -47,7 +50,7 @@ const FarmTable = props => {
 
   const isZeroBalance = pairAddress => {
     return (
-      balance === undefined ||
+      balance === null ||
       Number(balance[pairAddress]) === 0 ||
       balance.length === 0
     )

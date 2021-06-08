@@ -15,7 +15,6 @@ function WalletLoader() {
   if (walletData.isFetching) {
     return <Loader />
   }
-
   return (
     <MyWallet
       walletData={walletData}
