@@ -86,7 +86,7 @@ export function useWalletData() {
     return () => {
       cancelled = true
     }
-  }, [account, status])
+  }, [account, status, chainId])
 
   return [
     walletInfo,
