@@ -39,7 +39,7 @@
     "resolve-pathname": "^3.0.0",
     "semver": "^7.3.5",
     "styled-components": "^4.4.1",
-    "tulip-backend": "https://github.com/1Hive/tulip-backend#e3642f3",
+    "tulip-backend": "https://github.com/1Hive/tulip-backend#9a99ed6",
     "typescript": "^4.2.4",
     "urql": "^1.6.3",
     "use-wallet": "^0.8.1"
