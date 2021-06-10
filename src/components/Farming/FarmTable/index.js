@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DataView, textStyle, Button, GU } from '@1hive/1hive-ui'
+import { DataView, textStyle, Button, GU, IconInfo } from '@1hive/1hive-ui'
 import styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
 import PairName from '../PairName'
@@ -106,7 +106,11 @@ const FarmTable = props => {
           'Asset',
           'Rewards 24h',
           'Reward Yield 24h ',
-          'Reward Yield 1y ',
+          <span data-tip="Reward Yield 24h Annualized">
+            <span>Reward Yield 1y </span>
+            <IconInfo css="vertical-align: text-bottom" height="16px" />
+            &nbsp;
+          </span>,
           'Reward Asset',
           ' ',
         ]}
