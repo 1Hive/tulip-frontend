@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Button,
   Card,
@@ -22,6 +22,7 @@ const Airdrop = React.memo(() => {
   const { width: vw, below } = useViewport()
   const small = below('medium')
   const opener = useRef()
+
   const [balance, claim, claimed, tokens, txHash, working] = useClaim()
   const networks = getNetworkConfig(chainId)
 
@@ -40,15 +41,6 @@ const Airdrop = React.memo(() => {
 
   return status === 'connected' ? (
     <>
-      <TransactionProgress
-        transactionHashUrl={`${networks.txUrl + txHash.hash}`}
-        progress={1}
-        visible={visible}
-        endTime={transactionTime}
-        onClose={() => setVisible(false)}
-        opener={opener}
-        slow={false}
-      />
       <div
         css={`
           padding-top: ${small ? 3 * GU : 8 * GU}px;
@@ -58,6 +50,15 @@ const Airdrop = React.memo(() => {
         `}
         ref={opener}
       >
+        <TransactionProgress
+          transactionHashUrl={`${networks.txUrl + txHash.hash}`}
+          progress={1}
+          visible={visible}
+          endTime={transactionTime}
+          onClose={() => setVisible(false)}
+          opener={opener}
+          slow={false}
+        />
         <Card width={small ? vw - 3 * GU : 58.2 * GU} height={67.5 * GU}>
           <span
             css={`
@@ -78,8 +79,8 @@ const Airdrop = React.memo(() => {
               margin-top: ${2 * GU}px;
             `}
           >
-            Welcome to 1Hive's automated investment strategies platform,
-            qualifying addresses are eligible to claim {tokenName} tokens.
+            Welcome to 1Hive's automated investment strategies platform.
+            Qualifying addresses are eligible to claim {tokenName} tokens.
           </span>
           <Card
             height={6.25 * GU}
@@ -103,7 +104,7 @@ const Airdrop = React.memo(() => {
                   font-weight: 300;
                 `}
               >
-                Unclaimed {tokenName}
+                Your total {tokenName} Airdrop
               </span>
               <div
                 css={`
@@ -177,10 +178,9 @@ const Airdrop = React.memo(() => {
               ${textStyle('body3')};
             `}
           >
-            <b>NOTE:</b> Your tokens are vested in the contract and will be
-            released linearly with time. You can withdraw and use your released
-            anytime. Come back later and there will be more tokens released for
-            you to claim until the full balance is claimed.
+            <b>NOTE:</b> Your tokens will be released linearly over time. You
+            can claim the available amount right now. Come back later to claim
+            more tokens until the full balance is claimed.
           </span>
           <Button
             css={`

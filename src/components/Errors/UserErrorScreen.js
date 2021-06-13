@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Modal } from '@1hive/1hive-ui'
-// import error from '../../assets/error.svg'
 import styled from 'styled-components'
 
 const UserErrorScreen = props => {
-  const [visible, setVisible] = useState()
-
-  useEffect(() => {
-    setVisible(props.isVisible)
-  }, [props.isVisible])
   const ModalBody = styled.div`
     display: flex;
     flex-direction: column;
@@ -20,9 +14,8 @@ const UserErrorScreen = props => {
   `
   return (
     <Modal
-      visible={visible}
+      visible={props.isVisible}
       onClose={() => {
-        setVisible(false)
         props.onClose()
       }}
     >

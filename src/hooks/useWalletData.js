@@ -177,7 +177,6 @@ export function useNetBalance() {
     if (farmingInfo && farmingInfo.length > 0) {
       const farmSet = new Set()
       farmingInfo.map(value => {
-        console.log(value)
         farmBalance = Number(farmBalance) + parseFloat(value.valueUSD)
         let symbol = ''
         let image1 = ''

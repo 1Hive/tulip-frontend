@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Contract as EthersContract, providers as Providers } from 'ethers'
 import { useWallet } from './providers/Wallet'
 
-const CURRENT_PROVIDER = window.web3 ? window.web3.currentProvider : null
+const CURRENT_PROVIDER = window.ethereum ? window.ethereum : null
 const DEFAULT_PROVIDER = CURRENT_PROVIDER
   ? new Providers.Web3Provider(CURRENT_PROVIDER)
   : null

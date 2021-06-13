@@ -45,16 +45,6 @@ const Withdraw = props => {
   }
   return (
     <>
-      <TransactionProgress
-        transactionHash={txHash}
-        transactionHashUrl={network.txUrl + txHash}
-        progress={1}
-        visible={visible}
-        endTime={transactionTime}
-        onClose={() => setVisible(false)}
-        opener={opener}
-        slow={false}
-      />
       <Button
         disabled={props.disabled}
         css={buttonCss}
@@ -64,6 +54,16 @@ const Withdraw = props => {
         label="Withdraw"
         wide
         ref={opener}
+      />
+      <TransactionProgress
+        transactionHash={txHash}
+        transactionHashUrl={network.txUrl + txHash}
+        progress={1}
+        visible={visible}
+        endTime={transactionTime}
+        onClose={() => setVisible(false)}
+        opener={opener}
+        slow={false}
       />
     </>
   )
