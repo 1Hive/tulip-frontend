@@ -65,7 +65,8 @@ const DepositTable = props => {
         referrer,
         rewardBalance,
         rewardDebt: rewardDebt.toFixed(3),
-        unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.standard),
+        // unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.standard),
+        unlockTime: unlockTime.getTime(),
         rewardShare: rewardShare,
         setRewards: setRewards,
         symbol: symbol[0],
@@ -184,14 +185,16 @@ const DepositTable = props => {
           }
           const unlockDate = new Date(unlockTime).getTime() / 1000 + 100 // add 100 seconds to be sure the time is reached
           const currentTime = Math.ceil(Date.now() / 1000)
-          const withdrawDisabled = unlockDate > currentTime
-          // const pendingReward = (Number(rewardBalance) / 1e18).toFixed(3)
-          const pendingReward = truncateDecimals(Number(rewardBalance) / 1e18)
-          // replace - in date to avoid Firefox error
-          const _unlockTime = unlockTime.replace(/-/g, '/')
-          if (new Date(_unlockTime).getTime() === 0) {
-            unlockTime = 'Not locked'
+
+          let unlockTimeFormatted = 'Not locked'
+
+          if (unlockTime > 0) {
+            unlockTimeFormatted = dateFormat(unlockTime, KNOWN_FORMATS.standard)
           }
+
+          const withdrawDisabled = unlockDate > currentTime && unlockTime !== 0
+          const pendingReward = truncateDecimals(Number(rewardBalance) / 1e18)
+
           return [
             <PairName
               image={imgObj}
@@ -202,7 +205,7 @@ const DepositTable = props => {
               name={'$' + calculateDollar(amount, pairInfo)}
               subheadline={amount}
             />,
-            <p>{unlockTime}</p>,
+            <p>{unlockTimeFormatted}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
             <div>
