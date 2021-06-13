@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, textStyle, useLayout } from '@1hive/1hive-ui'
+import { GU, textStyle, useLayout, useViewport } from '@1hive/1hive-ui'
 import AssetsTable from './AssetsTable'
 import SearchComponent from '../Farming/Search'
 
@@ -7,6 +7,8 @@ const AssetList = React.memo(
   ({ assets, handleSearch, searchValue, showSearch }) => {
     const { layoutName } = useLayout()
     const compactMode = layoutName === 'small' || layoutName === 'medium'
+    const { below } = useViewport()
+    const small = below('medium')
 
     // const dropdownItems = {
     //   networkItems: ['xDai'],
@@ -23,15 +25,14 @@ const AssetList = React.memo(
         <div
           css={`
             display: flex;
-            width: 100%;
             justify-content: space-between;
-            flex-direction: row;
             margin-top: ${1.5 * GU}px;
+            flex-wrap: ${small ? 'wrap' : 'nowrap'};
           `}
         >
           <div
             css={`
-              width: 35%;
+              width: 100%;
               display: flex;
               flex-direction: ${!compactMode ? 'row' : 'column'};
               justify-content: space-between;
@@ -61,6 +62,7 @@ const AssetList = React.memo(
             <SearchComponent
               placeholder="Search by asset"
               passSearch={handleSearch}
+              wide={small}
             />
           )}
         </div>
