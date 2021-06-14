@@ -5,7 +5,7 @@ import { useWallet } from '../providers/Wallet'
 import { getContract } from '../web3-contracts'
 import { getNetworkConfig } from '../networks'
 import honeyFarm from '../abi/honeyfarm.json'
-import erc20 from '../abi/ERC20.json'
+import ERC20 from '../abi/ERC20.json'
 
 export const useFetchDeposits = () => {
   const [deposits, setDeposits] = useState(null)
@@ -25,7 +25,7 @@ export const useFetchDeposits = () => {
         })
         if (tulipF.length > 0) {
           for (const d of tulipF) {
-            const c = getContract(d.pool, erc20)
+            const c = getContract(d.pool, ERC20)
             const symbol = await c.functions.symbol()
             const rewardBalance = await contract.functions.pendingHsf(d.id)
             deposits.push({
@@ -49,6 +49,16 @@ export const useFetchDeposits = () => {
         }
       })
     }
+
+    const combContract = getContract(network.xCombToken, ERC20)
+    if (account && combContract) {
+      combContract.on('Transfer', (from, to, value, event) => {
+        if (addressesEqual(to, account)) {
+          loadDepositData()
+        }
+      })
+    }
+
     return () => {
       if (contract) {
         contract.off('Transfer')

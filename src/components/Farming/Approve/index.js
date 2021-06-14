@@ -40,15 +40,6 @@ const Approve = props => {
 
   return (
     <>
-      <TransactionProgress
-        transactionHashUrl={network.txUrl + txHash}
-        progress={1}
-        visible={visible}
-        endTime={transactionTime}
-        onClose={() => setVisible(false)}
-        opener={opener}
-        slow={false}
-      />
       <Button
         css={`
           background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
@@ -57,6 +48,15 @@ const Approve = props => {
         wide
         onClick={handleApprove}
         ref={opener}
+      />
+      <TransactionProgress
+        transactionHashUrl={network.txUrl + txHash}
+        progress={1}
+        visible={visible}
+        endTime={transactionTime}
+        onClose={() => setVisible(false)}
+        opener={opener}
+        slow={false}
       />
     </>
   )
