@@ -8,7 +8,7 @@ import { useWallet } from 'use-wallet'
 
 const AssetsTable = props => {
   const {
-    _web3ReactContext: { chainId },
+    _web3ReactContext: { account, chainId },
   } = useWallet()
   const assets = props.assets || []
   const fuse = new Fuse(assets, {
@@ -16,7 +16,7 @@ const AssetsTable = props => {
   })
   let image = Icon
   const network = getNetworkConfig(chainId)
-
+  console.log(props.searchValue)
   if (network) {
     image = network.token.image
   }
@@ -41,8 +41,10 @@ const AssetsTable = props => {
           default: {
             displayLoader: false,
             title: `${
-              props.searchValue
+              account && props.searchValue
                 ? 'No results'
+                : account && !props.searchValue
+                ? 'Your assets will be shown here'
                 : 'Connect your account to get more information about your assets'
             }`,
             subtitle: null,
