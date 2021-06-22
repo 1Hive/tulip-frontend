@@ -51,14 +51,13 @@ export const networkConfigs = {
     ReferralRewarder: '',
     StreamedAirdropper: '',
     xCombToken: '',
-    court: '0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb',
     nodes: {
-      defaultEth: 'http://localhost:8545',
+      defaultEth: '',
       subgraph: '',
     },
     token: {
-      name: 'xComb',
-      image: '/xComb.svg',
+      name: '',
+      image: '',
     },
   },
 }
