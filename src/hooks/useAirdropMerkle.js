@@ -6,7 +6,7 @@ import Claimer from '../abi/Claimer.json'
 import ERC20 from '../abi/ERC20.json'
 import { useContract } from '../web3-contracts'
 import { getNetworkConfig } from '../networks'
-import snapshot from '../components/Airdrop/snapshots/airdrop-snapshot-rinkeby.json'
+import snapshot from '../components/Airdrop/snapshots/airdrop-snapshot-polygon.json'
 import { MerkleTree } from 'merkletreejs'
 import keccak256 from 'keccak256'
 import { truncateDecimals } from '../lib/math-utils'
@@ -86,7 +86,7 @@ export function useAirdropMerkle() {
       claimerContract.claimTo(
         account,
         claimProof,
-        snapshot.accounts[account].amount
+        snapshot.accounts[account].xAmount
       )
 
       const trnHash = await contract.withdrawTo(account)
@@ -108,7 +108,7 @@ export function useAirdropMerkle() {
       if (!snapshot.accounts[account]) return false
 
       const leaf = snapshot.accounts[account].leaf
-      const alreadyClaimed = claimerContract.hasAlreadyClaimed(leaf)
+      const alreadyClaimed = await claimerContract.hasAlreadyClaimed(leaf)
       return !alreadyClaimed
     }
   }, [account, claimerContract, status])
@@ -151,18 +151,14 @@ export function useAirdropMerkle() {
     }
 
     const fetchIsClaimable = async () => {
-      const claimable = true // await merkleIsClaimable()
+      const claimable = await merkleIsClaimable()
       setIsClaimable(claimable)
     }
 
-    if (snapshot.accounts['0x4bea4ba49063061123ac8a51796f277cfe2457f4']) {
+    if (snapshot.accounts[account]) {
       setInitialAmount(
         truncateDecimals(
-          parseInt(
-            snapshot.accounts['0x4bea4ba49063061123ac8a51796f277cfe2457f4']
-              .xAmount,
-            16
-          ) / 1e18
+          parseInt(snapshot.accounts[account].xAmount, 16) / 1e18
         )
       )
     }

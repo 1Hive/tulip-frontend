@@ -28,7 +28,7 @@ export default function Routes() {
       <Switch>
         <Redirect exact from="/" to="/wallet" />
         <Route path="/wallet" component={WalletLoader} />
-        <Route exact path="/airdrop" component={ComingSoon} />
+        <Route exact path="/airdrop" component={AirdropMerkle} />
         <Route exact path="/farm" component={Farm} />
         <Route exact path="/swap" component={Swap} />
         <Route exact path="/pool" component={Pool} />
