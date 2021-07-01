@@ -40,6 +40,13 @@ const Harvest = props => {
 
   return (
     <>
+      <Button
+        css={buttonGreenCss}
+        onClick={handleHarvest}
+        label="Harvest"
+        wide
+        ref={opener}
+      />
       <TransactionProgress
         transactionHash={txHash}
         transactionHashUrl={network.txUrl + txHash}
@@ -49,13 +56,6 @@ const Harvest = props => {
         onClose={() => setVisible(false)}
         opener={opener}
         slow={false}
-      />
-      <Button
-        css={buttonGreenCss}
-        onClick={handleHarvest}
-        label="Harvest"
-        wide
-        ref={opener}
       />
     </>
   )

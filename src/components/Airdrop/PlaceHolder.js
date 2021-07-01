@@ -3,6 +3,7 @@ import { Card, GU, textStyle, useViewport } from '@1hive/1hive-ui'
 import { getNetworkConfig } from '../../networks'
 import xCombImage from '../../assets/tulip/xComb.svg'
 import { useWallet } from 'use-wallet'
+import { getNetworkName, getSupportedChains } from '../../lib/web3-utils'
 
 const PlaceHolder = React.memo(() => {
   const {
@@ -20,6 +21,14 @@ const PlaceHolder = React.memo(() => {
     tokenImage = networks.token.image
     tokenName = networks.token.name
   }
+
+  let networkNames = ''
+  getSupportedChains().forEach((chain, i, array) => {
+    networkNames += getNetworkName(chain)
+    if (i !== array.length - 1) {
+      networkNames += ', '
+    }
+  })
 
   return (
     <>
@@ -60,7 +69,8 @@ const PlaceHolder = React.memo(() => {
             `}
           >
             In order to check your eligibility for the airdrop, please connect
-            your account to xDai network
+            your account to one of these networks: <br />
+            {networkNames}
           </span>
         </Card>
       </div>

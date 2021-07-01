@@ -9,11 +9,11 @@ import {
 } from '@1hive/1hive-ui'
 import PlaceHolder from './PlaceHolder'
 import { getNetworkConfig } from '../../networks'
-import { useClaim } from '../../hooks/useAirdrop'
+import { useAirdropMerkle } from '../../hooks/useAirdropMerkle'
 import { useWallet } from 'use-wallet'
 import xCombImage from '../../assets/tulip/xComb.svg'
 
-const Airdrop = React.memo(() => {
+const AirdropMerkle = React.memo(() => {
   const [visible, setVisible] = useState(false)
   const {
     status,
@@ -23,7 +23,18 @@ const Airdrop = React.memo(() => {
   const small = below('medium')
   const opener = useRef()
 
-  const [balance, claim, claimed, tokens, txHash, working] = useClaim()
+  const [
+    balance,
+    claim,
+    claimed,
+    tokens,
+    txHash,
+    working,
+    merkleClaim,
+    initialAmount,
+    isClaimable,
+  ] = useAirdropMerkle()
+
   const networks = getNetworkConfig(chainId)
 
   let tokenImage = xCombImage
@@ -59,7 +70,12 @@ const Airdrop = React.memo(() => {
           opener={opener}
           slow={false}
         />
-        <Card width={small ? vw - 3 * GU : 58.2 * GU} height={67.5 * GU}>
+        <Card
+          width={small ? vw - 3 * GU : 58.2 * GU}
+          // height={90.5 * GU}
+          height="auto"
+          css="padding: 20px"
+        >
           <span
             css={`
               ${textStyle('title3')};
@@ -82,6 +98,82 @@ const Airdrop = React.memo(() => {
             Welcome to 1Hive's automated investment strategies platform.
             Qualifying addresses are eligible to claim {tokenName} tokens.
           </span>
+          {isClaimable && (
+            <Card
+              width={small ? vw - 4.5 * GU : 52 * GU}
+              height="auto"
+              css={`
+                margin-top: ${3 * GU}px;
+                padding: 20px;
+              `}
+            >
+              <span
+                css={`
+                  ${textStyle('body2')};
+                  font-weight: 900;
+                  margin-top: ${2 * GU}px;
+                  padding: 0 0 20px 0;
+                `}
+              >
+                You get 10% of the Airdrop right away.
+                <br />
+                The rest is released over time.
+              </span>
+
+              <div
+                css={`
+                  display: flex;
+                  flex-direction: row;
+                  width: 100%;
+                  justify-content: space-between;
+                  padding: 0 ${2.5 * GU}px 0 ${2.5 * GU}px;
+                `}
+              >
+                <span
+                  css={`
+                    align-self: center;
+                    font-weight: 300;
+                  `}
+                >
+                  Your initial {tokenName} Airdrop
+                </span>
+                <div
+                  css={`
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                  `}
+                >
+                  <img height={25} src={tokenImage} />
+                  <span
+                    css={`
+                      margin-left: ${GU}px;
+                      font-family: Overpass;
+                      ${textStyle('title3')};
+                      font-weight: 700;
+                    `}
+                  >
+                    {initialAmount}
+                  </span>
+                </div>
+              </div>
+              <Button
+                css={`
+                  margin-top: ${GU * 3}px;
+                  /* background colors doesn't exist on current theme */
+                  background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+                  width: ${GU * 22}px;
+                  height: ${GU * 5}px;
+                `}
+                id="MerkleClaim"
+                label="Claim initial Airdrop"
+                onClick={() => {
+                  merkleClaim()
+                }}
+              />
+            </Card>
+          )}
+
           <Card
             height={6.25 * GU}
             width={small ? vw - 4.5 * GU : 52 * GU}
@@ -104,7 +196,7 @@ const Airdrop = React.memo(() => {
                   font-weight: 300;
                 `}
               >
-                Your total {tokenName} Airdrop
+                Your {tokenName} Airdrop
               </span>
               <div
                 css={`
@@ -127,6 +219,7 @@ const Airdrop = React.memo(() => {
               </div>
             </div>
           </Card>
+
           <div
             css={`
               display: flex;
@@ -204,4 +297,4 @@ const Airdrop = React.memo(() => {
   )
 })
 
-export default Airdrop
+export default AirdropMerkle
