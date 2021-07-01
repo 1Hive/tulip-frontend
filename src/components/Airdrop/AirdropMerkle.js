@@ -135,7 +135,7 @@ const AirdropMerkle = React.memo(() => {
                     font-weight: 300;
                   `}
                 >
-                  Your initial {tokenName} Airdrop
+                  Your {tokenName} Airdrop
                 </span>
                 <div
                   css={`
@@ -166,7 +166,7 @@ const AirdropMerkle = React.memo(() => {
                   height: ${GU * 5}px;
                 `}
                 id="MerkleClaim"
-                label="Claim initial Airdrop"
+                label="Claim Airdrop"
                 onClick={() => {
                   merkleClaim()
                 }}
@@ -174,51 +174,53 @@ const AirdropMerkle = React.memo(() => {
             </Card>
           )}
 
-          <Card
-            height={6.25 * GU}
-            width={small ? vw - 4.5 * GU : 52 * GU}
-            css={`
-              margin-top: ${3 * GU}px;
-            `}
-          >
-            <div
+          {!isClaimable && (
+            <Card
+              height={6.25 * GU}
+              width={small ? vw - 4.5 * GU : 52 * GU}
               css={`
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                justify-content: space-between;
-                padding: 0 ${2.5 * GU}px 0 ${2.5 * GU}px;
+                margin-top: ${3 * GU}px;
               `}
             >
-              <span
-                css={`
-                  align-self: center;
-                  font-weight: 300;
-                `}
-              >
-                Your {tokenName} Airdrop
-              </span>
               <div
                 css={`
                   display: flex;
                   flex-direction: row;
-                  align-items: center;
+                  width: 100%;
+                  justify-content: space-between;
+                  padding: 0 ${2.5 * GU}px 0 ${2.5 * GU}px;
                 `}
               >
-                <img height={25} src={tokenImage} />
                 <span
                   css={`
-                    margin-left: ${GU}px;
-                    font-family: Overpass;
-                    ${textStyle('title3')};
-                    font-weight: 700;
+                    align-self: center;
+                    font-weight: 300;
                   `}
                 >
-                  {tokens}
+                  Your {tokenName} Airdrop
                 </span>
+                <div
+                  css={`
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                  `}
+                >
+                  <img height={25} src={tokenImage} />
+                  <span
+                    css={`
+                      margin-left: ${GU}px;
+                      font-family: Overpass;
+                      ${textStyle('title3')};
+                      font-weight: 700;
+                    `}
+                  >
+                    {tokens}
+                  </span>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          )}
 
           <div
             css={`
@@ -230,16 +232,18 @@ const AirdropMerkle = React.memo(() => {
               font-weight: 300;
             `}
           >
-            <div
-              css={`
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-              `}
-            >
-              <span>Available to Claim</span>
-              <span>{claimed}</span>
-            </div>
+            {!isClaimable && (
+              <div
+                css={`
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                `}
+              >
+                <span>Available to Claim</span>
+                <span>{claimed}</span>
+              </div>
+            )}
             <div
               css={`
                 margin-top: ${GU}px;
@@ -275,20 +279,22 @@ const AirdropMerkle = React.memo(() => {
             can claim the available amount right now. Come back later to claim
             more tokens until the full balance is claimed.
           </span>
-          <Button
-            css={`
-              margin-top: ${GU * 3}px;
-              /* background colors doesn't exist on current theme */
-              background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
-              width: ${GU * 22}px;
-              height: ${GU * 5}px;
-            `}
-            id="Claim"
-            label="Claim"
-            onClick={() => {
-              claim()
-            }}
-          />
+          {!isClaimable && (
+            <Button
+              css={`
+                margin-top: ${GU * 3}px;
+                /* background colors doesn't exist on current theme */
+                background: linear-gradient(90deg, #aaf5d4, #7ce0d6);
+                width: ${GU * 22}px;
+                height: ${GU * 5}px;
+              `}
+              id="Claim"
+              label="Claim"
+              onClick={() => {
+                claim()
+              }}
+            />
+          )}
         </Card>
       </div>
     </>
