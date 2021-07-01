@@ -5,7 +5,7 @@ import { buttonGreenCss } from '../styles'
 import { useWallet } from 'use-wallet'
 import { useHarvestAll } from '../../../hooks/useHavestAll'
 
-const HarvestAll = props => {
+const HavestAll = props => {
   const {
     _web3ReactContext: { chainId },
   } = useWallet()
@@ -64,4 +64,4 @@ const HarvestAll = props => {
   )
 }
 
-export default HarvestAll
+export default HavestAll
