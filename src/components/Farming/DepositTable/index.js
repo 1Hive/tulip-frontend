@@ -14,7 +14,7 @@ import { getNetworkConfig } from '../../../networks'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
 import { truncateDecimals } from '../../../lib/math-utils'
 import styled from 'styled-components'
-import HarvestAll from '../HavestAll'
+import HavestAll from '../HavestAll'
 
 const DepositTable = props => {
   const {
@@ -103,19 +103,17 @@ const DepositTable = props => {
   }
 
   const wrapBatchAction = items => {
-    let dollarSum = 0
-    let amountSum = 0
-    let rewardBalanceSum = 0
-    items.forEach(
-      item => (dollarSum += Number(calculateDollar(item.amount, item.pairInfo)))
+    const dollarSum = items.reduce(
+      (acc, cur) => acc + Number(calculateDollar(cur.amount, cur.pairInfo)),
+      0
     )
-    items.forEach(item => (amountSum += Number(item.amount)))
-    items.forEach(
-      item =>
-        (rewardBalanceSum += Number(
-          truncateDecimals(Number(item.rewardBalance) / 1e18)
-        ))
+    const amountSum = items.reduce((acc, cur) => acc + Number(cur.amount), 0)
+    const rewardBalanceSum = items.reduce(
+      (acc, cur) =>
+        acc + Number(truncateDecimals(Number(cur.rewardBalance) / 1e18)),
+      0
     )
+
     return [
       ...items,
       {
@@ -225,7 +223,7 @@ const DepositTable = props => {
               <p>{unlockTime}</p>,
               <RewardComponent image={tokenImage} name={tokenName} />,
               <p>{rewardBalance}</p>,
-              <HarvestAll
+              <HavestAll
                 ids={entries.map(entry => entry.id)}
                 onError={handleError}
               />,
