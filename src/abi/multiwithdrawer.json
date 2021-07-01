@@ -1,0 +1,53 @@
+[
+  {
+    "type": "constructor",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_farm",
+        "internalType": "contract IHoneyFarmFull"
+      },
+      {
+        "type": "address",
+        "name": "_rewardToken",
+        "internalType": "contract IERC20"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "",
+        "internalType": "contract IHoneyFarmFull"
+      }
+    ],
+    "name": "farm",
+    "inputs": []
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "outputs": [
+      { "type": "address", "name": "", "internalType": "contract IERC20" }
+    ],
+    "name": "rewardToken",
+    "inputs": []
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "outputs": [],
+    "name": "withdrawRewardsFrom",
+    "inputs": [
+      {
+        "type": "uint256[]",
+        "name": "_depositIds",
+        "internalType": "uint256[]"
+      }
+    ]
+  }
+]

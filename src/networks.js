@@ -6,6 +6,7 @@ export const networkConfigs = {
     ReferralRewarder: '0x82374C59709AAc2f7864191a3c492932379536F4',
     StreamedAirdropper: '0xdD36008685108aFafc11F88bBc66C39A851Df843',
     xCombToken: '0x38Fb649Ad3d6BA1113Be5F57B927053E97fC5bF7',
+    multiWithdrawer: '0x53f224f83b2b2365caf4178f52c234da1ecf392f',
     txUrl: 'https://blockscout.com/poa/xdai/tx/',
     nodes: {
       defaultEth: '',

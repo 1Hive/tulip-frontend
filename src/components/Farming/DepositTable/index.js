@@ -206,6 +206,7 @@ const DepositTable = props => {
           pairInfo,
         }) => {
           if (unlockTime === '-') {
+            const entries = props.searchValue ? results : depositArray
             return [
               <div
                 css={`
@@ -230,7 +231,10 @@ const DepositTable = props => {
               </p>,
               <RewardComponent image={tokenImage} name={tokenName} />,
               <p>{rewardBalance}</p>,
-              <HarvestAll id={id} onError={handleError} />,
+              <HarvestAll
+                ids={entries.map(entry => entry.id)}
+                onError={handleError}
+              />,
             ]
           }
 

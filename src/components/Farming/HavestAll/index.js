@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { Button, TransactionProgress } from '@1hive/1hive-ui'
-import { useHarvest } from '../../../hooks/useHarvest'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGreenCss } from '../styles'
 import { useWallet } from 'use-wallet'
+import { useHarvestAll } from '../../../hooks/useHavestAll'
 
 const HarvestAll = props => {
   const {
@@ -12,14 +12,14 @@ const HarvestAll = props => {
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
   const opener = useRef()
-  const harvest = useHarvest(props.id, chainId)
+  const harvestAll = useHarvestAll(props.ids, chainId)
   const network = getNetworkConfig(chainId)
 
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
-  const handleHarvest = () => {
-    harvest()
+  const handleHarvestAll = () => {
+    harvestAll()
       .then(x => {
         if (x) {
           setTxHash(x.hash)
@@ -45,7 +45,7 @@ const HarvestAll = props => {
           ${buttonGreenCss}
           width: 100%;
         `}
-        onClick={handleHarvest}
+        onClick={handleHarvestAll}
         label="Harvest All Rewards"
         wide
         ref={opener}
