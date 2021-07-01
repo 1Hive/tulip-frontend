@@ -222,13 +222,7 @@ const DepositTable = props => {
                 name={'$' + amount.dollarSum}
                 subheadline={amount.amountSum}
               />,
-              <p
-                css={`
-                  margin: auto;
-                `}
-              >
-                {unlockTime}
-              </p>,
+              <p>{unlockTime}</p>,
               <RewardComponent image={tokenImage} name={tokenName} />,
               <p>{rewardBalance}</p>,
               <HarvestAll
