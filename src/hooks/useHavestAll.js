@@ -11,19 +11,14 @@ export function useHarvestAll(ids, chainId) {
     network.multiWithdrawer,
     multiWithdrawer
   )
-  return () => {
-    return new Promise((resolve, reject) => {
-      contract
-        .setApprovalForAll(network.multiWithdrawer, true)
-        .then(() => {
-          multiWithdrawerContract
-            .withdrawRewardsFrom(ids)
-            .then(x => {
-              return resolve(x)
-            })
-            .catch(err => reject(serializeError(err)))
-        })
-        .catch(err => reject(serializeError(err)))
-    })
+  return async () => {
+    try {
+      await contract.setApprovalForAll(network.multiWithdrawer, true)
+      const res = await multiWithdrawerContract.withdrawRewardsFrom(ids)
+
+      return res
+    } catch (err) {
+      serializeError(err)
+    }
   }
 }
