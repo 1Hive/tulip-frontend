@@ -22,8 +22,8 @@ export const networkConfigs = {
     ReferralRewarder: '0xf72e8827aa4c03e2c49aa95a6550dd4c8a65a969',
     StreamedAirdropper: '0x3Fe30742aD8491402c8aee251ff57e3E9b18Ff87',
     xCombToken: '0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB',
+    Claimer: '0xB4252EE3503C39C08DC429B4081Cd0100187a721',
     multiWithdrawer: '0xD8A9529f88365B309c9aDcc81f099308599481Ff',
-    Claimer: '',
     txUrl: 'https://polygon-explorer-mainnet.chainstacklabs.com/tx/',
     nodes: {
       defaultEth: '',

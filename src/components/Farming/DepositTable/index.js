@@ -34,7 +34,7 @@ const DepositTable = props => {
   const calculateDollar = (amount, pairInfo) => {
     const pricePerToken = pairInfo.reserveUSD / pairInfo.totalSupply
 
-    return truncateDecimals(amount * pricePerToken)
+    return amount * pricePerToken
   }
 
   const StyledTooltip = styled(ReactTooltip)`
@@ -61,7 +61,7 @@ const DepositTable = props => {
     } of props.depositData) {
       const depositInfoObj = {
         id,
-        amount: truncateDecimals(amount),
+        amount: amount,
         pool,
         referrer,
         rewardBalance,
@@ -103,14 +103,12 @@ const DepositTable = props => {
   }
 
   const wrapBatchAction = items => {
-    const dollarSum = items.reduce(
-      (acc, cur) => acc + Number(calculateDollar(cur.amount, cur.pairInfo)),
-      0
-    )
+    const dollarSum = items.reduce((acc, cur) => {
+      return acc + calculateDollar(cur.amount, cur.pairInfo)
+    }, 0)
     const amountSum = items.reduce((acc, cur) => acc + Number(cur.amount), 0)
     const rewardBalanceSum = items.reduce(
-      (acc, cur) =>
-        Number(truncateDecimals(acc + Number(cur.rewardBalance) / 1e18)),
+      (acc, cur) => Number(acc + Number(cur.rewardBalance) / 1e18),
       0
     )
 
@@ -222,7 +220,7 @@ const DepositTable = props => {
               />,
               <p>{unlockTime}</p>,
               <RewardComponent image={tokenImage} name={tokenName} />,
-              <p>{rewardBalance}</p>,
+              <p>{truncateDecimals(rewardBalance)}</p>,
               <HavestAll
                 ids={entries.map(entry => entry.id)}
                 onError={handleError}
@@ -260,12 +258,12 @@ const DepositTable = props => {
               subheadline="Honeyswap"
             />,
             <PairName
-              name={'$' + calculateDollar(amount, pairInfo)}
-              subheadline={amount}
+              name={'$' + truncateDecimals(calculateDollar(amount, pairInfo))}
+              subheadline={truncateDecimals(amount)}
             />,
             <p>{unlockTimeFormatted}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
-            <p>{pendingReward}</p>,
+            <p>{truncateDecimals(pendingReward)}</p>,
             <>
               <div
                 css={`
