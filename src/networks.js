@@ -6,6 +6,7 @@ export const networkConfigs = {
     ReferralRewarder: '0x82374C59709AAc2f7864191a3c492932379536F4',
     StreamedAirdropper: '0xdD36008685108aFafc11F88bBc66C39A851Df843',
     xCombToken: '0x38Fb649Ad3d6BA1113Be5F57B927053E97fC5bF7',
+    multiWithdrawer: '0x53f224f83b2b2365caf4178f52c234da1ecf392f',
     txUrl: 'https://blockscout.com/poa/xdai/tx/',
     nodes: {
       defaultEth: '',
@@ -21,6 +22,7 @@ export const networkConfigs = {
     ReferralRewarder: '0xf72e8827aa4c03e2c49aa95a6550dd4c8a65a969',
     StreamedAirdropper: '0x3Fe30742aD8491402c8aee251ff57e3E9b18Ff87',
     xCombToken: '0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB',
+    multiWithdrawer: '0xD8A9529f88365B309c9aDcc81f099308599481Ff',
     Claimer: '',
     txUrl: 'https://polygon-explorer-mainnet.chainstacklabs.com/tx/',
     nodes: {
