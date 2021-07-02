@@ -14,6 +14,7 @@ import { getNetworkConfig } from '../../../networks'
 import UserErrorScreen from '../../Errors/UserErrorScreen'
 import { truncateDecimals } from '../../../lib/math-utils'
 import styled from 'styled-components'
+import HavestAll from '../HavestAll'
 
 const DepositTable = props => {
   const {
@@ -101,6 +102,31 @@ const DepositTable = props => {
     setErrorVisible(false)
   }
 
+  const wrapBatchAction = items => {
+    const dollarSum = items.reduce(
+      (acc, cur) => acc + Number(calculateDollar(cur.amount, cur.pairInfo)),
+      0
+    )
+    const amountSum = items.reduce((acc, cur) => acc + Number(cur.amount), 0)
+    const rewardBalanceSum = items.reduce(
+      (acc, cur) =>
+        Number(truncateDecimals(acc + Number(cur.rewardBalance) / 1e18)),
+      0
+    )
+
+    return [
+      ...items,
+      {
+        amount: {
+          amountSum,
+          dollarSum,
+        },
+        rewardBalance: rewardBalanceSum,
+        unlockTime: '-',
+      },
+    ]
+  }
+
   return (
     <div
       css={`
@@ -127,7 +153,6 @@ const DepositTable = props => {
           'Unlock Date',
           'Reward Asset',
           'Reward Balance',
-          '',
           '',
         ]}
         css={`
@@ -158,7 +183,13 @@ const DepositTable = props => {
             clearLabel: null,
           },
         }}
-        entries={account ? (props.searchValue ? results : depositArray) : []}
+        entries={
+          account
+            ? props.searchValue
+              ? wrapBatchAction(results)
+              : wrapBatchAction(depositArray)
+            : []
+        }
         renderEntry={({
           id,
           amount,
@@ -172,6 +203,33 @@ const DepositTable = props => {
           rewardBalance,
           pairInfo,
         }) => {
+          if (unlockTime === '-') {
+            const entries = props.searchValue ? results : depositArray
+            return [
+              <div
+                css={`
+                  margin-left: 60px;
+                  @media (max-width: 576px) {
+                    margin: 0;
+                  }
+                `}
+              >
+                <PairName name="All Deposits" subheadline="Honeyswap" />
+              </div>,
+              <PairName
+                name={'$' + truncateDecimals(amount.dollarSum)}
+                subheadline={truncateDecimals(amount.amountSum)}
+              />,
+              <p>{unlockTime}</p>,
+              <RewardComponent image={tokenImage} name={tokenName} />,
+              <p>{rewardBalance}</p>,
+              <HavestAll
+                ids={entries.map(entry => entry.id)}
+                onError={handleError}
+              />,
+            ]
+          }
+
           const imgObj = {
             pair1: pairInfo ? pairInfo.token0.logoURI : undefined,
             pair2: pairInfo ? pairInfo.token1.logoURI : undefined,
@@ -208,32 +266,42 @@ const DepositTable = props => {
             <p>{unlockTimeFormatted}</p>,
             <RewardComponent image={tokenImage} name={tokenName} />,
             <p>{pendingReward}</p>,
-            <div>
-              <StyledTooltip
-                place="top"
-                type="light"
-                effect="solid"
-                backgroundColor="#aaf5d4"
-              />
-              {withdrawDisabled ? (
-                <div data-tip="Withdraw will be disabled until the unlock date is reached">
+            <>
+              <div
+                css={`
+                  margin-right: 1rem;
+                  @media (max-width: 768px) {
+                    margin-right: 0;
+                    margin-bottom: 1rem;
+                  }
+                `}
+              >
+                <StyledTooltip
+                  place="top"
+                  type="light"
+                  effect="solid"
+                  backgroundColor="#aaf5d4"
+                />
+                {withdrawDisabled ? (
+                  <div data-tip="Withdraw will be disabled until the unlock date is reached">
+                    <Withdraw
+                      id={id}
+                      disabled={withdrawDisabled}
+                      onError={handleError}
+                      opener={opener}
+                    />
+                  </div>
+                ) : (
                   <Withdraw
                     id={id}
                     disabled={withdrawDisabled}
                     onError={handleError}
                     opener={opener}
                   />
-                </div>
-              ) : (
-                <Withdraw
-                  id={id}
-                  disabled={withdrawDisabled}
-                  onError={handleError}
-                  opener={opener}
-                />
-              )}
-            </div>,
-            <Harvest id={id} onError={handleError} />,
+                )}
+              </div>
+              <Harvest id={id} onError={handleError} />
+            </>,
           ]
         }}
       />
