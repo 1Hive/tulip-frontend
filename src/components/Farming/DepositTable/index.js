@@ -104,18 +104,10 @@ const DepositTable = props => {
 
   const wrapBatchAction = items => {
     const dollarSum = items.reduce(
-      (acc, cur) =>
-        Number(
-          truncateDecimals(
-            acc + Number(calculateDollar(cur.amount, cur.pairInfo))
-          )
-        ),
+      (acc, cur) => acc + Number(calculateDollar(cur.amount, cur.pairInfo)),
       0
     )
-    const amountSum = items.reduce(
-      (acc, cur) => Number(truncateDecimals(acc + Number(cur.amount))),
-      0
-    )
+    const amountSum = items.reduce((acc, cur) => acc + Number(cur.amount), 0)
     const rewardBalanceSum = items.reduce(
       (acc, cur) =>
         Number(truncateDecimals(acc + Number(cur.rewardBalance) / 1e18)),
@@ -225,8 +217,8 @@ const DepositTable = props => {
                 <PairName name="All Deposits" subheadline="Honeyswap" />
               </div>,
               <PairName
-                name={'$' + amount.dollarSum}
-                subheadline={amount.amountSum}
+                name={'$' + truncateDecimals(amount.dollarSum)}
+                subheadline={truncateDecimals(amount.amountSum)}
               />,
               <p>{unlockTime}</p>,
               <RewardComponent image={tokenImage} name={tokenName} />,
