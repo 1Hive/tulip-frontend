@@ -104,10 +104,17 @@ const DepositTable = props => {
 
   const wrapBatchAction = items => {
     const dollarSum = items.reduce(
-      (acc, cur) => acc + Number(calculateDollar(cur.amount, cur.pairInfo)),
+      (acc, cur) =>
+        acc +
+        Number(
+          truncateDecimals(Number(calculateDollar(cur.amount, cur.pairInfo)))
+        ),
       0
     )
-    const amountSum = items.reduce((acc, cur) => acc + Number(cur.amount), 0)
+    const amountSum = items.reduce(
+      (acc, cur) => acc + Number(truncateDecimals(Number(cur.amount))),
+      0
+    )
     const rewardBalanceSum = items.reduce(
       (acc, cur) =>
         acc + Number(truncateDecimals(Number(cur.rewardBalance) / 1e18)),
