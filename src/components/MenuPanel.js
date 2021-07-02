@@ -237,6 +237,18 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
         >
           Github
         </Link>
+        <Link
+          css={`
+            ${textStyle('body2')};
+            color: ${theme.contentSecondary};
+            font-weight: 300;
+            padding: ${GU}px;
+          `}
+          href="https://wiki.1hive.org/projects/honeyswap/audits-and-security"
+          external
+        >
+          Certik Wiki
+        </Link>
       </div>
       <div
         css={`
