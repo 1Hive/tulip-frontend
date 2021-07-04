@@ -113,7 +113,6 @@ const DepositTable = props => {
     )
 
     return [
-      ...items,
       {
         amount: {
           amountSum,
@@ -122,6 +121,7 @@ const DepositTable = props => {
         rewardBalance: rewardBalanceSum,
         unlockTime: '-',
       },
+      ...items,
     ]
   }
 
