@@ -20,6 +20,11 @@ const BurnStatusComponent = React.memo(() => {
         css={`
           display: grid;
           grid-template-columns: repeat(6, 1fr);
+
+          @media (max-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 1rem;
+          }
         `}
       >
         <div
@@ -46,7 +51,20 @@ const BurnStatusComponent = React.memo(() => {
           `}
         >
           <StatusValue value="1,123,05.22" />
-          <StatusLabel value="Total burned" />
+          <StatusLabel value="Burned Last week" />
+        </div>
+        <div
+          css={`
+            border-left: 1px solid #ff9372;
+            text-align: center;
+
+            @media (max-width: 768px) {
+              border: 0;
+            }
+          `}
+        >
+          <StatusValue value="1,123,05.22" />
+          <StatusLabel value="Calculating Supply" />
         </div>
         <div
           css={`
@@ -55,7 +73,7 @@ const BurnStatusComponent = React.memo(() => {
           `}
         >
           <StatusValue value="1,123,05.22" />
-          <StatusLabel value="Total burned" />
+          <StatusLabel value="Max Supply" />
         </div>
         <div
           css={`
@@ -64,16 +82,7 @@ const BurnStatusComponent = React.memo(() => {
           `}
         >
           <StatusValue value="1,123,05.22" />
-          <StatusLabel value="Total burned" />
-        </div>
-        <div
-          css={`
-            border-left: 1px solid #ff9372;
-            text-align: center;
-          `}
-        >
-          <StatusValue value="1,123,05.22" />
-          <StatusLabel value="Total burned" />
+          <StatusLabel value="Holders" />
         </div>
       </div>
     </div>
