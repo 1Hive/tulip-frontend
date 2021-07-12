@@ -10,7 +10,6 @@ import Loader from '../../Loader'
 import Icon from '../../../assets/tulip/icon.svg'
 import UT from '../../../assets/tulip/unknownToken.svg'
 import { useWallet } from '../../../providers/Wallet'
-import xComb from '../../../assets/coins/xcomb.svg'
 import { getNetworkConfig } from '../../../networks'
 import { buttonGrayCss, buttonGreenCss } from '../styles'
 import { useFetchPoolInfo } from '../../../hooks/useFetchPoolInfo'
@@ -21,12 +20,16 @@ const FarmTable = props => {
     status,
     _web3ReactContext: { chainId },
   } = useWallet()
+
   let tokenImage = Icon
+  let tokenName = 'xComb'
   const network = getNetworkConfig(chainId)
 
   if (network) {
     tokenImage = network.token.image
+    tokenName = network.token.name
   }
+
   const [modalAction, setModalAction] = useState(false)
   const [modalData, setModalData] = useState({})
   const [imgObj2, setImgObj] = useState(null)
@@ -171,7 +174,7 @@ const FarmTable = props => {
               {isFinite(pool.rewardApy24h) ? pool.rewardApy24h.toFixed(2) : 0}%
             </p>,
             <p>{isFinite(pool.rewardApy) ? pool.rewardApy.toFixed(2) : 0}%</p>,
-            <RewardComponent image={xComb} name="xComb" />,
+            <RewardComponent image={tokenImage} name={tokenName} />,
             <React.Fragment>
               <StyledTooltip
                 place="left"
