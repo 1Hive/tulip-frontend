@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GU } from '@1hive/1hive-ui'
+import tulipData from 'tulip-backend'
 import xComb from '../../../assets/coins/xcomb.svg'
 import RewardComponent from '../RewardComponent'
 import StatusValue from './StatusValue'
 import StatusLabel from './StatusLabel'
+import { truncateDecimals } from '../../../lib/math-utils'
 
 const BurnStatusComponent = React.memo(() => {
+  const [info, setInfo] = useState({})
+  const [burnedLastWeek, setBurnedLastWeek] = useState(0)
+
+  useEffect(() => {
+    const fetchHsfTokens = async () => {
+      const hsfToken = await tulipData.farm.hsfTokens()
+      const burnedLW = await tulipData.farm.hsfTokenBurns()
+      setInfo(hsfToken)
+      setBurnedLastWeek(burnedLW)
+    }
+
+    fetchHsfTokens()
+  }, [])
+
+  const getCirculatingSupply = () => {
+    const claimed = Number(info.totalHsfClaimed) || 0
+    const harvested = Number(info.totalHarvested) || 0
+    const burned = Number(info.totalBurned) || 0
+    return claimed + harvested - burned
+  }
+
   return (
     <div
       css={`
@@ -41,7 +64,9 @@ const BurnStatusComponent = React.memo(() => {
             text-align: center;
           `}
         >
-          <StatusValue value="1,123,05.22" />
+          <StatusValue
+            value={truncateDecimals(Number(info.totalHsfBurned || 0) / 1e18)}
+          />
           <StatusLabel value="Total burned" />
         </div>
         <div
@@ -50,7 +75,9 @@ const BurnStatusComponent = React.memo(() => {
             text-align: center;
           `}
         >
-          <StatusValue value="1,123,05.22" />
+          <StatusValue
+            value={truncateDecimals(Number(burnedLastWeek) / 1e18)}
+          />
           <StatusLabel value="Burned Last week" />
         </div>
         <div
@@ -63,8 +90,10 @@ const BurnStatusComponent = React.memo(() => {
             }
           `}
         >
-          <StatusValue value="1,123,05.22" />
-          <StatusLabel value="Calculating Supply" />
+          <StatusValue
+            value={truncateDecimals(getCirculatingSupply() / 1e18)}
+          />
+          <StatusLabel value="Circulating Supply" />
         </div>
         <div
           css={`
@@ -72,7 +101,7 @@ const BurnStatusComponent = React.memo(() => {
             text-align: center;
           `}
         >
-          <StatusValue value="1,123,05.22" />
+          <StatusValue value={Number(info.totalSupply || 0) / 1e18} />
           <StatusLabel value="Max Supply" />
         </div>
         <div
@@ -81,7 +110,7 @@ const BurnStatusComponent = React.memo(() => {
             text-align: center;
           `}
         >
-          <StatusValue value="1,123,05.22" />
+          <StatusValue value={Number(info.holders || 0)} />
           <StatusLabel value="Holders" />
         </div>
       </div>
