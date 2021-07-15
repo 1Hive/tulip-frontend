@@ -201,7 +201,7 @@ export function useNetBalance() {
             symbol,
             image1,
             image2,
-            balance: truncateDecimals(value.balance), 
+            balance: truncateDecimals(value.balance),
             value: formatNumber(Number(value.valueUSD).toFixed(2)),
             price: formatNumber(
               Number(value.valueUSD / value.balance).toFixed(2)
