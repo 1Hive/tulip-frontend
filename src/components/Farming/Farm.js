@@ -7,6 +7,7 @@ import DepositTable from './DepositTable'
 import { usePools } from '../../hooks/usePools'
 import { useFetchDeposits } from '../../hooks/useFetchDeposits'
 import { useWallet } from '../../providers/Wallet'
+import BurnStatusComponent from './BurnStatusComponent'
 
 const Farm = React.memo(({ onlyTable }) => {
   // const [pairs, setPairs] = useState([])
@@ -35,6 +36,7 @@ const Farm = React.memo(({ onlyTable }) => {
         width: ${small ? `${vw}px` : 'auto'};
       `}
     >
+      <BurnStatusComponent />
       <TabComponent
         onSelect={handleSelected}
         selected={selected}
