@@ -28,6 +28,7 @@ import swapIcon from '../assets/tulip/swap.svg'
 import swapIconActive from '../assets/tulip/swap-active.svg'
 import twitter from '../assets/tulip/twitter.svg'
 import telegram from '../assets/tulip/telegram.svg'
+import certik from '../assets/tulip/certik.svg'
 
 import { lerp } from '../lib/math-utils'
 
@@ -247,7 +248,7 @@ function MenuFooter({ to, icon, iconActive, label, onActivate }) {
           href="https://wiki.1hive.org/projects/honeyswap/audits-and-security"
           external
         >
-          Certik Wiki
+          <img src={certik} height={layoutSmall ? 30 : 40} alt="" />
         </Link>
       </div>
       <div
