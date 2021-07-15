@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { GU } from '@1hive/1hive-ui'
 import tulipData from 'tulip-backend'
-import xComb from '../../../assets/coins/xcomb.svg'
 import RewardComponent from '../RewardComponent'
 import StatusValue from './StatusValue'
 import StatusLabel from './StatusLabel'
 import { truncateDecimals } from '../../../lib/math-utils'
+import { useWallet } from '../../../providers/Wallet'
+import Icon from '../../../assets/tulip/icon.svg'
+import { getNetworkConfig } from '../../../networks'
 
 const BurnStatusComponent = React.memo(() => {
   const [info, setInfo] = useState({})
   const [burnedLastWeek, setBurnedLastWeek] = useState(0)
 
+  const {
+    _web3ReactContext: { chainId },
+  } = useWallet()
+
+  let tokenImage = Icon
+  let tokenName = 'xComb'
+  const network = getNetworkConfig(chainId)
+
+  if (network) {
+    tokenImage = network.token.image
+    tokenName = network.token.name
+  }
+
   useEffect(() => {
     const fetchHsfTokens = async () => {
-      const hsfToken = await tulipData.farm.hsfTokens()
-      const burnedLW = await tulipData.farm.hsfTokenBurns()
+      const hsfToken = await tulipData.farm.hsfTokens({ chain_id: chainId })
+      const burnedLW = await tulipData.farm.hsfTokenBurns({ chain_id: chainId })
       setInfo(hsfToken)
       setBurnedLastWeek(burnedLW)
     }
 
     fetchHsfTokens()
-  }, [])
+  }, [chainId])
 
   const getCirculatingSupply = () => {
     const claimed = Number(info.totalHsfClaimed) || 0
@@ -56,7 +71,7 @@ const BurnStatusComponent = React.memo(() => {
             margin: auto;
           `}
         >
-          <RewardComponent image={xComb} name="xComb" />
+          <RewardComponent image={tokenImage} name={tokenName} />
         </div>
         <div
           css={`
