@@ -10,7 +10,7 @@ const Deposit = props => {
   } = useWallet()
   const [visible, setVisible] = useState(false)
   const [txHash, setTxHash] = useState('')
-  const { token, amount, days, maxDays, referrer } = props
+  const { token, amount, days, maxDays, referrer, startTime } = props
   const network = getNetworkConfig(chainId)
 
   const opener = useRef()
@@ -19,19 +19,25 @@ const Deposit = props => {
   const transactionTime = new Date()
   transactionTime.setSeconds(transactionTime.getSeconds() + 8)
 
+  // get the time farming started to calculated lock time correctly
+  var startDate = new Date(startTime * 1000)
+  var hours = startDate.getHours()
+  var minutes = startDate.getMinutes()
+
   const calculateUnlockTimestamp = days => {
     if (days === 0 || !days) {
       return 0
     }
 
     const date = new Date()
+    date.setUTCHours(hours, minutes, 0, 0)
     let unlockTimestamp = Math.floor(date.setDate(date.getDate() + days) / 1000)
     // add or remove 100 seconds on the max/min value to cover for rounding errors
     if (days === 1) {
       unlockTimestamp += 100
     }
     if (days === maxDays) {
-      unlockTimestamp -= 100
+      unlockTimestamp -= 1000
     }
     return unlockTimestamp
   }

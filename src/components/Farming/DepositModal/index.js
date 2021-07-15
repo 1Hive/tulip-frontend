@@ -200,6 +200,7 @@ const DepositModal = props => {
             amount={amount}
             days={days}
             maxDays={maxDays}
+            startTime={props.poolInfo.startTime} // time farming started
             onTransactionComplete={handleTransactionComplete}
             onError={handleError}
           />
