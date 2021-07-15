@@ -55,7 +55,6 @@ const DepositTable = props => {
       unlockTime,
       rewardShare,
       setRewards,
-      symbol,
       rewardBalance,
       pairInfo,
     } of props.depositData) {
@@ -66,11 +65,9 @@ const DepositTable = props => {
         referrer,
         rewardBalance,
         rewardDebt: rewardDebt.toFixed(3),
-        // unlockTime: dateFormat(unlockTime, KNOWN_FORMATS.standard),
         unlockTime: unlockTime.getTime(),
         rewardShare: rewardShare,
         setRewards: setRewards,
-        symbol: symbol[0],
         pairInfo,
       }
       depositArray.push(depositInfoObj)
@@ -197,7 +194,6 @@ const DepositTable = props => {
           unlockTime,
           rewardShare,
           setRewards,
-          symbol,
           rewardBalance,
           pairInfo,
         }) => {
@@ -233,7 +229,7 @@ const DepositTable = props => {
             pair2: pairInfo ? pairInfo.token1.logoURI : undefined,
           }
           const customLabel = () => {
-            if (!pairInfo) return symbol
+            if (!pairInfo) return ''
 
             return (
               pairInfo.token0.symbol + ' - ' + pairInfo.token1.symbol + ' LP'

@@ -4,7 +4,7 @@ import { useWallet } from './providers/Wallet'
 
 const CURRENT_PROVIDER = window.ethereum ? window.ethereum : null
 const DEFAULT_PROVIDER = CURRENT_PROVIDER
-  ? new Providers.Web3Provider(CURRENT_PROVIDER)
+  ? new Providers.Web3Provider(CURRENT_PROVIDER, 'any')
   : null
 
 export function useContract(address, abi, signer = true) {
