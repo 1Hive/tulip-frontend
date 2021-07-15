@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { addressesEqual } from '@1hive/1hive-ui'
 import tulipData from 'tulip-backend'
 import { useWallet } from '../providers/Wallet'
@@ -25,12 +25,10 @@ export const useFetchDeposits = () => {
         })
         if (tulipF.length > 0) {
           for (const d of tulipF) {
-            const c = getContract(d.pool, ERC20)
-            const symbol = await c.functions.symbol()
             const rewardBalance = await contract.functions.pendingHsf(d.id)
             deposits.push({
               ...d,
-              symbol,
+              // symbol,
               rewardBalance,
             })
           }
@@ -62,9 +60,10 @@ export const useFetchDeposits = () => {
     return () => {
       if (contract) {
         contract.off('Transfer')
+        combContract.off('Transfer')
       }
     }
   }, [account, chainId])
-  const deposit = useMemo(() => deposits, [deposits])
-  return deposit
+
+  return deposits
 }
