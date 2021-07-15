@@ -212,9 +212,8 @@ export function useNetBalance() {
           for (let i = 0; i < farmingList.length; i++) {
             if (farmingList[i].address === value.address) {
               const balance =
-                Number(farmingList[i].balance.replace(/,/g, '')) +
-                Number(value.balance)
-              farmingList[i].balance = formatNumber(Number(balance).toFixed(2))
+                Number(farmingList[i].balance) + Number(value.balance)
+              farmingList[i].balance = truncateDecimals(Number(balance))
 
               const val =
                 Number(farmingList[i].value.replace(/,/g, '')) +
