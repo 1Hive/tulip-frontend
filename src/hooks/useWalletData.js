@@ -4,6 +4,7 @@ import { wallet } from 'tulip-backend'
 import { useWallet } from 'use-wallet'
 import { useLocalStorage } from './useLocalStorage'
 import { formatNumber } from '../utils/validate-utils'
+import { truncateDecimals } from '../lib/math-utils'
 
 export function useWalletData() {
   const [walletInfo, setWalletInfo] = useState([])
@@ -126,7 +127,7 @@ export function useNetBalance() {
             {
               symbol: value.symbol,
               name: value.name,
-              balance: formatNumber(value.balance.toFixed(2)),
+              balance: truncateDecimals(value.balance),
               price: formatNumber(value.priceUSD.toFixed(2)),
               value: formatNumber(value.valueUSD.toFixed(2)),
               image1: value.logoURI,
@@ -162,7 +163,7 @@ export function useNetBalance() {
               symbol,
               image1,
               image2,
-              balance: formatNumber(Number(value.balance).toFixed(2)),
+              balance: truncateDecimals(value.balance),
               value: formatNumber(Number(value.valueUSD).toFixed(2)),
               price: formatNumber(
                 Number(value.valueUSD / value.balance).toFixed(2)
@@ -200,7 +201,7 @@ export function useNetBalance() {
             symbol,
             image1,
             image2,
-            balance: formatNumber(Number(value.balance).toFixed(2)),
+            balance: truncateDecimals(value.balance), 
             value: formatNumber(Number(value.valueUSD).toFixed(2)),
             price: formatNumber(
               Number(value.valueUSD / value.balance).toFixed(2)
