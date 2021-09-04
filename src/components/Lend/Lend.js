@@ -31,7 +31,7 @@ const Lend = React.memo(({ onlyTable }) => {
         `}
         id="LearnMore"
         label="Learn More"
-        onClick={() => {}}
+        href="https://agave.finance/"
       />
     </div>
   )
