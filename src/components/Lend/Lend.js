@@ -19,7 +19,7 @@ const Lend = React.memo(({ onlyTable }) => {
           ${textStyle('body2')};
         `}
       >
-        Agave lending protocol - coming soon
+        Agave lending protocol - now live
       </span>
       <Button
         css={`
