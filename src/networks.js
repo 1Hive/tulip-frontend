@@ -24,7 +24,7 @@ export const networkConfigs = {
     xCombToken: '0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB',
     Claimer: '0xB4252EE3503C39C08DC429B4081Cd0100187a721',
     multiWithdrawer: '0xD8A9529f88365B309c9aDcc81f099308599481Ff',
-    txUrl: 'https://polygon-explorer-mainnet.chainstacklabs.com/tx/',
+    txUrl: 'https://polygonscan.com/tx/',
     nodes: {
       defaultEth: '',
       subgraph: '',
