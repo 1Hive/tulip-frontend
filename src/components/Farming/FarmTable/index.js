@@ -37,7 +37,7 @@ const FarmTable = props => {
   const { pairData, searchValue, balance } = props
   const poolInfo = useFetchPoolInfo()
 
-  const pairs = pairData || []
+  const pairs = pairData ? pairData.filter(pair => pair.allocPoint > 0) : []
   const fuse = new Fuse(pairs, {
     keys: [
       'pairInfo.token0.name',
